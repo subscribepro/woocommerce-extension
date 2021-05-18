@@ -394,17 +394,6 @@ class Spro_Public {
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
 
-		$data = array(
-			'payment_profile' => array(
-				'customer_id' => $spro_customer_id,
-				'payment_token' => '1931554041|1843624109',
-				'creditcard_last_digits' => $cc_last4,
-				'creditcard_month' => $cc_month,
-				'creditcard_year' => $cc_year,
-				'billing_address' => $billing_address
-			),
-		);
-
 		echo '<pre>';
 		print_r( $data );
 		echo '</pre>';
@@ -415,7 +404,7 @@ class Spro_Public {
 			'json' => ['payment_profile' => 
 				array(
 					'customer_id' => $spro_customer_id,
-					'payment_token' => '19315',
+					'payment_token' => '19315', //1931554041|1843624109
 					'creditcard_last_digits' => $cc_last4,
 					'creditcard_month' => $cc_month,
 					'creditcard_year' => $cc_year,
@@ -429,6 +418,44 @@ class Spro_Public {
 		echo '<pre>';
 		print_r( $response_body );
 		echo '</pre>';
+
+		foreach( $order->get_items() as $item_id => $line_item ) {
+
+			$item_data = $line_item->get_data();
+			$product = $line_item->get_product();
+			$sku = $product->get_sku();
+			$product_name = $product->get_name();
+			$item_quantity = $line_item->get_quantity();
+			$item_total = $line_item->get_total();
+
+			$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
+
+			if ( $is_subscription_product == 'yes' ) {
+				
+				$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
+					'verify' => false,
+					'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+					'json' => ['subscription' => 
+						array(
+							'customer_id' => $spro_customer_id,
+							'product_sku' => $sku,
+							'requires_shipping' => false,
+							'qty' => 1,
+							'next_order_date' => 'Jun 17, 2021',
+							'interval' => 'Every Month'
+						)
+					]
+				]);
+				
+				$response_body = json_decode( $response->getBody() );
+	
+				echo '<pre>';
+				print_r( $response_body );
+				echo '</pre>';
+
+			}
+
+		}
 
 	}
 
