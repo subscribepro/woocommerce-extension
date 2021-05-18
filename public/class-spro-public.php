@@ -383,7 +383,7 @@ class Spro_Public {
 		$cc_month = substr( $authnet_data['cc_expiry'], 0, 2 );
 		$cc_year = substr( $authnet_data['cc_expiry'], 2, 4 );
 
-		echo 'Customer ID is ' . $customer_id;
+		echo 'Customer ID is ' . $customer_id . ' ';
 		echo 'Subscribe Pro Customer ID is ' . $spro_customer_id;
 
 		// echo '<pre>';
@@ -395,7 +395,6 @@ class Spro_Public {
 		$access_token = $this->spro_get_access_token();
 
 		$data = array(
-			'access_token' => $access_token,
 			'payment_profile' => array(
 				'customer_id' => $spro_customer_id,
 				'payment_token' => '1931554041|1843624109',
@@ -410,21 +409,26 @@ class Spro_Public {
 		print_r( $data );
 		echo '</pre>';
 
-		// $response = $client->request(
-		// 	'POST',
-		// 	'https://api.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json',
-		// 	[
-		// 	'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
-		// 	'verify' => false,
-		// 	'query' => http_build_query( $data )
-		// 	]
-		// );
+		$response = $client->post('https://api.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
+			'verify' => false,
+			'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+			'json' => ['payment_profile' => 
+				array(
+					'customer_id' => $spro_customer_id,
+					'payment_token' => '19315',
+					'creditcard_last_digits' => $cc_last4,
+					'creditcard_month' => $cc_month,
+					'creditcard_year' => $cc_year,
+					'billing_address' => $billing_address
+				)
+			]
+		]);
 
-		// $response_body = json_decode( $response->getBody() );
+		$response_body = json_decode( $response->getBody() );
 
-		// echo '<pre>';
-		// print_r( $response_body );
-		// echo '</pre>';
+		echo '<pre>';
+		print_r( $response_body );
+		echo '</pre>';
 
 	}
 
