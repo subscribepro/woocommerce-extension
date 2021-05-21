@@ -365,6 +365,12 @@ class Spro_Public {
 		$order = wc_get_order( $order_id );
 		$customer_id = get_current_user_id();
 		$spro_customer_id = get_user_meta( $customer_id, 'spro_id', true );
+		$is_spro_customer = $spro_customer_id != '' ? true : false;
+		$payment_token = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_payment_token', true );
+		$client = new Client();
+		$access_token = $this->spro_get_access_token();
+
+		echo 'payment token is ' . $payment_token;
 
 		// Customer Billing Address
 		$billing_address = array(
@@ -378,84 +384,110 @@ class Spro_Public {
 			'country' => $order->get_billing_country()
 		);
 
-		$authnet_data = get_post_meta( $order_id, '_authnet_transaction', true );
-		$cc_last4 = $authnet_data['cc_last4'];
-		$cc_month = substr( $authnet_data['cc_expiry'], 0, 2 );
-		$cc_year = substr( $authnet_data['cc_expiry'], 2, 4 );
+		// Create the customer in Subscribe Pro if needed
+		if ( !$is_spro_customer ) {
 
-		echo 'Customer ID is ' . $customer_id . ' ';
-		echo 'Subscribe Pro Customer ID is ' . $spro_customer_id;
+			$response = $client->post('https://api.subscribepro.com/services/v2/customer.json', [
+				'verify' => false,
+				'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+				'json' => ['customer' => 
+					array(
+						'platform_specific_customer_id' => $customer_id,
+						'first_name' => $billing_address['first_name'],
+						'last_name' => $billing_address['last_name'],
+						'email' => 'testemail2@mail.com'
+					)
+				]
+			]);
+			
+			$response_body = json_decode( $response->getBody() );
 
+			// Update WooCommerce customer with subscribe pro id
+			$spro_customer_id = $response_body->customer->id;
+			update_user_meta( $customer_id, 'spro_id' );
+
+			echo '<pre>';
+			print_r( $response_body );
+			echo '</pre>';
+
+		}
+		
 		// echo '<pre>';
 		// print_r( $order );
 		// echo '</pre>';
 
-		// Create new payment profile
-		$client = new Client();
-		$access_token = $this->spro_get_access_token();
+		// // Create new payment profile
+		$cc_last4 = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_account_four', true );
+		$cc_expiry = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_card_expiry_date', true );
+		$cc_month = substr( $cc_expiry, 3, 5 );
+		$cc_year = substr( $cc_expiry, 0, 2 );
 
-		echo '<pre>';
-		print_r( $data );
-		echo '</pre>';
+		// echo '<pre>';
+		// print_r( $data );
+		// echo '</pre>';
 
-		$response = $client->post('https://api.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
-			'verify' => false,
-			'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
-			'json' => ['payment_profile' => 
-				array(
-					'customer_id' => $spro_customer_id,
-					'payment_token' => '19315', //1931554041|1843624109
-					'creditcard_last_digits' => $cc_last4,
-					'creditcard_month' => $cc_month,
-					'creditcard_year' => $cc_year,
-					'billing_address' => $billing_address
-				)
-			]
-		]);
+		// $response = $client->post('https://api.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
+		// 	'verify' => false,
+		// 	'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+		// 	'json' => ['payment_profile' =>
+		// 		array(
+		// 			'customer_id' => $spro_customer_id,
+		// 			'payment_token' => '1931232', //1931554041|1843624109
+		// 			'creditcard_last_digits' => $cc_last4,
+		// 			'creditcard_month' => $cc_month,
+		// 			'creditcard_year' => $cc_year,
+		// 			'billing_address' => $billing_address
+		// 		)
+		// 	]
+		// ]);
 
-		$response_body = json_decode( $response->getBody() );
+		// $response_body = json_decode( $response->getBody() );
 
-		echo '<pre>';
-		print_r( $response_body );
-		echo '</pre>';
+		// echo '<pre>';
+		// print_r( $response_body );
+		// echo '</pre>';
 
-		foreach( $order->get_items() as $item_id => $line_item ) {
+		// foreach( $order->get_items() as $item_id => $line_item ) {
 
-			$item_data = $line_item->get_data();
-			$product = $line_item->get_product();
-			$sku = $product->get_sku();
-			$product_name = $product->get_name();
-			$item_quantity = $line_item->get_quantity();
-			$item_total = $line_item->get_total();
+		// 	$item_data = $line_item->get_data();
+		// 	$product = $line_item->get_product();
+		// 	$sku = $product->get_sku();
+		// 	$product_name = $product->get_name();
+		// 	$item_quantity = $line_item->get_quantity();
+		// 	$item_total = $line_item->get_total();
 
-			$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
+		// 	$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
 
-			if ( $is_subscription_product == 'yes' ) {
+		// 	if ( $is_subscription_product == 'yes' ) {
+
+		// 		$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true ); 
 				
-				$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
-					'verify' => false,
-					'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
-					'json' => ['subscription' => 
-						array(
-							'customer_id' => $spro_customer_id,
-							'product_sku' => $sku,
-							'requires_shipping' => false,
-							'qty' => 1,
-							'next_order_date' => 'Jun 17, 2021',
-							'interval' => 'Every Month'
-						)
-					]
-				]);
+		// 		$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
+		// 			'verify' => false,
+		// 			'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+		// 			'json' => ['subscription' => 
+		// 				array(
+		// 					'customer_id' => $spro_customer_id,
+		// 					'payment_profile_id' => '6287804',
+		// 					'product_sku' => $sku,
+		// 					'requires_shipping' => false,
+		// 					'qty' => $item_quantity,
+		// 					'next_order_date' => date("F j, Y"),
+		// 					'first_order_already_created' => true,
+		// 					'interval' => $frequency
+		// 				)
+		// 			]
+		// 		]);
 				
-				$response_body = json_decode( $response->getBody() );
+		// 		$response_body = json_decode( $response->getBody() );
 	
-				echo '<pre>';
-				print_r( $response_body );
-				echo '</pre>';
+		// 		echo '<pre>';
+		// 		print_r( $response_body );
+		// 		echo '</pre>';
 
-			}
+		// 	}
 
-		}
+		// }
 
 	}
 
