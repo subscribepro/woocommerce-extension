@@ -369,8 +369,11 @@ class Spro_Public {
 		$payment_token = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_payment_token', true );
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
-
-		echo 'payment token is ' . $payment_token;
+		$cc_last4 = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_account_four', true );
+		$cc_expiry = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_card_expiry_date', true );
+		$cc_month = substr( $cc_expiry, 3, 5 );
+		$cc_year = substr( $cc_expiry, 0, 2 );
+		$shipping_method = $order->get_shipping_method();
 
 		// Customer Billing Address
 		$billing_address = array(
@@ -384,55 +387,58 @@ class Spro_Public {
 			'country' => $order->get_billing_country()
 		);
 
+		// Customer Shipping Address
+		$shipping_address = array(
+			'first_name' => $order->get_shipping_first_name(),
+			'last_name' => $order->get_shipping_last_name(),
+			'street1' => $order->get_shipping_address_1(),
+			'street2' => $order->get_shipping_address_2(),
+			'city' => $order->get_shipping_city(),
+			'region' => $order->get_shipping_state(),
+			'zip' => $order->get_shipping_postcode(),
+			'country' => $order->get_shipping_country()
+		);
+
 		// Create the customer in Subscribe Pro if needed
-		if ( !$is_spro_customer ) {
+		// if ( !$is_spro_customer ) {
 
-			$response = $client->post('https://api.subscribepro.com/services/v2/customer.json', [
-				'verify' => false,
-				'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
-				'json' => ['customer' => 
-					array(
-						'platform_specific_customer_id' => $customer_id,
-						'first_name' => $billing_address['first_name'],
-						'last_name' => $billing_address['last_name'],
-						'email' => 'testemail2@mail.com'
-					)
-				]
-			]);
+		// 	$response = $client->post('https://api.subscribepro.com/services/v2/customer.json', [
+		// 		'verify' => false,
+		// 		'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+		// 		'json' => ['customer' => 
+		// 			array(
+		// 				'platform_specific_customer_id' => $customer_id,
+		// 				'first_name' => $billing_address['first_name'],
+		// 				'last_name' => $billing_address['last_name'],
+		// 				'email' => $order->get_billing_email()
+		// 			)
+		// 		]
+		// 	]);
 			
-			$response_body = json_decode( $response->getBody() );
+		// 	$response_body = json_decode( $response->getBody() );
 
-			// Update WooCommerce customer with subscribe pro id
-			$spro_customer_id = $response_body->customer->id;
-			update_user_meta( $customer_id, 'spro_id' );
+		// 	// Update WooCommerce customer with subscribe pro id
+		// 	$spro_customer_id = $response_body->customer->id;
+		// 	update_user_meta( $customer_id, 'spro_id', $spro_customer_id );
 
-			echo '<pre>';
-			print_r( $response_body );
-			echo '</pre>';
+		// 	echo '<pre>';
+		// 	print_r( $response_body );
+		// 	echo '</pre>';
 
-		}
-		
+		// }
+
 		// echo '<pre>';
 		// print_r( $order );
 		// echo '</pre>';
 
-		// // Create new payment profile
-		$cc_last4 = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_account_four', true );
-		$cc_expiry = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_card_expiry_date', true );
-		$cc_month = substr( $cc_expiry, 3, 5 );
-		$cc_year = substr( $cc_expiry, 0, 2 );
-
-		// echo '<pre>';
-		// print_r( $data );
-		// echo '</pre>';
-
+		// Create new payment profile
 		// $response = $client->post('https://api.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
 		// 	'verify' => false,
 		// 	'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
 		// 	'json' => ['payment_profile' =>
 		// 		array(
 		// 			'customer_id' => $spro_customer_id,
-		// 			'payment_token' => '1931232', //1931554041|1843624109
+		// 			'payment_token' => $payment_token, //1931554041|1843624109
 		// 			'creditcard_last_digits' => $cc_last4,
 		// 			'creditcard_month' => $cc_month,
 		// 			'creditcard_year' => $cc_year,
@@ -447,47 +453,49 @@ class Spro_Public {
 		// print_r( $response_body );
 		// echo '</pre>';
 
-		// foreach( $order->get_items() as $item_id => $line_item ) {
+		foreach( $order->get_items() as $item_id => $line_item ) {
 
-		// 	$item_data = $line_item->get_data();
-		// 	$product = $line_item->get_product();
-		// 	$sku = $product->get_sku();
-		// 	$product_name = $product->get_name();
-		// 	$item_quantity = $line_item->get_quantity();
-		// 	$item_total = $line_item->get_total();
+			$item_data = $line_item->get_data();
+			$product = $line_item->get_product();
+			$sku = $product->get_sku();
+			$product_name = $product->get_name();
+			$item_quantity = $line_item->get_quantity();
+			$item_total = $line_item->get_total();
 
-		// 	$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
+			$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
 
-		// 	if ( $is_subscription_product == 'yes' ) {
+			if ( $is_subscription_product == 'yes' ) {
 
-		// 		$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true ); 
+				$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
 				
-		// 		$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
-		// 			'verify' => false,
-		// 			'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
-		// 			'json' => ['subscription' => 
-		// 				array(
-		// 					'customer_id' => $spro_customer_id,
-		// 					'payment_profile_id' => '6287804',
-		// 					'product_sku' => $sku,
-		// 					'requires_shipping' => false,
-		// 					'qty' => $item_quantity,
-		// 					'next_order_date' => date("F j, Y"),
-		// 					'first_order_already_created' => true,
-		// 					'interval' => $frequency
-		// 				)
-		// 			]
-		// 		]);
+				$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
+					'verify' => false,
+					'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+					'json' => ['subscription' => 
+						array(
+							'customer_id' => $spro_customer_id,
+							'payment_profile_id' => '6292857',
+							'product_sku' => $sku,
+							'requires_shipping' => true,
+							'shipping_method_code' => $shipping_method,
+							'shipping_address' => $shipping_address,
+							'qty' => $item_quantity,
+							'next_order_date' => date("F j, Y"),
+							'first_order_already_created' => true,
+							'interval' => $frequency
+						)
+					]
+				]);
 				
-		// 		$response_body = json_decode( $response->getBody() );
+				$response_body = json_decode( $response->getBody() );
 	
-		// 		echo '<pre>';
-		// 		print_r( $response_body );
-		// 		echo '</pre>';
+				echo '<pre>';
+				print_r( $response_body );
+				echo '</pre>';
 
-		// 	}
+			}
 
-		// }
+		}
 
 	}
 
