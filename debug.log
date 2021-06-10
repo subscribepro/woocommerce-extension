@@ -1,0 +1,271 @@
+[10-Jun-2021 12:00:08 UTC] PHP Notice:  register_rest_route was called <strong>incorrectly</strong>. The REST API route definition for <code>api/v1/order</code> is missing the required <code>permission_callback</code> argument. For REST API routes that are intended to be public, use <code>__return_true</code> as the permission callback. Please see <a href="https://wordpress.org/support/article/debugging-in-wordpress/">Debugging in WordPress</a> for more information. (This message was added in version 5.5.0.) in /var/www/html/wp-includes/functions.php on line 5313
+[10-Jun-2021 12:10:07 UTC] hit
+[10-Jun-2021 12:10:07 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356419
+    [customerEmail] => brady.s.christopher@gmail.com
+    [platformCustomerId] => 6
+    [salesOrderToken] => 92b77cb8e4475c911085128687634929
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 123
+            [paymentProfileId] => 416233
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => visa
+            [creditcardLastDigits] => 1111
+            [creditcardMonth] => 2
+            [creditcardYear] => 2023
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Address
+            [street2] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 73099
+            [country] => United States
+            [countryName] => United States
+            [phone] => 5555555555
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Address
+            [street2] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 73099
+            [country] => United States
+            [countryName] => United States
+            [phone] => 5555555555
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 243867
+                            [interval] => Every Four Weeks
+                            [scheduleName] => Every Four Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-06-07
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[10-Jun-2021 12:17:46 UTC] hit
+[10-Jun-2021 12:17:46 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356419
+    [customerEmail] => brady.s.christopher@gmail.com
+    [platformCustomerId] => 6
+    [salesOrderToken] => 92b77cb8e4475c911085128687634929
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 123
+            [paymentProfileId] => 416233
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => visa
+            [creditcardLastDigits] => 1111
+            [creditcardMonth] => 2
+            [creditcardYear] => 2023
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Address
+            [street2] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 73099
+            [country] => United States
+            [countryName] => United States
+            [phone] => 5555555555
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Address
+            [street2] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 73099
+            [country] => United States
+            [countryName] => United States
+            [phone] => 5555555555
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 243867
+                            [interval] => Every Four Weeks
+                            [scheduleName] => Every Four Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-06-07
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[10-Jun-2021 12:18:26 UTC] hit
+[10-Jun-2021 12:18:26 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356419
+    [customerEmail] => brady.s.christopher@gmail.com
+    [platformCustomerId] => 6
+    [salesOrderToken] => 92b77cb8e4475c911085128687634929
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 123
+            [paymentProfileId] => 416233
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => visa
+            [creditcardLastDigits] => 1111
+            [creditcardMonth] => 2
+            [creditcardYear] => 2023
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Address
+            [street2] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 73099
+            [country] => United States
+            [countryName] => United States
+            [phone] => 5555555555
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Address
+            [street2] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 73099
+            [country] => United States
+            [countryName] => United States
+            [phone] => 5555555555
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 243867
+                            [interval] => Every Four Weeks
+                            [scheduleName] => Every Four Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-06-07
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+

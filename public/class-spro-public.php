@@ -12,7 +12,15 @@
 
 use GuzzleHttp\Client;
 
+// require SPRO_PLUGIN_DIR . 'vendor/autoload.php';
+require SPRO_PLUGIN_DIR . 'vendor/auth-sdk-php-2.0.2/autoload.php';
+
+use net\authorize\api\contract\v1 as AnetAPI;
+use net\authorize\api\controller as AnetController;
+
 class Spro_Public {
+
+	const SP_HMAC_HEADER = 'Sp-Hmac';
 
 	/**
 	 * The ID of this plugin.
@@ -98,8 +106,8 @@ class Spro_Public {
 	
 		$user_id = get_current_user_id();
 		$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
-		$username = "3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4";
-		$password = "64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4";
+		$username = "1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8";
+		$password = "4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko";
 		$host = 'https://api.subscribepro.com/oauth/v2/token';
 	
 		$data = array(
@@ -181,6 +189,8 @@ class Spro_Public {
 			echo ob_get_clean();
 
 		}
+
+		$templates = new Spro_Template_Loader;
 
 	}
 
@@ -284,6 +294,8 @@ class Spro_Public {
 	 */
 	public function spro_get_access_token() {
 
+		delete_transient( 'spro_access_token' );
+
 		if ( false === ( $value = get_transient( 'spro_access_token' ) ) ) {
 			
 			$client = new Client();
@@ -298,9 +310,9 @@ class Spro_Public {
 
 			$response = $client->request(
 				'GET',
-				'https://api.subscribepro.com/oauth/v2/token',
+				'https://api-stage.subscribepro.com/oauth/v2/token',
 				[
-				'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+				'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
 				'verify' => false,
 				'query' => http_build_query($data)
 				]
@@ -322,6 +334,8 @@ class Spro_Public {
 	 * @since 1.0.0
 	 */
 	public function spro_get_product( $sku ) {
+
+		delete_transient( $sku . '_spro_product' );
 		
 		if ( false === ( $value = get_transient( $sku . '_spro_product' ) ) ) {
 			
@@ -335,9 +349,9 @@ class Spro_Public {
 	
 			$response = $client->request(
 				'GET',
-				'https://api.subscribepro.com/products',
+				'https://api-stage.subscribepro.com/products',
 				[
-				'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+				'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
 				'verify' => false,
 				'query' => http_build_query( $data )
 				]
@@ -402,9 +416,9 @@ class Spro_Public {
 		// Create the customer in Subscribe Pro if needed
 		// if ( !$is_spro_customer ) {
 
-		// 	$response = $client->post('https://api.subscribepro.com/services/v2/customer.json', [
+		// 	$response = $client->post('https://api-stage.subscribepro.com/services/v2/customer.json', [
 		// 		'verify' => false,
-		// 		'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+		// 		'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
 		// 		'json' => ['customer' => 
 		// 			array(
 		// 				'platform_specific_customer_id' => $customer_id,
@@ -434,7 +448,7 @@ class Spro_Public {
 		// Create new payment profile
 		// $response = $client->post('https://api.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
 		// 	'verify' => false,
-		// 	'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
+		// 	'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
 		// 	'json' => ['payment_profile' =>
 		// 		array(
 		// 			'customer_id' => $spro_customer_id,
@@ -453,51 +467,304 @@ class Spro_Public {
 		// print_r( $response_body );
 		// echo '</pre>';
 
-		foreach( $order->get_items() as $item_id => $line_item ) {
+		// foreach( $order->get_items() as $item_id => $line_item ) {
 
-			$item_data = $line_item->get_data();
-			$product = $line_item->get_product();
-			$sku = $product->get_sku();
-			$product_name = $product->get_name();
-			$item_quantity = $line_item->get_quantity();
-			$item_total = $line_item->get_total();
+		// 	$item_data = $line_item->get_data();
+		// 	$product = $line_item->get_product();
+		// 	$sku = $product->get_sku();
+		// 	$product_name = $product->get_name();
+		// 	$item_quantity = $line_item->get_quantity();
+		// 	$item_total = $line_item->get_total();
 
-			$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
+		// 	$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
 
-			if ( $is_subscription_product == 'yes' ) {
+		// 	if ( $is_subscription_product == 'yes' ) {
 
-				$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
+		// 		$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
 				
-				$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
-					'verify' => false,
-					'auth' => ['3945_luvt7zqsg9ccg00sg8oow8w8sokc8kwgw4cogsgwwcc0g0ks4', '64id8uxlw9wkgogw00wwss4s0w848ksc4c0480swcs4c0ksko4'],
-					'json' => ['subscription' => 
-						array(
-							'customer_id' => $spro_customer_id,
-							'payment_profile_id' => '6292857',
-							'product_sku' => $sku,
-							'requires_shipping' => true,
-							'shipping_method_code' => $shipping_method,
-							'shipping_address' => $shipping_address,
-							'qty' => $item_quantity,
-							'next_order_date' => date("F j, Y"),
-							'first_order_already_created' => true,
-							'interval' => $frequency
-						)
-					]
-				]);
+		// 		$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
+		// 			'verify' => false,
+		// 			'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
+		// 			'json' => ['subscription' => 
+		// 				array(
+		// 					'customer_id' => $spro_customer_id,
+		// 					'payment_profile_id' => '6292857',
+		// 					'product_sku' => $sku,
+		// 					'requires_shipping' => true,
+		// 					'shipping_method_code' => $shipping_method,
+		// 					'shipping_address' => $shipping_address,
+		// 					'qty' => $item_quantity,
+		// 					'next_order_date' => date("F j, Y"),
+		// 					'first_order_already_created' => true,
+		// 					'interval' => $frequency
+		// 				)
+		// 			]
+		// 		]);
 				
-				$response_body = json_decode( $response->getBody() );
+		// 		$response_body = json_decode( $response->getBody() );
 	
-				echo '<pre>';
-				print_r( $response_body );
-				echo '</pre>';
+		// 		echo '<pre>';
+		// 		print_r( $response_body );
+		// 		echo '</pre>';
 
-			}
+		// 	}
 
-		}
+		// }
 
 	}
 
+    /**
+     * @param \GuzzleHttp\Psr7\Request $request
+     * @param string $sharedSecret
+     *
+     * @return bool
+     */
+    public function validate_request_hmac(\GuzzleHttp\Psr7\Request $request, $sharedSecret) {
+
+        // Get signature from request header
+        $hmacSignature = $request->getHeader(self::SP_HMAC_HEADER);
+        
+        // Get request body (JSON string)
+        $body = $request->getBody();
+
+        // Calculate the hash of body using shared secret and SHA-256 algorithm
+        $calculatedHash = hash_hmac('sha256', $body, $sharedSecret, false);
+        
+        // Compare signature using secure compare method
+        return hash_equals($calculatedHash, $hmacSignature);
+
+    }
+
+	/**
+	 * spro_rest_testing_endpoint
+	 * @return WP_REST_Response
+	 */
+	function spro_rest_testing_endpoint( $data ) {
+
+		// Get Order Data From Subscribe Pro
+		// $order_data = $data->get_json_params();
+
+		$order_data = get_transient( 'order_data' );
+
+		// set_transient( 'order_data', $order_data );
+
+		// error_log( 'hit' );
+
+		// error_log( print_r( $order_data, true ) );
+
+		// Create WooCommerce Order
+		global $woocommerce;
+
+		$billing_address = array(
+			'first_name' => $order_data['billingAddress']['firstName'],
+			'last_name'  => $order_data['billingAddress']['lastName'],
+			'email'      => $order_data['customerEmail'],
+			'phone'      => $order_data['billingAddress']['phone'],
+			'address_1'  => $order_data['billingAddress']['street1'],
+			'address_2'  => $order_data['billingAddress']['street2'],
+			'city'       => $order_data['billingAddress']['city'],
+			'state'      => $order_data['billingAddress']['region'],
+			'postcode'   => $order_data['billingAddress']['postcode'],
+			'country'    => $order_data['billingAddress']['country']
+		);
+	  
+		$shipping_address = array(
+			'first_name' => $order_data['shippingAddress']['firstName'],
+			'last_name'  => $order_data['shippingAddress']['lastName'],
+			'email'      => $order_data['customerEmail'],
+			'phone'      => $order_data['shippingAddress']['phone'],
+			'address_1'  => $order_data['shippingAddress']['street1'],
+			'address_2'  => $order_data['shippingAddress']['street2'],
+			'city'       => $order_data['shippingAddress']['city'],
+			'state'      => $order_data['shippingAddress']['region'],
+			'postcode'   => $order_data['shippingAddress']['postcode'],
+			'country'    => $order_data['shippingAddress']['country']
+		);
+
+		// Create the order
+		$order = wc_create_order( array( 'customer_id' => $order_data['platformCustomerId'] ) );
+		$products_array = array();
+
+		// Add products to the order
+		foreach ( $order_data['items'] as $item ) {
+
+			$sku = $item['productSku'];
+			$product_id = wc_get_product_id_by_sku( $sku );
+
+			$order->add_product( wc_get_product( $product_id ) );
+
+		}
+
+		// Add Shipping Method
+		$item = new WC_Order_Item_Shipping();
+
+		// $item->set_method_title(  );
+		// $order->add_item( $item );
+
+		// Set Addresses
+		$order->set_address( $billing_address, 'billing' );
+		$order->set_address( $shipping_address, 'shipping' );
+
+		// Calculate totals and update status
+		$order->calculate_totals();
+		$order->update_status("Completed", 'Imported order', TRUE);
+
+		$return_data = array(
+			"orderNumber" => strval( $order->get_id() ),
+			"orderDetails" => array(
+				"customerId" => strval( $order_data["customerId"] ),
+				"customerEmail" => $order_data["customerEmail"],
+				"platformCustomerId" => strval( $order_data["platformCustomerId"] ),
+				"platformOrderId" => strval( $order->get_id() ),
+				"orderNumber" => strval( $order->get_id() ),
+				"salesOrderToken" => "89adsfjkl129834kljsad98fuoi123uj489u23894",
+				"orderStatus" => "placed",
+				"orderState" => "open",
+				"orderDateTime" => "2021-04-01T17:43:00Z",
+				"currency" => "USD",
+				"shippingTotal" => "7.2000",
+				"taxTotal" => "4.0000",
+				"total" => "51.2000",
+				"shippingAddress" => array(
+					"firstName" => $order_data["shippingAddress"]["firstName"],
+					"lastName" => $order_data["shippingAddress"]["lastName"],
+					"street1" => $order_data["shippingAddress"]["street1"],
+					"street2" => $order_data["shippingAddress"]["street2"],
+					"city" => $order_data["shippingAddress"]["city"],
+					"region" => $order_data["shippingAddress"]["region"],
+					"postcode" => $order_data["shippingAddress"]["postcode"],
+					"country" => $order_data["shippingAddress"]["country"],
+					"phone" => $order_data["shippingAddress"]["phone"]
+				),
+				"billingAddress" => array(
+					"firstName" => $order_data["billingAddress"]["firstName"],
+					"lastName" => $order_data["billingAddress"]["lastName"],
+					"street1" => $order_data["billingAddress"]["street1"],
+					"street2" => $order_data["billingAddress"]["street2"],
+					"city" => $order_data["billingAddress"]["city"],
+					"region" => $order_data["billingAddress"]["region"],
+					"postcode" => $order_data["billingAddress"]["postcode"],
+					"country" => $order_data["billingAddress"]["country"],
+					"phone" => $order_data["billingAddress"]["phone"]
+				),
+				"items" => array( array(
+					"platformOrderItemId" => "10",
+					"productSku" => "test",
+					"productName" => "test",
+					"shortDescription" => "test",
+					"qty" => "1",
+					"requiresShipping" => true,
+					"unitPrice" => "10.0000",
+					"shippingTotal" => "7.2000",
+					"taxTotal" => "4.0000",
+					"lineTotal" => "51.2000",
+					"subscriptionId" => "243867"
+				) )
+			),
+		);
+
+		// Charge payment profile
+		$charge = $this->chargeCustomerProfile( 900074265, 900093396, 10 );
+
+		return new WP_REST_Response( $return_data, 201 );
+
+	}
+
+	/**
+	 * spro_rest_init
+	 */
+	function spro_rest_init() {
+
+		// route url: domain.com/wp-json/$namespace/$route
+		$namespace = 'api/v1';
+		$route     = 'order';
+
+		register_rest_route($namespace, $route, array(
+			'methods'   => 'POST',
+			'callback'  => array( $this, 'spro_rest_testing_endpoint' ),
+			'args' => array(),
+			'permission_callback' => '__return_true'
+		));
+
+	}
+
+	/**
+	 * Charge Payment Profile
+	 */
+	function chargeCustomerProfile( $profileid, $paymentprofileid, $amount ) {
+
+		$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
+		$merchantAuthentication->setName("6jH6f6Wr");
+		$merchantAuthentication->setTransactionKey("9dxs95ND682YA8rL");
+		
+		// Set the transaction's refId
+		$refId = 'ref' . time();
+
+		$profileToCharge = new AnetAPI\CustomerProfilePaymentType();
+		$profileToCharge->setCustomerProfileId($profileid);
+		$paymentProfile = new AnetAPI\PaymentProfileType();
+		$paymentProfile->setPaymentProfileId($paymentprofileid);
+		$profileToCharge->setPaymentProfile($paymentProfile);
+
+		$transactionRequestType = new AnetAPI\TransactionRequestType();
+		$transactionRequestType->setTransactionType( "authCaptureTransaction"); 
+		$transactionRequestType->setAmount($amount);
+		$transactionRequestType->setProfile($profileToCharge);
+
+		$request = new AnetAPI\CreateTransactionRequest();
+		$request->setMerchantAuthentication($merchantAuthentication);
+		$request->setRefId( $refId);
+		$request->setTransactionRequest( $transactionRequestType);
+		$controller = new AnetController\CreateTransactionController($request);
+		$response = $controller->executeWithApiResponse( \net\authorize\api\constants\ANetEnvironment::SANDBOX);
+
+		if ($response != null)
+		{
+		if($response->getMessages()->getResultCode() == "Ok")
+		{
+			$tresponse = $response->getTransactionResponse();
+			
+			if ($tresponse != null && $tresponse->getMessages() != null)   
+			{
+			echo " Transaction Response code : " . $tresponse->getResponseCode() . "\n";
+			echo  "Charge Customer Profile APPROVED  :" . "\n";
+			echo " Charge Customer Profile AUTH CODE : " . $tresponse->getAuthCode() . "\n";
+			echo " Charge Customer Profile TRANS ID  : " . $tresponse->getTransId() . "\n";
+			echo " Code : " . $tresponse->getMessages()[0]->getCode() . "\n"; 
+				echo " Description : " . $tresponse->getMessages()[0]->getDescription() . "\n";
+			}
+			else
+			{
+			echo "Transaction Failed \n";
+			if($tresponse->getErrors() != null)
+			{
+				echo " Error code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
+				echo " Error message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";            
+			}
+			}
+		}
+		else
+		{
+			echo "Transaction Failed \n";
+			$tresponse = $response->getTransactionResponse();
+			if($tresponse != null && $tresponse->getErrors() != null)
+			{
+			echo " Error code  : " . $tresponse->getErrors()[0]->getErrorCode() . "\n";
+			echo " Error message : " . $tresponse->getErrors()[0]->getErrorText() . "\n";                      
+			}
+			else
+			{
+			echo " Error code  : " . $response->getMessages()->getMessage()[0]->getCode() . "\n";
+			echo " Error message : " . $response->getMessages()->getMessage()[0]->getText() . "\n";
+			}
+		}
+		}
+		else
+		{
+		echo  "No response returned \n";
+		}
+
+		return $response;
+	}
 
 }

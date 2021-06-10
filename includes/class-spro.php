@@ -210,6 +210,9 @@ class Spro {
 		// WooCommerce Payment Complete
 		$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'spro_payment_complete' );
 
+		// Create Order Endpoint
+		$this->loader->add_action( 'rest_api_init', $plugin_public, 'spro_rest_init' );
+
 	}
 
 	/**

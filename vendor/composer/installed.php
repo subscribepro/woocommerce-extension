@@ -1,24 +1,33 @@
 <?php return array (
   'root' => 
   array (
-    'pretty_version' => 'dev-master',
-    'version' => 'dev-master',
+    'pretty_version' => 'dev-main',
+    'version' => 'dev-main',
     'aliases' => 
     array (
     ),
-    'reference' => '7812fe976df2e5a117146b71674d55794b40ef5e',
+    'reference' => 'bca76772d956c7d8ff5f695bec982cfa4318f900',
     'name' => '__root__',
   ),
   'versions' => 
   array (
     '__root__' => 
     array (
-      'pretty_version' => 'dev-master',
-      'version' => 'dev-master',
+      'pretty_version' => 'dev-main',
+      'version' => 'dev-main',
       'aliases' => 
       array (
       ),
-      'reference' => '7812fe976df2e5a117146b71674d55794b40ef5e',
+      'reference' => 'bca76772d956c7d8ff5f695bec982cfa4318f900',
+    ),
+    'authorizenet/authorizenet' => 
+    array (
+      'pretty_version' => '2.0.2',
+      'version' => '2.0.2.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'a3e76f96f674d16e892f87c58bedb99dada4b067',
     ),
     'guzzlehttp/guzzle' => 
     array (
