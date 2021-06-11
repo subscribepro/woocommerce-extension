@@ -586,25 +586,72 @@ class Spro_Public {
 		$order = wc_create_order( array( 'customer_id' => $order_data['platformCustomerId'] ) );
 
 		// Add products to the order
-		foreach ( $order_data['items'] as $item ) {
+		$products_array = array();
 
+		foreach ( $order_data['items'] as $item ) {
+			
+			// Item Data
 			$sku = $item['productSku'];
 			$product_id = wc_get_product_id_by_sku( $sku );
+
+			// Add product to order
 			$order->add_product( wc_get_product( $product_id ) );
+
+		}
+
+		// Create Product Array For Response
+		foreach ( $order->get_items() as $item_key => $item ) {
+
+			// Item ID is directly accessible from the $item_key in the foreach loop or
+			$item_id = $item->get_id();
+
+			## Using WC_Order_Item_Product methods ##
+			$product = $item->get_product(); // Get the WC_Product object
+			
+			// Item Data
+			$sku = $product->get_sku();
+			$product_id = wc_get_product_id_by_sku( $sku );
+			$item_name = $item->get_name();
+			$quantity = $item->get_quantity();  
+			$line_subtotal = $item->get_subtotal();
+			$line_total = $item->get_total();
+			$line_total_tax = $item->get_total_tax();
+
+			// Get an instance of Product WP_Post object
+			$post_obj = get_post( $product_id );
+		
+			// The product short description
+			$product_short_desciption = $post_obj->post_excerpt;
+
+			$product = array(
+				"platformOrderItemId" => strval( $order->get_id() ),
+				"productSku" => $sku,
+				"productName" => $item_name,
+				"shortDescription" => $product_short_desciption,
+				"qty" => strval( $quantity ),
+				"requiresShipping" => true,
+				"unitPrice" => strval( $line_subtotal ),
+				"shippingTotal" => "0",
+				"taxTotal" => strval( $line_total_tax ),
+				"lineTotal" => strval( $line_total ),
+				"subscriptionId" => "243867"
+			);
+
+			array_push( $products_array, $product );
 
 		}
 
 		// Add Shipping Method
 		$item = new WC_Order_Item_Shipping();
 
-		// $item->set_method_title(  );
+		// $item->set_method_title( );
 		// $order->add_item( $item );
 
 		// Set Addresses
 		$order->set_address( $billing_address, 'billing' );
 		$order->set_address( $shipping_address, 'shipping' );
 
-		// Calculate totals and update status
+		// Calculate totals
 		$order->calculate_totals();
 
 		// Get payment profile id from token
@@ -619,9 +666,9 @@ class Spro_Public {
 		$customer_profile_id = $results[0]['meta_value'];
 
 		// Charge payment profile 900074265, 900093396
-		$charge = $this->chargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], 10 );
+		$charge = $this->chargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total() );
 
-		// Update order with authorize.net data if payment was successful
+		// Prepare return data and update order with authorize.net data if payment was successful
 		if ( $charge['status'] ) {
 
 			$return_data = array(
@@ -632,14 +679,14 @@ class Spro_Public {
 					"platformCustomerId" => strval( $order_data["platformCustomerId"] ),
 					"platformOrderId" => strval( $order->get_id() ),
 					"orderNumber" => strval( $order->get_id() ),
-					"salesOrderToken" => "89adsfjkl129834kljsad98fuoi123uj489u23894",
+					"salesOrderToken" => strval( $charge['trans_id'] ),
 					"orderStatus" => "placed",
 					"orderState" => "open",
-					"orderDateTime" => "2021-04-01T17:43:00Z",
+					"orderDateTime" => strval( $order->get_date_created() ),
 					"currency" => "USD",
-					"shippingTotal" => "7.2000",
-					"taxTotal" => "4.0000",
-					"total" => "51.2000",
+					"shippingTotal" => strval( $order->get_shipping_total() ),
+					"taxTotal" => strval( $order->get_total_tax() ),
+					"total" => strval( $order->get_total() ),
 					"shippingAddress" => array(
 						"firstName" => $order_data["shippingAddress"]["firstName"],
 						"lastName" => $order_data["shippingAddress"]["lastName"],
@@ -662,19 +709,7 @@ class Spro_Public {
 						"country" => $order_data["billingAddress"]["country"],
 						"phone" => $order_data["billingAddress"]["phone"]
 					),
-					"items" => array( array(
-						"platformOrderItemId" => "10",
-						"productSku" => "test",
-						"productName" => "test",
-						"shortDescription" => "test",
-						"qty" => "1",
-						"requiresShipping" => true,
-						"unitPrice" => "10.0000",
-						"shippingTotal" => "7.2000",
-						"taxTotal" => "4.0000",
-						"lineTotal" => "51.2000",
-						"subscriptionId" => "243867"
-					) )
+					"items" => $products_array
 				),
 			);
 	
