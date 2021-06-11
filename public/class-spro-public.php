@@ -20,6 +20,8 @@ use net\authorize\api\controller as AnetController;
 class Spro_Public {
 
 	const SP_HMAC_HEADER = 'Sp-Hmac';
+	const CLIENT_ID = '1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8';
+	const CLIENT_SECRET = '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko';
 
 	/**
 	 * The ID of this plugin.
@@ -541,9 +543,9 @@ class Spro_Public {
 	function spro_rest_testing_endpoint( $data ) {
 
 		// Get Order Data From Subscribe Pro
-		// $order_data = $data->get_json_params();
+		$order_data = $data->get_json_params();
 
-		$order_data = get_transient( 'order_data' );
+		// $order_data = get_transient( 'order_data' );
 
 		// set_transient( 'order_data', $order_data );
 
@@ -622,8 +624,6 @@ class Spro_Public {
 		// Update order with authorize.net data if payment was successful
 		if ( $charge['status'] ) {
 
-			$trans_id = $charge['trans_id'];
-
 			$return_data = array(
 				"orderNumber" => strval( $order->get_id() ),
 				"orderDetails" => array(
@@ -678,10 +678,21 @@ class Spro_Public {
 				),
 			);
 	
+			// Update order status
+			$trans_id = $charge['trans_id'];
+			update_post_meta(  $order->get_id(), '_wc_authorize_net_cim_credit_card_trans_id', $trans_id );
+			update_post_meta(  $order->get_id(), '_transaction_id', $trans_id );
+			update_post_meta(  $order->get_id(), '_payment_method', 'authorize_net_cim_credit_card' );
+			update_post_meta(  $order->get_id(), '_payment_method_title', 'Credit Card' );
+			$order->update_status( 'processing', 'Authorize.net charge completed successfully, transaction ID: ' . $trans_id );
+
+			// Return response
 			$response = new WP_REST_Response( $return_data, 201 );
 
 		} else {
-			
+
+			// Update order status
+			$order->update_status( 'failed', $charge['error'] );
 			$response = new WP_REST_Response( array( 'error' => $charge['error'] ), 400 );
 
 		}
