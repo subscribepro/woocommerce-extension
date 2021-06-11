@@ -4,7 +4,7 @@
 // print_r($product_data);
 // echo '</pre>';
 
-// if ($product_data->intervals):
+if ($product_data->intervals):
 ?>
 
 <br>
@@ -22,14 +22,12 @@
 
     <label for="delivery_frequency">Deliver Every:</label><br>
     <select name="delivery_frequency" id="delivery_frequency">
-        <option value="Every Two Weeks">Every Two Weeks</option>
-        <option value="Every Four Weeks">Every Four Weeks</option>
-        <?php //foreach ( $product_data->intervals as $interval): ?>
+        <?php foreach ( $product_data->intervals as $interval): ?>
         <option value="<?php echo $interval; ?>"><?php echo $interval; ?></option>
-        <?php //endforeach; ?>
+        <?php endforeach; ?>
     </select>
 
 </div>
 <br>
 
-<?php //endif; ?>
+<?php endif; ?>

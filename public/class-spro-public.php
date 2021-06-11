@@ -11,6 +11,8 @@
  */
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
 
 require SPRO_PLUGIN_DIR . 'vendor/auth-sdk-php-2.0.2/autoload.php';
 
@@ -109,7 +111,7 @@ class Spro_Public {
 		$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
 		$username = "1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8";
 		$password = "4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko";
-		$host = 'https://api.subscribepro.com/oauth/v2/token';
+		$host = 'https://api-stage.subscribepro.com/oauth/v2/token';
 	
 		$data = array(
 			'grant_type' => 'client_credentials',
@@ -134,7 +136,7 @@ class Spro_Public {
 		<script type="text/javascript">
 			// Setup config for Subscribe Pro
 			var widgetConfig = {
-				apiBaseUrl: 'https://api.subscribepro.com',
+				apiBaseUrl: 'https://api-stage.subscribepro.com',
 				apiAccessToken: '<?php echo $return->access_token; ?>',
 				environmentKey: '<?php echo $return->environment_key; ?>',
 				customerId: '<?php echo $spro_customer_id; ?>',
@@ -297,35 +299,44 @@ class Spro_Public {
 
 		// delete_transient( 'spro_access_token' );
 
-		// if ( false === ( $value = get_transient( 'spro_access_token' ) ) ) {
+		if ( false === ( $value = get_transient( 'spro_access_token' ) ) ) {
 			
-		// 	$client = new Client();
-		// 	$user_id = get_current_user_id();
-		// 	$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
+			$client = new Client();
+			$user_id = get_current_user_id();
+			$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
 
-		// 	$data = array(
-		// 		'grant_type' => 'client_credentials',
-		// 		'scope' => 'widget',
-		// 		'customer_id' => $spro_customer_id
-		// 	);
+			$data = array(
+				'grant_type' => 'client_credentials',
+				'scope' => 'widget',
+				'customer_id' => $spro_customer_id
+			);
 
-		// 	$response = $client->request(
-		// 		'GET',
-		// 		'https://api-stage.subscribepro.com/oauth/v2/token',
-		// 		[
-		// 		'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
-		// 		'verify' => false,
-		// 		'query' => http_build_query($data)
-		// 		]
-		// 	);
+			try {
+				
+				$response = $client->request(
+					'GET',
+					'https://api-stage.subscribepro.com/oauth/v2/token',
+					[
+					'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+					'verify' => false,
+					'query' => http_build_query($data)
+					]
+				);
 
-		// 	$access_token = json_decode( $response->getBody() )->access_token;
+			} catch (RequestException $e) {
+				echo Psr7\Message::toString($e->getRequest());
+				if ($e->hasResponse()) {
+					echo Psr7\Message::toString($e->getResponse());
+				}
+			}
+
+			$access_token = json_decode( $response->getBody() )->access_token;
 	
-		// 	set_transient( 'spro_access_token', $access_token, HOUR_IN_SECONDS );
+			set_transient( 'spro_access_token', $access_token, HOUR_IN_SECONDS );
 
-		// }
+		}
 
-		// return get_transient( 'spro_access_token' );
+		return get_transient( 'spro_access_token' );
 
 	}
 	
@@ -338,33 +349,33 @@ class Spro_Public {
 
 		// delete_transient( $sku . '_spro_product' );
 		
-		// if ( false === ( $value = get_transient( $sku . '_spro_product' ) ) ) {
+		if ( false === ( $value = get_transient( $sku . '_spro_product' ) ) ) {
 			
-		// 	$client = new Client();
-		// 	$access_token = $this->spro_get_access_token();
+			$client = new Client();
+			$access_token = $this->spro_get_access_token();
 
-		// 	$data = array(
-		// 		'access_token' => $access_token,
-		// 		'sku' => $sku,
-		// 	);
+			$data = array(
+				'access_token' => $access_token,
+				'sku' => $sku,
+			);
 	
-		// 	$response = $client->request(
-		// 		'GET',
-		// 		'https://api-stage.subscribepro.com/products',
-		// 		[
-		// 		'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
-		// 		'verify' => false,
-		// 		'query' => http_build_query( $data )
-		// 		]
-		// 	);
+			$response = $client->request(
+				'GET',
+				'https://api-stage.subscribepro.com/products',
+				[
+				'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+				'verify' => false,
+				'query' => http_build_query( $data )
+				]
+			);
 	
-		// 	$response_body = json_decode( $response->getBody() );
+			$response_body = json_decode( $response->getBody() );
 
-		// 	set_transient( $sku . '_spro_product', $response_body, 24 * HOUR_IN_SECONDS );
+			set_transient( $sku . '_spro_product', $response_body, 24 * HOUR_IN_SECONDS );
 
-		// }
+		}
 
-		// return get_transient( $sku . '_spro_product' );
+		return get_transient( $sku . '_spro_product' );
 
 	}
 
@@ -415,102 +426,102 @@ class Spro_Public {
 		);
 
 		// Create the customer in Subscribe Pro if needed
-		// if ( !$is_spro_customer ) {
+		if ( !$is_spro_customer ) {
 
-		// 	$response = $client->post('https://api-stage.subscribepro.com/services/v2/customer.json', [
-		// 		'verify' => false,
-		// 		'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
-		// 		'json' => ['customer' => 
-		// 			array(
-		// 				'platform_specific_customer_id' => $customer_id,
-		// 				'first_name' => $billing_address['first_name'],
-		// 				'last_name' => $billing_address['last_name'],
-		// 				'email' => $order->get_billing_email()
-		// 			)
-		// 		]
-		// 	]);
+			$response = $client->post('https://api-stage.subscribepro.com/services/v2/customer.json', [
+				'verify' => false,
+				'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+				'json' => ['customer' => 
+					array(
+						'platform_specific_customer_id' => $customer_id,
+						'first_name' => $billing_address['first_name'],
+						'last_name' => $billing_address['last_name'],
+						'email' => $order->get_billing_email()
+					)
+				]
+			]);
 			
-		// 	$response_body = json_decode( $response->getBody() );
+			$response_body = json_decode( $response->getBody() );
 
-		// 	// Update WooCommerce customer with subscribe pro id
-		// 	$spro_customer_id = $response_body->customer->id;
-		// 	update_user_meta( $customer_id, 'spro_id', $spro_customer_id );
+			// Update WooCommerce customer with subscribe pro id
+			$spro_customer_id = $response_body->customer->id;
+			update_user_meta( $customer_id, 'spro_id', $spro_customer_id );
 
-		// 	echo '<pre>';
-		// 	print_r( $response_body );
-		// 	echo '</pre>';
+			// echo '<pre>';
+			// print_r( $response_body );
+			// echo '</pre>';
 
-		// }
+		}
 
 		// echo '<pre>';
 		// print_r( $order );
 		// echo '</pre>';
 
 		// Create new payment profile
-		// $response = $client->post('https://api.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
-		// 	'verify' => false,
-		// 	'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
-		// 	'json' => ['payment_profile' =>
-		// 		array(
-		// 			'customer_id' => $spro_customer_id,
-		// 			'payment_token' => $payment_token, //1931554041|1843624109
-		// 			'creditcard_last_digits' => $cc_last4,
-		// 			'creditcard_month' => $cc_month,
-		// 			'creditcard_year' => $cc_year,
-		// 			'billing_address' => $billing_address
-		// 		)
-		// 	]
-		// ]);
+		$response = $client->post('https://api-stage.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
+			'verify' => false,
+			'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+			'json' => ['payment_profile' =>
+				array(
+					'customer_id' => $spro_customer_id,
+					'payment_token' => $payment_token, //1931554041|1843624109
+					'creditcard_last_digits' => $cc_last4,
+					'creditcard_month' => $cc_month,
+					'creditcard_year' => $cc_year,
+					'billing_address' => $billing_address
+				)
+			]
+		]);
 
-		// $response_body = json_decode( $response->getBody() );
+		$response_body = json_decode( $response->getBody() );
 
 		// echo '<pre>';
 		// print_r( $response_body );
 		// echo '</pre>';
 
-		// foreach( $order->get_items() as $item_id => $line_item ) {
+		foreach( $order->get_items() as $item_id => $line_item ) {
 
-		// 	$item_data = $line_item->get_data();
-		// 	$product = $line_item->get_product();
-		// 	$sku = $product->get_sku();
-		// 	$product_name = $product->get_name();
-		// 	$item_quantity = $line_item->get_quantity();
-		// 	$item_total = $line_item->get_total();
+			$item_data = $line_item->get_data();
+			$product = $line_item->get_product();
+			$sku = $product->get_sku();
+			$product_name = $product->get_name();
+			$item_quantity = $line_item->get_quantity();
+			$item_total = $line_item->get_total();
 
-		// 	$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
+			$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
 
-		// 	if ( $is_subscription_product == 'yes' ) {
+			if ( $is_subscription_product == 'yes' ) {
 
-		// 		$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
+				$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
 				
-		// 		$response = $client->post('https://api.subscribepro.com/services/v2/subscription.json', [
-		// 			'verify' => false,
-		// 			'auth' => ['1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8', '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko'],
-		// 			'json' => ['subscription' => 
-		// 				array(
-		// 					'customer_id' => $spro_customer_id,
-		// 					'payment_profile_id' => '6292857',
-		// 					'product_sku' => $sku,
-		// 					'requires_shipping' => true,
-		// 					'shipping_method_code' => $shipping_method,
-		// 					'shipping_address' => $shipping_address,
-		// 					'qty' => $item_quantity,
-		// 					'next_order_date' => date("F j, Y"),
-		// 					'first_order_already_created' => true,
-		// 					'interval' => $frequency
-		// 				)
-		// 			]
-		// 		]);
+				$response = $client->post('https://api-stage.subscribepro.com/services/v2/subscription.json', [
+					'verify' => false,
+					'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+					'json' => ['subscription' => 
+						array(
+							'customer_id' => $spro_customer_id,
+							'payment_profile_id' => '6292857',
+							'product_sku' => $sku,
+							'requires_shipping' => true,
+							'shipping_method_code' => $shipping_method,
+							'shipping_address' => $shipping_address,
+							'qty' => $item_quantity,
+							'next_order_date' => date("F j, Y"),
+							'first_order_already_created' => true,
+							'interval' => $frequency
+						)
+					]
+				]);
 				
-		// 		$response_body = json_decode( $response->getBody() );
+				$response_body = json_decode( $response->getBody() );
 	
-		// 		echo '<pre>';
-		// 		print_r( $response_body );
-		// 		echo '</pre>';
+				// echo '<pre>';
+				// print_r( $response_body );
+				// echo '</pre>';
 
-		// 	}
+			}
 
-		// }
+		}
 
 	}
 
