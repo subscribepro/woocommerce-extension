@@ -467,7 +467,7 @@ class Spro_Public {
 					'payment_token' => $payment_token, //1931554041|1843624109
 					'creditcard_last_digits' => $cc_last4,
 					'creditcard_month' => $cc_month,
-					'creditcard_year' => $cc_year,
+					'creditcard_year' => '20' . $cc_year,
 					'billing_address' => $billing_address
 				)
 			]
@@ -486,7 +486,7 @@ class Spro_Public {
 			$sku = $product->get_sku();
 			$product_name = $product->get_name();
 			$item_quantity = $line_item->get_quantity();
-			$item_total = $line_item->get_total();
+			$item_total = $product->get_price();
 
 			$is_subscription_product = get_post_meta( $product->get_id(), '_spro_product', true );
 
@@ -500,7 +500,7 @@ class Spro_Public {
 					'json' => ['subscription' => 
 						array(
 							'customer_id' => $spro_customer_id,
-							'payment_profile_id' => '6292857',
+							'payment_profile_id' => $response_body->payment_profile->id,
 							'product_sku' => $sku,
 							'requires_shipping' => true,
 							'shipping_method_code' => $shipping_method,
@@ -653,9 +653,9 @@ class Spro_Public {
 		}
 
 		// Add Shipping Method
-		$item = new WC_Order_Item_Shipping();
+		// $item = new WC_Order_Item_Shipping();
 
-		// $item->set_method_title( );
+		// $item->set_method_title( $order_data['shippingMethodCodes'][0]['method_code'] );
 		// $order->add_item( $item );
 
 		// Set Addresses
