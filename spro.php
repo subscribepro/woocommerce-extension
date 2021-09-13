@@ -45,6 +45,7 @@ define( 'SPRO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 /**
  * Define plugin settings constant
  */
+define( 'SPRO_BASE_URL', get_option( 'spro_settings' )['base_url'] );
 define( 'SPRO_CLIENT_ID', get_option( 'spro_settings' )['client_id'] );
 define( 'SPRO_CLIENT_SECRET', get_option( 'spro_settings' )['client_secret'] );
 define( 'SP_HMAC_HEADER', 'Sp-Hmac' );

@@ -22,6 +22,7 @@ if ( ! defined( 'WPINC' ) ) die;
         //Grab all options
         $options = get_option( 'spro_settings' );
 
+        $base_url = ( isset( $options['base_url'] ) && ! empty( $options['base_url'] ) ) ? esc_attr( $options['base_url'] ) : 'https://api.subscribepro.com';
         $client_id = ( isset( $options['client_id'] ) && ! empty( $options['client_id'] ) ) ? esc_attr( $options['client_id'] ) : '';
         $client_secret = ( isset( $options['client_secret'] ) && ! empty( $options['client_secret'] ) ) ? esc_attr( $options['client_secret'] ) : '';
 
@@ -29,6 +30,14 @@ if ( ! defined( 'WPINC' ) ) die;
         do_settings_sections( 'spro_settings' );
 
         ?>
+
+        <fieldset>
+            <p><?php esc_attr_e( 'Base URL', 'spro' ); ?></p>
+            <legend class="screen-reader-text">
+                <span><?php esc_attr_e( 'Base URL', 'spro' ); ?></span>
+            </legend>
+            <input type="text" class="spro-input" id="base_url" name="base_url" value="<?php if( ! empty( $base_url ) ) echo $base_url; else echo ''; ?>"/>
+        </fieldset>
 
         <fieldset>
             <p><?php esc_attr_e( 'Client ID', 'spro' ); ?></p>

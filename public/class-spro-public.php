@@ -107,7 +107,7 @@ class Spro_Public {
 		$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
 		$username = "1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8";
 		$password = "4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko";
-		$host = 'https://api-stage.subscribepro.com/oauth/v2/token';
+		$host = SPRO_BASE_URL . '/oauth/v2/token';
 	
 		$data = array(
 			'grant_type' => 'client_credentials',
@@ -132,7 +132,7 @@ class Spro_Public {
 		<script type="text/javascript">
 			// Setup config for Subscribe Pro
 			var widgetConfig = {
-				apiBaseUrl: 'https://api-stage.subscribepro.com',
+				apiBaseUrl: 'SPRO_BASE_URL',
 				apiAccessToken: '<?php echo $return->access_token; ?>',
 				environmentKey: '<?php echo $return->environment_key; ?>',
 				customerId: '<?php echo $spro_customer_id; ?>',
@@ -311,7 +311,7 @@ class Spro_Public {
 				
 				$response = $client->request(
 					'GET',
-					'https://api-stage.subscribepro.com/oauth/v2/token',
+					SPRO_BASE_URL . '/oauth/v2/token',
 					[
 					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 					'verify' => false,
@@ -357,7 +357,7 @@ class Spro_Public {
 	
 			$response = $client->request(
 				'GET',
-				'https://api-stage.subscribepro.com/products',
+				SPRO_BASE_URL . '/products',
 				[
 				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 				'verify' => false,
@@ -424,7 +424,7 @@ class Spro_Public {
 		// Create the customer in Subscribe Pro if needed
 		if ( !$is_spro_customer ) {
 
-			$response = $client->post('https://api-stage.subscribepro.com/services/v2/customer.json', [
+			$response = $client->post( SPRO_BASE_URL . '/services/v2/customer.json', [
 				'verify' => false,
 				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 				'json' => ['customer' => 
@@ -454,7 +454,7 @@ class Spro_Public {
 		// echo '</pre>';
 
 		// Create new payment profile
-		$response = $client->post('https://api-stage.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
+		$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
 			'verify' => false,
 			'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 			'json' => ['payment_profile' =>
@@ -490,7 +490,7 @@ class Spro_Public {
 
 				$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
 				
-				$response = $client->post('https://api-stage.subscribepro.com/services/v2/subscription.json', [
+				$response = $client->post( SPRO_BASE_URL . '/services/v2/subscription.json', [
 					'verify' => false,
 					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 					'json' => ['subscription' => 

@@ -211,8 +211,9 @@ class Spro_Admin {
 
 		$options = get_option( 'spro_settings' );
 
-		$options['client_id'] = ( isset( $_POST['client_id'] ) && ! empty( $_POST['client_id'] ) ) ? esc_attr( $_POST['client_id'] ) : 'default';
-		$options['client_secret'] = ( isset( $_POST['client_secret'] ) && ! empty( $_POST['client_secret'] ) ) ? esc_attr( $_POST['client_secret'] ) : 'default';
+		$options['base_url'] = ( isset( $_POST['base_url'] ) && ! empty( $_POST['base_url'] ) ) ? esc_attr( $_POST['base_url'] ) : 'https://api.subscribepro.com';
+		$options['client_id'] = ( isset( $_POST['client_id'] ) && ! empty( $_POST['client_id'] ) ) ? esc_attr( $_POST['client_id'] ) : '';
+		$options['client_secret'] = ( isset( $_POST['client_secret'] ) && ! empty( $_POST['client_secret'] ) ) ? esc_attr( $_POST['client_secret'] ) : '';
 
 		return $options;
 
