@@ -43,6 +43,13 @@ define( 'SPRO_VERSION', '1.0.0' );
 define( 'SPRO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 /**
+ * Define plugin settings constant
+ */
+define( 'SPRO_CLIENT_ID', get_option( 'spro_settings' )['client_id'] );
+define( 'SPRO_CLIENT_SECRET', get_option( 'spro_settings' )['client_secret'] );
+define( 'SP_HMAC_HEADER', 'Sp-Hmac' );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-spro-activator.php
  */

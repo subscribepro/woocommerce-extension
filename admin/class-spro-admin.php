@@ -152,4 +152,79 @@ class Spro_Admin {
 	
 	}
 
+	/**
+	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_plugin_admin_menu() {
+
+		/**
+		 * Add a settings page for this plugin to the Settings menu.
+		 *
+		 * @link https://codex.wordpress.org/Function_Reference/add_options_page
+		 *
+		 */
+		add_submenu_page( 'woocommerce', 'Subscribe Pro Settings', 'Subscribe Pro', 'manage_options', 'spro_settings', array( $this, 'display_plugin_setup_page' ) );
+
+	}
+
+	/**
+	 * Add settings action link to the plugins page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_action_links( $links ) {
+
+		/**
+		 * Documentation : https://codex.wordpress.org/Plugin_API/Filter_Reference/plugin_action_links_(plugin_file_name)
+		 * The "plugins.php" must match with the previously added add_submenu_page first option.
+		 */
+		$settings_link = array( '<a href="' . admin_url( 'woocommerce?page=spro_settings' ) . '">' . __( 'Settings', 'spro_settings' ) . '</a>', );
+
+		return array_merge(  $settings_link, $links );
+
+	}
+
+	/**
+	 * Render the settings page for this plugin.
+	 *
+	 * @since    1.0.0
+	 */
+	public function display_plugin_setup_page() {
+
+		$templates = new Spro_Template_Loader;
+	
+		ob_start();
+
+		$templates->get_template_part( 'admin/content', 'settings' );
+
+		echo ob_get_clean();
+
+	}
+
+	/**
+	 * Validate fields from admin area plugin settings form
+	 * @return mixed as validated fields
+	 */
+	public function validate() {
+
+		$options = get_option( 'spro_settings' );
+
+		$options['client_id'] = ( isset( $_POST['client_id'] ) && ! empty( $_POST['client_id'] ) ) ? esc_attr( $_POST['client_id'] ) : 'default';
+		$options['client_secret'] = ( isset( $_POST['client_secret'] ) && ! empty( $_POST['client_secret'] ) ) ? esc_attr( $_POST['client_secret'] ) : 'default';
+
+		return $options;
+
+	}
+
+	public function options_update() {
+
+		register_setting( 'spro_settings', 'spro_settings', array(
+			'sanitize_callback' => array( $this, 'validate' ),
+		) );
+
+	}
+
+
 }

@@ -21,10 +21,6 @@ use net\authorize\api\controller as AnetController;
 
 class Spro_Public {
 
-	const SP_HMAC_HEADER = 'Sp-Hmac';
-	const CLIENT_ID = '1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8';
-	const CLIENT_SECRET = '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko';
-
 	/**
 	 * The ID of this plugin.
 	 *
@@ -317,7 +313,7 @@ class Spro_Public {
 					'GET',
 					'https://api-stage.subscribepro.com/oauth/v2/token',
 					[
-					'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 					'verify' => false,
 					'query' => http_build_query($data)
 					]
@@ -363,7 +359,7 @@ class Spro_Public {
 				'GET',
 				'https://api-stage.subscribepro.com/products',
 				[
-				'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 				'verify' => false,
 				'query' => http_build_query( $data )
 				]
@@ -430,7 +426,7 @@ class Spro_Public {
 
 			$response = $client->post('https://api-stage.subscribepro.com/services/v2/customer.json', [
 				'verify' => false,
-				'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 				'json' => ['customer' => 
 					array(
 						'platform_specific_customer_id' => $customer_id,
@@ -460,7 +456,7 @@ class Spro_Public {
 		// Create new payment profile
 		$response = $client->post('https://api-stage.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
 			'verify' => false,
-			'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+			'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 			'json' => ['payment_profile' =>
 				array(
 					'customer_id' => $spro_customer_id,
@@ -496,7 +492,7 @@ class Spro_Public {
 				
 				$response = $client->post('https://api-stage.subscribepro.com/services/v2/subscription.json', [
 					'verify' => false,
-					'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 					'json' => ['subscription' => 
 						array(
 							'customer_id' => $spro_customer_id,
@@ -534,7 +530,7 @@ class Spro_Public {
     public function validate_request_hmac(\GuzzleHttp\Psr7\Request $request, $sharedSecret) {
 
         // Get signature from request header
-        $hmacSignature = $request->getHeader(self::SP_HMAC_HEADER);
+        $hmacSignature = $request->getHeader(SP_HMAC_HEADER);
         
         // Get request body (JSON string)
         $body = $request->getBody();

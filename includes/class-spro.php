@@ -181,6 +181,15 @@ class Spro {
 		$this->loader->add_action( 'personal_options_update', $plugin_admin, 'spro_save_extra_user_profile_fields' );
 		$this->loader->add_action( 'edit_user_profile_update', $plugin_admin, 'spro_save_extra_user_profile_fields' );
 
+		// Save/Update our plugin options
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'options_update' );
+
+		// Add menu item
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_plugin_admin_menu' );
+	
+		// Add Settings link to the plugin
+		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_name . '.php' );
+
 	}
 
 	/**
