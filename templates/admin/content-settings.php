@@ -10,6 +10,33 @@ if ( ! defined( 'WPINC' ) ) die;
         min-width: 475px;
     }
 
+    .connection-buttons {
+        display: flex;
+        margin-top: 30px;
+    }
+
+    .connection-buttons .submit {
+        margin: 0;
+        padding: 0;
+    }
+
+    .connection-buttons .action {
+        margin-right: 10px;
+    }
+
+    .connection-message {
+        margin-top: 15px;
+        font-size: 18px;
+    }
+
+    .connection-message.success {
+        color: green;
+    }
+
+    .connection-message.fail {
+        color: red;
+    }
+
 </style>
 
 <div class="wrap">
@@ -55,7 +82,50 @@ if ( ! defined( 'WPINC' ) ) die;
             <input type="password" class="spro-input" id="client_secret" name="client_secret" value="<?php if( ! empty( $client_secret ) ) echo $client_secret; else echo ''; ?>"/>
         </fieldset>
 
-    <?php submit_button( __( 'Save all changes', 'spro' ), 'primary','submit', TRUE ); ?>
+        <div class="connection-buttons">
+            <a href="#" class="button action test-con-btn">Test Connection</a>
+
+            <?php submit_button( __( 'Save all changes', 'spro' ), 'primary','submit', TRUE ); ?>
+        </div>
+
+        <div class="connection-message"></div>
+
 
     </form>
+
+    <script type="text/javascript">
+
+        jQuery(function($){
+
+            console.log('ready 2');
+        
+            jQuery('.test-con-btn').click(function(e) {
+
+                e.preventDefault();
+
+                jQuery(this).text('Testing....');
+
+                // Make AJAX Request
+                wp.ajax.post( "test_connection", {} )
+                .done(function(response) {
+                    
+                    if (response == 'success') {
+                        jQuery('.connection-message').addClass('success');
+                        jQuery('.connection-message').text('Connection successful!');
+                    } else {
+                        jQuery('.connection-message').addClass('fail');
+                        jQuery('.connection-message').text('Connection failed!');
+                    }
+
+
+                    jQuery('.test-con-btn').text('Test Connection');
+
+                });
+
+            });
+
+        });
+
+    </script>
+
 </div>

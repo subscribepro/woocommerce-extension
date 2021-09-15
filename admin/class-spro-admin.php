@@ -10,16 +10,10 @@
  * @subpackage Spro/admin
  */
 
-/**
- * The admin-specific functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- *
- * @package    Spro
- * @subpackage Spro/admin
- * @author     Brady Christopher <brady.christopher@toptal.com>
- */
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
+
 class Spro_Admin {
 
 	/**
@@ -227,5 +221,36 @@ class Spro_Admin {
 
 	}
 
+	/**
+	 * Test API Connection
+	 */
+	public function spro_test_connection() {
+
+		$client = new Client();	
+		
+		$data = array(
+			'grant_type' => 'client_credentials',
+			'client_id' => SPRO_CLIENT_ID,
+			'client_secret' => SPRO_CLIENT_SECRET
+		);
+
+		try {
+
+			$response = $client->request(
+				'GET',
+				SPRO_BASE_URL . '/oauth/v2/token',
+				[
+				'verify' => false,
+				'query' => http_build_query($data)
+				]
+			);
+			
+		} catch (\Throwable $t) {
+			wp_send_json_success( 'fail' );
+		}
+
+		wp_send_json_success( 'success' );
+
+	}
 
 }

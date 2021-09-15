@@ -190,6 +190,10 @@ class Spro {
 		// Add Settings link to the plugin
 		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_name . '.php' );
 
+		// AJAX Handler for Test Connection Button
+		$this->loader->add_action( 'wp_ajax_nopriv_test_connection', $plugin_admin, 'spro_test_connection' );
+		$this->loader->add_action( 'wp_ajax_test_connection', $plugin_admin, 'spro_test_connection' );
+
 	}
 
 	/**
