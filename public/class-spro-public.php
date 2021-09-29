@@ -391,11 +391,47 @@ class Spro_Public {
 		$payment_token = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_payment_token', true );
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
-		$cc_last4 = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_account_four', true );
-		$cc_expiry = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_card_expiry_date', true );
-		$cc_month = substr( $cc_expiry, 3, 5 );
-		$cc_year = substr( $cc_expiry, 0, 2 );
+		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
+		$ebiz_data_array = explode('|', $ebiz_data);
+		$ebiz_payment_method = $ebiz_data_array[1];
+		$ebiz_ref_num = $ebiz_data_array[2];
+
+		update_post_meta( $order_id, 'ebiz_payment_method_id', $ebiz_payment_method );
+
+		$card_year = get_post_meta( $order_id, 'card_exp_year', true );
+
+
+		// $cc_last4 = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_account_four', true );
+		// $cc_expiry = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_card_expiry_date', true );
+		// $cc_month = substr( $cc_expiry, 3, 5 );
+		// $cc_year = substr( $cc_expiry, 0, 2 );
+
 		$shipping_method = $order->get_shipping_method();
+
+		// Ebiz Info
+		// $client = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl', array( 'cache_wsdl' => WSDL_CACHE_NONE ) );
+
+		// $securityToken = array(
+		// 	'SecurityId' => 'ec3b1d57-962b-4cca-9004-d15abb525dfb',
+		// 	'UserId' => 'SubscribeSB',
+		// 	'Password' => 'ZtQFpin4'
+		// );
+		
+		// try {
+		// 	$res = $client->GetTransactionDetails(
+		// 		array(
+		// 			'securityToken' => $securityToken,
+		// 			'transactionRefNum' => $ebiz_ref_num,
+		// 		)
+		// 	);
+		// } 
+		// catch (SoapFault $e) {
+		// 	die("getTransaction failed : " . $e->getMessage());
+		// }
+
+		// echo '<pre>';
+		// print_r($res);
+		// echo '</pre>';
 
 		// Customer Billing Address
 		$billing_address = array(
@@ -453,17 +489,17 @@ class Spro_Public {
 		// print_r( $order );
 		// echo '</pre>';
 
-		// Create new payment profile
+		// Create new payment profile if needed		
 		$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
 			'verify' => false,
 			'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 			'json' => ['payment_profile' =>
 				array(
 					'customer_id' => $spro_customer_id,
-					'payment_token' => $payment_token, //1931554041|1843624109
-					'creditcard_last_digits' => $cc_last4,
-					'creditcard_month' => $cc_month,
-					'creditcard_year' => '20' . $cc_year,
+					'payment_token' => $ebiz_payment_method,
+					// 'creditcard_last_digits' => $cc_last4,
+					// 'creditcard_month' => $cc_month,
+					// 'creditcard_year' => '20' . $cc_year,
 					'billing_address' => $billing_address
 				)
 			]
@@ -521,6 +557,22 @@ class Spro_Public {
 
 	}
 
+	/**
+	 * Save Ebiz Data to Order
+	 */
+	public function spro_payment_post( $order_id ) { 
+	
+		update_post_meta( $order_id, 'ebiz_payment_method_save', $_POST['ebizcharge-use-stored-payment-info'] );
+		update_post_meta( $order_id, 'ebiz_payment_method_id', $_POST['ebizcharge-payment-method'] );
+		update_post_meta( $order_id, 'card_exp_year', $_POST['expyear'] );
+		update_post_meta( $order_id, 'card_exp_month', $_POST['expmonth'] );
+
+		error_log( 'hit' );
+
+		error_log( print_r( $_POST, true ) );
+
+	}
+
     /**
      * @param \GuzzleHttp\Psr7\Request $request
      * @param string $sharedSecret
@@ -547,7 +599,196 @@ class Spro_Public {
 	 * spro_rest_testing_endpoint
 	 * @return WP_REST_Response
 	 */
-	function spro_rest_testing_endpoint( $data ) {
+	function spro_order_callback_ebiz( $data ) {
+
+		// Get Order Data From Subscribe Pro
+		$order_data = $data->get_json_params();
+
+		// $order_data = get_transient( 'order_data' );
+
+		// set_transient( 'order_data', $order_data );
+
+		error_log( 'hit' );
+
+		error_log( print_r( $order_data, true ) );
+
+		// Create WooCommerce Order
+		global $woocommerce;
+
+		$billing_address = array(
+			'first_name' => $order_data['billingAddress']['firstName'],
+			'last_name'  => $order_data['billingAddress']['lastName'],
+			'email'      => $order_data['customerEmail'],
+			'phone'      => $order_data['billingAddress']['phone'],
+			'address_1'  => $order_data['billingAddress']['street1'],
+			'address_2'  => $order_data['billingAddress']['street2'],
+			'city'       => $order_data['billingAddress']['city'],
+			'state'      => $order_data['billingAddress']['region'],
+			'postcode'   => $order_data['billingAddress']['postcode'],
+			'country'    => $order_data['billingAddress']['country']
+		);
+	  
+		$shipping_address = array(
+			'first_name' => $order_data['shippingAddress']['firstName'],
+			'last_name'  => $order_data['shippingAddress']['lastName'],
+			'email'      => $order_data['customerEmail'],
+			'phone'      => $order_data['shippingAddress']['phone'],
+			'address_1'  => $order_data['shippingAddress']['street1'],
+			'address_2'  => $order_data['shippingAddress']['street2'],
+			'city'       => $order_data['shippingAddress']['city'],
+			'state'      => $order_data['shippingAddress']['region'],
+			'postcode'   => $order_data['shippingAddress']['postcode'],
+			'country'    => $order_data['shippingAddress']['country']
+		);
+
+		// Create the order
+		$order = wc_create_order( array( 'customer_id' => $order_data['platformCustomerId'] ) );
+
+		// Add products to the order
+		$products_array = array();
+
+		foreach ( $order_data['items'] as $item ) {
+			
+			// Item Data
+			$sku = $item['productSku'];
+			$product_id = wc_get_product_id_by_sku( $sku );
+
+			// Add product to order
+			$order->add_product( wc_get_product( $product_id ) );
+
+		}
+
+		// Create Product Array For Response
+		foreach ( $order->get_items() as $item_key => $item ) {
+
+			// Item ID is directly accessible from the $item_key in the foreach loop or
+			$item_id = $item->get_id();
+
+			## Using WC_Order_Item_Product methods ##
+			$product = $item->get_product(); // Get the WC_Product object
+			
+			// Item Data
+			$sku = $product->get_sku();
+			$product_id = wc_get_product_id_by_sku( $sku );
+			$item_name = $item->get_name();
+			$quantity = $item->get_quantity();  
+			$line_subtotal = $item->get_subtotal();
+			$line_total = $item->get_total();
+			$line_total_tax = $item->get_total_tax();
+
+			// Get an instance of Product WP_Post object
+			$post_obj = get_post( $product_id );
+		
+			// The product short description
+			$product_short_desciption = $post_obj->post_excerpt;
+
+			$product = array(
+				"platformOrderItemId" => strval( $order->get_id() ),
+				"productSku" => $sku,
+				"productName" => $item_name,
+				"shortDescription" => $product_short_desciption,
+				"qty" => strval( $quantity ),
+				"requiresShipping" => true,
+				"unitPrice" => strval( $line_subtotal ),
+				"shippingTotal" => "0",
+				"taxTotal" => strval( $line_total_tax ),
+				"lineTotal" => strval( $line_total ),
+				"subscriptionId" => "243867"
+			);
+
+			array_push( $products_array, $product );
+
+		}
+
+		// Add Shipping Method
+		// $item = new WC_Order_Item_Shipping();
+
+		// $item->set_method_title( $order_data['shippingMethodCodes'][0]['method_code'] );
+		// $order->add_item( $item );
+
+		// Set Addresses
+		$order->set_address( $billing_address, 'billing' );
+		$order->set_address( $shipping_address, 'shipping' );
+
+		// Calculate totals
+		$order->calculate_totals();
+
+		$customer_profile_id = get_user_meta( $order_data["platformCustomerId"], 'CustNum', true );
+
+		// Charge payment profile 
+		$charge = $this->ebizChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total() );
+
+		// Prepare return data and update order with ebiz data if payment was successful
+		if ( $charge['status'] ) {
+
+			$return_data = array(
+				"orderNumber" => strval( $order->get_id() ),
+				"orderDetails" => array(
+					"customerId" => strval( $order_data["customerId"] ),
+					"customerEmail" => $order_data["customerEmail"],
+					"platformCustomerId" => strval( $order_data["platformCustomerId"] ),
+					"platformOrderId" => strval( $order->get_id() ),
+					"orderNumber" => strval( $order->get_id() ),
+					"salesOrderToken" => strval( $charge['trans_id'] ),
+					"orderStatus" => "placed",
+					"orderState" => "open",
+					"orderDateTime" => strval( $order->get_date_created() ),
+					"currency" => "USD",
+					"shippingTotal" => strval( $order->get_shipping_total() ),
+					"taxTotal" => strval( $order->get_total_tax() ),
+					"total" => strval( $order->get_total() ),
+					"shippingAddress" => array(
+						"firstName" => $order_data["shippingAddress"]["firstName"],
+						"lastName" => $order_data["shippingAddress"]["lastName"],
+						"street1" => $order_data["shippingAddress"]["street1"],
+						"street2" => $order_data["shippingAddress"]["street2"],
+						"city" => $order_data["shippingAddress"]["city"],
+						"region" => $order_data["shippingAddress"]["region"],
+						"postcode" => $order_data["shippingAddress"]["postcode"],
+						"country" => $order_data["shippingAddress"]["country"],
+						"phone" => $order_data["shippingAddress"]["phone"]
+					),
+					"billingAddress" => array(
+						"firstName" => $order_data["billingAddress"]["firstName"],
+						"lastName" => $order_data["billingAddress"]["lastName"],
+						"street1" => $order_data["billingAddress"]["street1"],
+						"street2" => $order_data["billingAddress"]["street2"],
+						"city" => $order_data["billingAddress"]["city"],
+						"region" => $order_data["billingAddress"]["region"],
+						"postcode" => $order_data["billingAddress"]["postcode"],
+						"country" => $order_data["billingAddress"]["country"],
+						"phone" => $order_data["billingAddress"]["phone"]
+					),
+					"items" => $products_array
+				),
+			);
+	
+			// Update order status
+			$trans_id = $charge['trans_id'];
+			update_post_meta(  $order->get_id(), '_transaction_id', $trans_id );
+			update_post_meta(  $order->get_id(), '_payment_method_title', 'Credit Card' );
+			$order->update_status( 'processing', 'Ebiz charge completed successfully, transaction ID: ' . $trans_id );
+
+			// Return response
+			$response = new WP_REST_Response( $return_data, 201 );
+
+		} else {
+
+			// Update order status
+			$order->update_status( 'failed', $charge['error'] );
+			$response = new WP_REST_Response( array( 'error' => $charge['error'] ), 400 );
+
+		}
+
+		return $response;
+
+	}
+
+	/**
+	 * spro_rest_testing_endpoint
+	 * @return WP_REST_Response
+	 */
+	function spro_order_callback_anet( $data ) {
 
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
@@ -673,9 +914,9 @@ class Spro_Public {
 		$customer_profile_id = $results[0]['meta_value'];
 
 		// Charge payment profile 900074265, 900093396
-		$charge = $this->chargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total() );
+		$charge = $this->anetChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total() );
 
-		// Prepare return data and update order with authorize.net data if payment was successful
+		// Prepare return data and update order with ebiz data if payment was successful
 		if ( $charge['status'] ) {
 
 			$return_data = array(
@@ -752,9 +993,18 @@ class Spro_Public {
 		$namespace = 'api/v1';
 		$route     = 'order';
 
+		// authorize.net
+		// register_rest_route($namespace, $route, array(
+		// 	'methods'   => 'POST',
+		// 	'callback'  => array( $this, 'spro_order_callback_anet' ),
+		// 	'args' => array(),
+		// 	'permission_callback' => '__return_true'
+		// ));
+		
+		// eBiz
 		register_rest_route($namespace, $route, array(
 			'methods'   => 'POST',
-			'callback'  => array( $this, 'spro_rest_testing_endpoint' ),
+			'callback'  => array( $this, 'spro_order_callback_ebiz' ),
 			'args' => array(),
 			'permission_callback' => '__return_true'
 		));
@@ -764,7 +1014,90 @@ class Spro_Public {
 	/**
 	 * Charge Payment Profile
 	 */
-	function chargeCustomerProfile( $profileid, $paymentprofileid, $amount ) {
+	function ebizChargeCustomerProfile( $customer_profile_id, $payment_profile_id, $amount ) {
+		
+		$client = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+
+		$securityToken = array(
+			'SecurityId' => 'ec3b1d57-962b-4cca-9004-d15abb525dfb',
+			'UserId' => 'SubscribeSB',
+			'Password' => 'ZtQFpin4'
+		);
+
+		$customerTransactionRequest = array(
+			'isRecurring' => false,
+			'IgnoreDuplicate' => true,
+			'Details' => array(
+				'Description' => 'WooCommerce Order from Subscribe Pro Subscription',
+				'Amount' => $amount,
+				'Tax' => 0,
+				'Currency' => '',
+				'Shipping' => '',
+				'ShipFromZip' => '54000',
+				'Discount' => 0,
+				'Subtotal' => $amount,
+				'AllowPartialAuth' => false,
+				'Tip' => 0,
+				'NonTax' => false,
+				'Duty' => 0,
+			),
+			'Software' => 'woocommerce',
+			'MerchReceipt' => false,
+			'CustReceiptName' => '',
+			'CustReceiptEmail' => '',
+			'CustReceipt' => '2',
+			'Command' => 'sale',
+		);
+
+		try {
+
+			$transactionResult = $client->runCustomerTransaction(
+				array(
+					'securityToken' => $securityToken,
+					'custNum' => $customer_profile_id,
+					'paymentMethodID' => $payment_profile_id,
+					'tran' => $customerTransactionRequest
+				)
+			);
+	
+			$transaction = $transactionResult->runCustomerTransactionResult;
+	
+			error_log( print_r( $transaction, true ) );
+
+			if ( $transaction->Result != 'Approved' ) {
+				
+				$return_data = array(
+					'status' => false,
+					'error' => $transaction->Error
+				);
+
+			} else {
+
+				$return_data = array(
+					'status' => true,
+					'trans_id' => $transaction->RefNum
+				);
+
+			}
+
+
+		} catch (SoapFault $e) {
+
+			$return_data = array(
+				'status' => false,
+				'error' => 'Payment failed, no response.'
+			);
+
+		}
+
+		return $return_data;
+
+	}
+
+	/**
+	 * Authorize.net Charge Payment Profl
+	 */
+	function anetChargeCustomerProfile( $profileid, $paymentprofileid, $amount ) {
 
 		$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
 		$merchantAuthentication->setName("6jH6f6Wr");
