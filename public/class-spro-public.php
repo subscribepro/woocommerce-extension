@@ -395,43 +395,13 @@ class Spro_Public {
 		$ebiz_data_array = explode('|', $ebiz_data);
 		$ebiz_payment_method = $ebiz_data_array[1];
 		$ebiz_ref_num = $ebiz_data_array[2];
-
+		$cc_year = get_post_meta( $order_id, 'card_exp_year', true );
+		$cc_month = get_post_meta( $order_id, 'card_exp_month', true );
+		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
+		
 		update_post_meta( $order_id, 'ebiz_payment_method_id', $ebiz_payment_method );
 
-		$card_year = get_post_meta( $order_id, 'card_exp_year', true );
-
-
-		// $cc_last4 = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_account_four', true );
-		// $cc_expiry = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_card_expiry_date', true );
-		// $cc_month = substr( $cc_expiry, 3, 5 );
-		// $cc_year = substr( $cc_expiry, 0, 2 );
-
 		$shipping_method = $order->get_shipping_method();
-
-		// Ebiz Info
-		// $client = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl', array( 'cache_wsdl' => WSDL_CACHE_NONE ) );
-
-		// $securityToken = array(
-		// 	'SecurityId' => 'ec3b1d57-962b-4cca-9004-d15abb525dfb',
-		// 	'UserId' => 'SubscribeSB',
-		// 	'Password' => 'ZtQFpin4'
-		// );
-		
-		// try {
-		// 	$res = $client->GetTransactionDetails(
-		// 		array(
-		// 			'securityToken' => $securityToken,
-		// 			'transactionRefNum' => $ebiz_ref_num,
-		// 		)
-		// 	);
-		// } 
-		// catch (SoapFault $e) {
-		// 	die("getTransaction failed : " . $e->getMessage());
-		// }
-
-		// echo '<pre>';
-		// print_r($res);
-		// echo '</pre>';
 
 		// Customer Billing Address
 		$billing_address = array(
@@ -489,26 +459,56 @@ class Spro_Public {
 		// print_r( $order );
 		// echo '</pre>';
 
-		// Create new payment profile if needed		
-		$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
-			'verify' => false,
-			'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
-			'json' => ['payment_profile' =>
-				array(
-					'customer_id' => $spro_customer_id,
-					'payment_token' => $ebiz_payment_method,
-					// 'creditcard_last_digits' => $cc_last4,
-					// 'creditcard_month' => $cc_month,
-					// 'creditcard_year' => '20' . $cc_year,
-					'billing_address' => $billing_address
-				)
-			]
-		]);
+		$access_token = $this->spro_get_access_token();
 
-		$response_body = json_decode( $response->getBody() );
+		$data = array(
+			'payment_token' => $ebiz_payment_method,
+		);
+
+		// Check if payment profile exists
+		$response = $client->request(
+			'GET',
+			SPRO_BASE_URL . '/services/v2/vault/paymentprofiles.json',
+			[
+			'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+			'verify' => false,
+			'query' => http_build_query( $data )
+			]
+		);
+
+		$payment_profile_response =  json_decode( $response->getBody() );
+		$payment_profile_array = $payment_profile_response->payment_profiles;
+
+		if ( empty( $payment_profile_array ) ) {
+			
+			// Create new payment profile if needed		
+			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
+				'verify' => false,
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+				'json' => ['payment_profile' =>
+					array(
+						'customer_id' => $spro_customer_id,
+						'payment_token' => $ebiz_payment_method,
+						'creditcard_last_digits' => $cc_last4,
+						'creditcard_month' => $cc_month,
+						'creditcard_year' => $cc_year,
+						'billing_address' => $billing_address
+					)
+				]
+			]);
+
+			$response_body = json_decode( $response->getBody() );
+
+			$sp_payment_profile_id = $response_body->payment_profile->id;
+
+		} else {
+
+			$sp_payment_profile_id = $payment_profile_array[0]->id;
+
+		}
 
 		// echo '<pre>';
-		// print_r( $response_body );
+		// print_r( $payment_profile_response );
 		// echo '</pre>';
 
 		foreach( $order->get_items() as $item_id => $line_item ) {
@@ -532,7 +532,7 @@ class Spro_Public {
 					'json' => ['subscription' => 
 						array(
 							'customer_id' => $spro_customer_id,
-							'payment_profile_id' => $response_body->payment_profile->id,
+							'payment_profile_id' => $sp_payment_profile_id,
 							'product_sku' => $sku,
 							'requires_shipping' => true,
 							'shipping_method_code' => $shipping_method,
@@ -563,9 +563,9 @@ class Spro_Public {
 	public function spro_payment_post( $order_id ) { 
 	
 		update_post_meta( $order_id, 'ebiz_payment_method_save', $_POST['ebizcharge-use-stored-payment-info'] );
-		update_post_meta( $order_id, 'ebiz_payment_method_id', $_POST['ebizcharge-payment-method'] );
 		update_post_meta( $order_id, 'card_exp_year', $_POST['expyear'] );
 		update_post_meta( $order_id, 'card_exp_month', $_POST['expmonth'] );
+		update_post_meta( $order_id, 'card_last4', substr( $_POST['ccnum'], -4 ) );
 
 		error_log( 'hit' );
 
@@ -716,7 +716,7 @@ class Spro_Public {
 		$customer_profile_id = get_user_meta( $order_data["platformCustomerId"], 'CustNum', true );
 
 		// Charge payment profile 
-		$charge = $this->ebizChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total() );
+		$charge = $this->ebizChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total(), $billing_address['postcode'] );
 
 		// Prepare return data and update order with ebiz data if payment was successful
 		if ( $charge['status'] ) {
@@ -1014,7 +1014,7 @@ class Spro_Public {
 	/**
 	 * Charge Payment Profile
 	 */
-	function ebizChargeCustomerProfile( $customer_profile_id, $payment_profile_id, $amount ) {
+	function ebizChargeCustomerProfile( $customer_profile_id, $payment_profile_id, $amount, $zip ) {
 		
 		$client = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
 
@@ -1033,7 +1033,7 @@ class Spro_Public {
 				'Tax' => 0,
 				'Currency' => '',
 				'Shipping' => '',
-				'ShipFromZip' => '54000',
+				'ShipFromZip' => $zip,
 				'Discount' => 0,
 				'Subtotal' => $amount,
 				'AllowPartialAuth' => false,
