@@ -193,6 +193,9 @@ class Spro {
 		// AJAX Handler for Test Connection Button
 		$this->loader->add_action( 'wp_ajax_nopriv_test_connection', $plugin_admin, 'spro_test_connection' );
 		$this->loader->add_action( 'wp_ajax_test_connection', $plugin_admin, 'spro_test_connection' );
+		
+		$this->loader->add_action( 'wp_ajax_nopriv_save_connection_credentials', $plugin_admin, 'spro_save_connection_credentials' );
+		$this->loader->add_action( 'wp_ajax_save_connection_credentials', $plugin_admin, 'spro_save_connection_credentials' );
 
 	}
 
@@ -206,6 +209,9 @@ class Spro {
 	private function define_public_hooks() {
 
 		$plugin_public = new Spro_Public( $this->get_plugin_name(), $this->get_version() );
+
+		// Enqueue Scripts
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
 		// Add the endpoint for the subscriptions page within WooCommerce My Account
 		$this->loader->add_action( 'init', $plugin_public, 'spro_add_endpoints' );

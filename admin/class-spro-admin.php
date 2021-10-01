@@ -197,22 +197,6 @@ class Spro_Admin {
 
 	}
 
-	/**
-	 * Validate fields from admin area plugin settings form
-	 * @return mixed as validated fields
-	 */
-	public function validate() {
-
-		$options = get_option( 'spro_settings' );
-
-		$options['base_url'] = ( isset( $_POST['base_url'] ) && ! empty( $_POST['base_url'] ) ) ? esc_attr( $_POST['base_url'] ) : 'https://api.subscribepro.com';
-		$options['client_id'] = ( isset( $_POST['client_id'] ) && ! empty( $_POST['client_id'] ) ) ? esc_attr( $_POST['client_id'] ) : '';
-		$options['client_secret'] = ( isset( $_POST['client_secret'] ) && ! empty( $_POST['client_secret'] ) ) ? esc_attr( $_POST['client_secret'] ) : '';
-
-		return $options;
-
-	}
-
 	public function options_update() {
 
 		register_setting( 'spro_settings', 'spro_settings', array(
@@ -221,6 +205,20 @@ class Spro_Admin {
 
 	}
 
+	/**
+	 * Save Connection Credentials
+	 */
+	public function spro_save_connection_credentials() {
+
+		$name = isset( $_POST['name'] ) ? $_POST['name'] : '';
+		$val = isset( $_POST['val'] ) ? $_POST['val'] : '';
+
+		update_option( 'spro_settings_' . $name, $val );
+
+		wp_send_json_success( json_encode( array( 'name' => $name, 'val' => get_option( 'spro_settings_' . $name ) ) ) );
+
+	}	
+	
 	/**
 	 * Test API Connection
 	 */
@@ -246,7 +244,7 @@ class Spro_Admin {
 			);
 			
 		} catch (\Throwable $t) {
-			wp_send_json_success( 'fail' );
+			wp_send_json_success($t);
 		}
 
 		wp_send_json_success( 'success' );

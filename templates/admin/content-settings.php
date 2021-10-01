@@ -10,6 +10,14 @@ if ( ! defined( 'WPINC' ) ) die;
         min-width: 475px;
     }
 
+    .spro-input.checked {
+        border: 1px solid green;
+    }
+
+    .spro-input.not-checked {
+        border: 1px solid red;
+    }
+
     .connection-buttons {
         display: flex;
         margin-top: 30px;
@@ -29,6 +37,10 @@ if ( ! defined( 'WPINC' ) ) die;
         font-size: 18px;
     }
 
+    .connection-message .name {
+        text-transform: capitalize;
+    }
+
     .connection-message.success {
         color: green;
     }
@@ -46,17 +58,25 @@ if ( ! defined( 'WPINC' ) ) die;
     <form method="post" name="spro_settings" action="options.php">
         <?php
 
-        //Grab all options
-        $options = get_option( 'spro_settings' );
-
-        $base_url = ( isset( $options['base_url'] ) && ! empty( $options['base_url'] ) ) ? esc_attr( $options['base_url'] ) : 'https://api.subscribepro.com';
-        $client_id = ( isset( $options['client_id'] ) && ! empty( $options['client_id'] ) ) ? esc_attr( $options['client_id'] ) : '';
-        $client_secret = ( isset( $options['client_secret'] ) && ! empty( $options['client_secret'] ) ) ? esc_attr( $options['client_secret'] ) : '';
-
-        settings_fields( 'spro_settings' );
-        do_settings_sections( 'spro_settings' );
+        // Grab all options
+        $payment_method = get_option( 'spro_settings_payment_method' );
+        $base_url = get_option( 'spro_settings_base_url' );
+        $client_id = get_option( 'spro_settings_client_id' );
+        $client_secret = get_option( 'spro_settings_client_secret' );
 
         ?>
+
+        <fieldset>
+            <p><?php esc_attr_e( 'Payment Method', 'spro' ); ?></p>
+            <legend class="screen-reader-text">
+                <span><?php esc_attr_e( 'Payment Method', 'spro' ); ?></span>
+            </legend>
+            <select name="payment_method" id="payment_method" class="spro-input">
+                <option value="">Select Payment Method</option>
+                <option value="anet" <?php echo $payment_method == 'anet' ? 'selected' : ''; ?>>Authorize.Net</option>
+                <option value="ebiz" <?php echo $payment_method == 'ebiz' ? 'selected' : ''; ?>>eBizCharge</option>
+            </select>
+        </fieldset>
 
         <fieldset>
             <p><?php esc_attr_e( 'Base URL', 'spro' ); ?></p>
@@ -83,9 +103,7 @@ if ( ! defined( 'WPINC' ) ) die;
         </fieldset>
 
         <div class="connection-buttons">
-            <a href="#" class="button action test-con-btn">Test Connection</a>
-
-            <?php submit_button( __( 'Save all changes', 'spro' ), 'primary','submit', TRUE ); ?>
+            <a href="#" class="button button-primary test-con-btn">Test Connection</a>
         </div>
 
         <div class="connection-message"></div>
@@ -97,8 +115,45 @@ if ( ! defined( 'WPINC' ) ) die;
 
         jQuery(function($){
 
-            console.log('ready 2');
-        
+            jQuery('.spro-input').each(function() {
+
+                if ( jQuery(this).val() != '' ) {
+                    $(this).addClass('checked');
+                } else {
+                    $(this).addClass('not-checked');
+                }
+
+            });
+
+            // Save Credentials on Focus Out
+            jQuery('.spro-input').change(function() {
+
+                var val = $(this).val(),
+                    name = $(this).attr('name');
+
+                if ( val != '' ) {
+                    $(this).addClass('checked');
+                    $(this).removeClass('not-checked');
+                } else {
+                    $(this).addClass('not-checked');
+                    $(this).removeClass('checked');
+                }
+
+                // Make AJAX Request
+                wp.ajax.post( "save_connection_credentials", { 'val': val, 'name': name } )
+                .done(function(response) {
+
+                    var name = jQuery.parseJSON( response ).name.replace('_',' ');
+
+                    jQuery('.connection-message').addClass('success').removeClass('fail').show();
+                    jQuery('.connection-message').html( '<span class="name">' + name + '</span> was saved!');
+
+
+                });
+
+            });
+
+            // Test Connection Click
             jQuery('.test-con-btn').click(function(e) {
 
                 e.preventDefault();
@@ -110,10 +165,10 @@ if ( ! defined( 'WPINC' ) ) die;
                 .done(function(response) {
                     
                     if (response == 'success') {
-                        jQuery('.connection-message').addClass('success');
+                        jQuery('.connection-message').addClass('success').removeClass('fail');
                         jQuery('.connection-message').text('Connection successful!');
                     } else {
-                        jQuery('.connection-message').addClass('fail');
+                        jQuery('.connection-message').addClass('fail').removeClass('success');
                         jQuery('.connection-message').text('Connection failed!');
                     }
 

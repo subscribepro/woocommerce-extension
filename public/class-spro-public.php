@@ -54,6 +54,29 @@ class Spro_Public {
 	}
 
 	/**
+	 * Register the JavaScript for the public-facing side of the site.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_scripts() {
+
+		/**
+		 * This function is provided for demonstration purposes only.
+		 *
+		 * An instance of this class should be passed to the run() function
+		 * defined in Plugin_Name_Loader as all of the hooks are defined
+		 * in that particular class.
+		 *
+		 * The Plugin_Name_Loader will then create the relationship
+		 * between the defined hooks and the functions defined in this
+		 * class.
+		 */
+
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/public.js', array( 'jquery' ), $this->version, false );
+
+	}
+
+	/**
 	 * Add the endpoint for the subscriptions tab in WooCommerce My Account
 	 *
 	 * @since 1.0.0
@@ -299,12 +322,10 @@ class Spro_Public {
 			
 			$client = new Client();
 			$user_id = get_current_user_id();
-			$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
 
 			$data = array(
 				'grant_type' => 'client_credentials',
-				'scope' => 'widget',
-				'customer_id' => $spro_customer_id
+				'scope' => 'client',
 			);
 
 			try {
@@ -388,7 +409,6 @@ class Spro_Public {
 		$customer_id = get_current_user_id();
 		$spro_customer_id = get_user_meta( $customer_id, 'spro_id', true );
 		$is_spro_customer = $spro_customer_id != '' ? true : false;
-		$payment_token = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_payment_token', true );
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
 		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
@@ -398,8 +418,11 @@ class Spro_Public {
 		$cc_year = get_post_meta( $order_id, 'card_exp_year', true );
 		$cc_month = get_post_meta( $order_id, 'card_exp_month', true );
 		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
+		$cc_type = get_post_meta( $order_id, 'card_type', true );
+
+		echo 'ebiz data is ' . $ebiz_data;
 		
-		update_post_meta( $order_id, 'ebiz_payment_method_id', $ebiz_payment_method );
+		// update_post_meta( $order_id, 'ebiz_payment_method_id', $ebiz_payment_method );
 
 		$shipping_method = $order->get_shipping_method();
 
@@ -459,7 +482,7 @@ class Spro_Public {
 		// print_r( $order );
 		// echo '</pre>';
 
-		$access_token = $this->spro_get_access_token();
+		echo 'ebiz payment method is ' . $ebiz_payment_method;
 
 		$data = array(
 			'payment_token' => $ebiz_payment_method,
@@ -479,7 +502,16 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
+		echo 'payment response';
+		echo '<pre>';
+		print_r( $payment_profile_response );
+		echo '</pre>';
+
 		if ( empty( $payment_profile_array ) ) {
+
+			echo 'creating new payment profile.';
+
+			echo 'month is ' . $cc_month;
 			
 			// Create new payment profile if needed		
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
@@ -492,6 +524,7 @@ class Spro_Public {
 						'creditcard_last_digits' => $cc_last4,
 						'creditcard_month' => $cc_month,
 						'creditcard_year' => $cc_year,
+						'creditcard_type' => $cc_type,
 						'billing_address' => $billing_address
 					)
 				]
@@ -504,6 +537,8 @@ class Spro_Public {
 		} else {
 
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
+
+			echo 'no new profile. profile id is ' . $sp_payment_profile_id;
 
 		}
 
@@ -563,6 +598,7 @@ class Spro_Public {
 	public function spro_payment_post( $order_id ) { 
 	
 		update_post_meta( $order_id, 'ebiz_payment_method_save', $_POST['ebizcharge-use-stored-payment-info'] );
+		update_post_meta( $order_id, 'card_type', $_POST['cardtype'] );
 		update_post_meta( $order_id, 'card_exp_year', $_POST['expyear'] );
 		update_post_meta( $order_id, 'card_exp_month', $_POST['expmonth'] );
 		update_post_meta( $order_id, 'card_last4', substr( $_POST['ccnum'], -4 ) );
@@ -993,21 +1029,31 @@ class Spro_Public {
 		$namespace = 'api/v1';
 		$route     = 'order';
 
-		// authorize.net
-		// register_rest_route($namespace, $route, array(
-		// 	'methods'   => 'POST',
-		// 	'callback'  => array( $this, 'spro_order_callback_anet' ),
-		// 	'args' => array(),
-		// 	'permission_callback' => '__return_true'
-		// ));
+		$spro_settings_payment_method = get_option( 'spro_settings_payment_method' );
+
+		if ( $spro_settings_payment_method == 'anet' ) {
+			
+			// authorize.net
+			register_rest_route($namespace, $route, array(
+				'methods'   => 'POST',
+				'callback'  => array( $this, 'spro_order_callback_anet' ),
+				'args' => array(),
+				'permission_callback' => '__return_true'
+			));
+
+		}		
 		
-		// eBiz
-		register_rest_route($namespace, $route, array(
-			'methods'   => 'POST',
-			'callback'  => array( $this, 'spro_order_callback_ebiz' ),
-			'args' => array(),
-			'permission_callback' => '__return_true'
-		));
+		if ( $spro_settings_payment_method == 'ebiz' ) {
+
+			// eBiz
+			register_rest_route($namespace, $route, array(
+				'methods'   => 'POST',
+				'callback'  => array( $this, 'spro_order_callback_ebiz' ),
+				'args' => array(),
+				'permission_callback' => '__return_true'
+			));
+
+		}
 
 	}
 
