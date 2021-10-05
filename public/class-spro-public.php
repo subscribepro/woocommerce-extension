@@ -435,7 +435,7 @@ class Spro_Public {
 	 */
 	public function spro_get_product( $sku ) {
 
-		delete_transient( $sku . '_spro_product' );
+		// delete_transient( $sku . '_spro_product' );
 		
 		if ( false === ( $value = get_transient( $sku . '_spro_product' ) ) ) {
 			
@@ -582,7 +582,7 @@ class Spro_Public {
 		// print_r( $payment_profile_response );
 		// echo '</pre>';
 
-		if ( empty( $payment_profile_array ) ) {
+		if ( 1 == 2) { //empty( $payment_profile_array ) ) {
 
 			// echo 'creating new payment profile.';
 
@@ -613,7 +613,54 @@ class Spro_Public {
 
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
 
-			// echo 'no new profile. profile id is ' . $sp_payment_profile_id;
+			// Get CC Data from eBizCharge
+			$client_e = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+
+			$securityToken = array(
+				'SecurityId' => 'ec3b1d57-962b-4cca-9004-d15abb525dfb',
+				'UserId' => 'SubscribeSB',
+				'Password' => 'ZtQFpin4'
+			);
+
+			$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
+
+			try {
+				
+				$res = $client_e->GetCustomerPaymentMethodProfile(
+					array(
+						'securityToken' => $securityToken,
+						'customerToken' => $customer_profile_id,
+						'paymentMethodId' => $ebiz_payment_method
+					)
+				);
+
+				// echo '<pre>';
+				// print_r($res->GetCustomerPaymentMethodProfileResult);
+				// echo '</pre>';
+
+				$payment_data = $res->GetCustomerPaymentMethodProfileResult;
+				$expiration = $payment_data->CardExpiration;
+
+				// Update existing payment profile
+				$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofiles/' . $sp_payment_profile_id . '.json', [
+					'verify' => false,
+					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+					'json' => ['payment_profile' =>
+						array(
+							'creditcard_last_digits' => substr( $payment_data->CardNumber, -4 ),
+							'creditcard_month' => substr( $expiration, -2 ),
+							'creditcard_year' => substr( $expiration, 0, 4 ),
+							'creditcard_type' => $payment_data->CardType,
+							'billing_address' => $billing_address
+						)
+					]
+				]);
+			
+			} catch (SoapFault $e) {
+				
+				die("getTransaction failed: " . $e->getMessage());
+
+			}
 
 		}
 
