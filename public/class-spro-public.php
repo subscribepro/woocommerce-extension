@@ -480,6 +480,10 @@ class Spro_Public {
 		$customer_id = get_current_user_id();
 		$spro_customer_id = get_user_meta( $customer_id, 'spro_id', true );
 		$is_spro_customer = $spro_customer_id != '' ? true : false;
+		$user_info = get_userdata( $customer_id );
+		$user_first_name = $user_info->first_name;
+		$user_last_name = $user_info->last_name;
+		$user_email = $user_info->user_email;
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
 		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
@@ -491,7 +495,7 @@ class Spro_Public {
 		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
 		$cc_type = get_post_meta( $order_id, 'card_type', true );
 
-		echo 'ebiz data is ' . $ebiz_data;
+		// echo 'ebiz data is ' . $ebiz_data;
 		
 		// update_post_meta( $order_id, 'ebiz_payment_method_id', $ebiz_payment_method );
 
@@ -530,9 +534,9 @@ class Spro_Public {
 				'json' => ['customer' => 
 					array(
 						'platform_specific_customer_id' => $customer_id,
-						'first_name' => $billing_address['first_name'],
-						'last_name' => $billing_address['last_name'],
-						'email' => $order->get_billing_email()
+						'first_name' => $user_first_name,
+						'last_name' => $user_last_name,
+						'email' => $user_email
 					)
 				]
 			]);
@@ -553,7 +557,7 @@ class Spro_Public {
 		// print_r( $order );
 		// echo '</pre>';
 
-		echo 'ebiz payment method is ' . $ebiz_payment_method;
+		// echo 'ebiz payment method is ' . $ebiz_payment_method;
 
 		$data = array(
 			'payment_token' => $ebiz_payment_method,
@@ -573,16 +577,16 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
-		echo 'payment response';
-		echo '<pre>';
-		print_r( $payment_profile_response );
-		echo '</pre>';
+		// echo 'payment response';
+		// echo '<pre>';
+		// print_r( $payment_profile_response );
+		// echo '</pre>';
 
 		if ( empty( $payment_profile_array ) ) {
 
-			echo 'creating new payment profile.';
+			// echo 'creating new payment profile.';
 
-			echo 'month is ' . $cc_month;
+			// echo 'month is ' . $cc_month;
 			
 			// Create new payment profile if needed		
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
@@ -609,7 +613,7 @@ class Spro_Public {
 
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
 
-			echo 'no new profile. profile id is ' . $sp_payment_profile_id;
+			// echo 'no new profile. profile id is ' . $sp_payment_profile_id;
 
 		}
 
