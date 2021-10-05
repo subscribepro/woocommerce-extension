@@ -261,9 +261,13 @@ class Spro_Public {
 			$cart_item_data['delivery_frequency'] = $_POST['delivery_frequency'];
 		}
 		
-		if( ! empty( $_POST['delivery_discount'] ) ) {
+		if( ! empty( $_POST['delivery_discount'] ) && ! empty( $_POST['delivery_type'] ) ) {
+
 			// Add the item data
-			$cart_item_data['delivery_discount'] = $_POST['delivery_discount'];
+			if ( $_POST['delivery_type'] == 'Regular' ) {
+				$cart_item_data['delivery_discount'] = $_POST['delivery_discount'];
+			}
+
 		}
 
 		return $cart_item_data;
@@ -275,7 +279,7 @@ class Spro_Public {
 	 */
 	public function spro_apply_discount( $cart ) {
 
-		if ( is_admin() && ! defined('DOING_AJAX') ) {
+		if ( is_admin() && ! defined('DOING_AJAX' ) ) {
 			return;
 		}
 
@@ -332,7 +336,7 @@ class Spro_Public {
 			esc_html( $cart_item['delivery_frequency'] )
 			);
 		}
-
+		
 		return $name;
 
 	}
@@ -358,6 +362,22 @@ class Spro_Public {
 			}
 		}
 
+	}
+
+	/**
+	 * Redirect on checkout if not logged in
+	 */
+	function spro_checkout_redirect() {
+		
+		if ( ! is_user_logged_in() && is_checkout() ) {
+
+			wc_add_notice( 'Please log in or register to complete your purchase.', 'notice' );
+
+			wp_redirect( home_url( '/my-account?redirect_to_checkout' ) );
+			exit;
+		
+		}
+	
 	}
 
 	/**
