@@ -260,8 +260,55 @@ class Spro_Public {
 			// Add the item data
 			$cart_item_data['delivery_frequency'] = $_POST['delivery_frequency'];
 		}
+		
+		if( ! empty( $_POST['delivery_discount'] ) ) {
+			// Add the item data
+			$cart_item_data['delivery_discount'] = $_POST['delivery_discount'];
+		}
 
 		return $cart_item_data;
+
+	}
+
+	/**
+	 * Apply discount to product
+	 */
+	public function spro_apply_discount( $cart ) {
+
+		if ( is_admin() && ! defined('DOING_AJAX') ) {
+			return;
+		}
+
+		if ( did_action('woocommerce_cart_calculate_fees') >= 2 ) {
+			return;
+		}
+
+		$fee = 0;
+
+		// Loop through cart items
+		foreach ( $cart->get_cart() as $cart_item ) {
+
+			if( isset( $cart_item['delivery_discount'] ) ) {
+				
+				$discount = intval( $cart_item['delivery_discount'] );
+
+				if ( $discount != '' ) {
+
+					$price = get_post_meta( $cart_item['product_id'] , '_price', true );
+					$quantity = $cart_item['quantity'];
+
+					$discount_fee = ($discount / 100) * $price;
+
+					$fee += ($discount_fee * $quantity);
+
+				}
+				
+			}
+		}
+
+		if ( $fee > 0 ) {
+			$cart->add_fee( __( "Discount for subscription", "woocommerce" ), - $fee );
+		}
 
 	}
 
@@ -304,6 +351,10 @@ class Spro_Public {
 
 			if( isset( $values['delivery_frequency'] ) ) {
 				$item->add_meta_data( __( 'Delivery Frequency', 'spro' ), $values['delivery_frequency'], true );
+			}
+			
+			if( isset( $values['delivery_discount'] ) ) {
+				$item->add_meta_data( __( 'Delivery Discount', 'spro' ), $values['delivery_discount'], true );
 			}
 		}
 
@@ -364,7 +415,7 @@ class Spro_Public {
 	 */
 	public function spro_get_product( $sku ) {
 
-		// delete_transient( $sku . '_spro_product' );
+		delete_transient( $sku . '_spro_product' );
 		
 		if ( false === ( $value = get_transient( $sku . '_spro_product' ) ) ) {
 			

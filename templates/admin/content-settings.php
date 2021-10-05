@@ -83,7 +83,7 @@ if ( ! defined( 'WPINC' ) ) die;
             <legend class="screen-reader-text">
                 <span><?php esc_attr_e( 'Base URL', 'spro' ); ?></span>
             </legend>
-            <input type="text" class="spro-input" id="base_url" name="base_url" value="<?php if( ! empty( $base_url ) ) echo $base_url; else echo ''; ?>"/>
+            <input type="text" class="spro-input" id="base_url" name="base_url" value="<?php if( ! empty( $base_url ) ) echo $base_url; else echo 'https://api.subscribepro.com'; ?>"/>
         </fieldset>
 
         <fieldset>

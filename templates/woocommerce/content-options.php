@@ -15,6 +15,8 @@ if ($product_data->intervals):
     <input type="radio" id="regular" name="delivery_type" value="Regular">
     <label for="regular">Regular Delivery - $<?php echo $product_data->price; ?> with <?php echo $product_data->discount; ?> Discount</label><br>
 
+    <input type="hidden" name="delivery_discount" value="<?php echo $product_data->discount; ?>">
+
 </div>
 
 <br>
