@@ -93,3 +93,15 @@ function run_spro() {
 
 }
 run_spro();
+
+/**
+ * Filter the cart template path to use our cart.php template instead of the theme's
+ */
+function csp_locate_template( $template, $template_name, $template_path ) {
+	$basename = basename( $template );
+	if( $basename == 'cart.php' ) {
+		$template = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'templates/woocommerce/cart/cart.php';
+	}
+	return $template;
+   }
+add_filter( 'woocommerce_locate_template', 'csp_locate_template', 10, 3 );

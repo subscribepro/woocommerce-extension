@@ -223,10 +223,10 @@ class Spro {
 		$this->loader->add_action( 'woocommerce_before_add_to_cart_button', $plugin_public, 'spro_before_add_to_cart_btn' );
 		$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $plugin_public, 'spro_validate_custom_field', 10, 3 );
 		$this->loader->add_filter( 'woocommerce_add_cart_item_data', $plugin_public, 'spro_add_custom_field_item_data', 10, 4 );
-		$this->loader->add_filter( 'woocommerce_cart_item_name', $plugin_public, 'spro_cart_item_name', 10, 3 );
 		$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $plugin_public, 'spro_add_custom_data_to_order', 10, 4 );
 		$this->loader->add_action( 'woocommerce_cart_calculate_fees', $plugin_public, 'spro_apply_discount', 10, 1 );
 		$this->loader->add_action( 'template_redirect', $plugin_public, 'spro_checkout_redirect', 10, 1 );
+		$this->loader->add_action( 'woocommerce_update_cart_action_cart_updated', $plugin_public, 'spro_cart_updated', 10, 1 );
 
 		// WooCommerce Payment Complete
 		$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'spro_payment_complete' );

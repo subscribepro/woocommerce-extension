@@ -317,31 +317,6 @@ class Spro_Public {
 	}
 
 	/**
-	 * Display the custom field value in the cart
-	 * 
-	 * @since 1.0.0
-	 */
-	public function spro_cart_item_name( $name, $cart_item, $cart_item_key ) {
-		
-		if( isset( $cart_item['delivery_type'] ) ) {
-			$name .= sprintf(
-			'<br><strong>Delivery Type</strong>: %s<br>',
-			esc_html( $cart_item['delivery_type'] )
-			);
-		}
-
-		if( isset( $cart_item['delivery_frequency'] ) ) {
-			$name .= sprintf(
-			'<strong>Delivery Frequency</strong>: %s<br>',
-			esc_html( $cart_item['delivery_frequency'] )
-			);
-		}
-		
-		return $name;
-
-	}
-
-	/**
 	 * Add custom field to order object
 	 * 
 	 * @since 1.0.0
@@ -378,6 +353,27 @@ class Spro_Public {
 		
 		}
 	
+	}
+	
+	/**
+	 * Update cart products
+	 */
+	function spro_cart_updated() {
+
+		$contents = WC()->cart->cart_contents;
+
+		// loop over the cart
+		foreach( $contents as $key => $values ) {
+
+			$contents[$key]['delivery_type'] = $_POST['cart'][$key]['delivery_type'];
+			$contents[$key]['delivery_frequency'] = $_POST['cart'][$key]['delivery_frequency'];
+
+		}
+
+		WC()->cart->set_cart_contents( $contents );
+		
+		return true;
+
 	}
 
 	/**
