@@ -95,23 +95,52 @@ do_action( 'woocommerce_before_cart' ); ?>
                         
                         if ( isset( $cart_item['delivery_type'] ) ): ?>
 
-                        <div class="cart-field-group">
-                            <label for="cart[<?php echo $cart_item_key; ?>][delivery_type]">Delivery Type:&nbsp;&nbsp;</label>
-                            <select name="cart[<?php echo $cart_item_key; ?>][delivery_type]">
-                                <option value="one_time" <?php echo $cart_item['delivery_type'] == 'one_time' ? 'selected' : ''; ?>>One Time</option>
-                                <option value="regular" <?php echo $cart_item['delivery_type'] == 'regular' ? 'selected' : ''; ?>> Regular</option>
-                            </select>
-                        </div>
+                            <div class="cart-field-group">
+                                <label for="cart[<?php echo $cart_item_key; ?>][delivery_type]">Delivery Type:&nbsp;&nbsp;</label>
+                                <select name="cart[<?php echo $cart_item_key; ?>][delivery_type]" class="delivery-type-select">
+                                    <option value="one_time" <?php echo $cart_item['delivery_type'] == 'one_time' ? 'selected' : ''; ?>>One Time</option>
+                                    <option value="regular" <?php echo $cart_item['delivery_type'] == 'regular' ? 'selected' : ''; ?>> Regular</option>
+                                </select>
+                            </div>
+
+                            <script type="text/javascript">
+
+                                (function() {
+
+                                    jQuery('.delivery-type-select').change(function() {
+
+                                        if ( jQuery(this).val() == 'regular' ) {
+                                            jQuery('.frequency-group').show();
+                                        } else {
+                                            jQuery('.frequency-group').hide();
+                                        }
+
+                                    });
+
+                                })();
+
+                            </script>
 
                         <?php endif; ?>
                         
                         <?php if ( isset( $cart_item['delivery_frequency'] ) ): ?>
 
-                            <div class="cart-field-group">
+                            <div class="cart-field-group frequency-group" <?php echo $cart_item['delivery_type'] == 'one_time' ? 'style="display: none;"' : ''; ?>>
                                 <label for="delivery_frequency">Delivery Frequency:&nbsp;&nbsp;</label>
                                 <select name="cart[<?php echo $cart_item_key; ?>][delivery_frequency]">
-                                    <option value="Every Two Weeks" <?php echo $cart_item['delivery_frequency'] == 'Every Two Weeks' ? 'selected' : ''; ?>>Every Two Weeks</option>
-                                    <option value="Every Four Weeks" <?php echo $cart_item['delivery_frequency'] == 'Every Four Weeks' ? 'selected' : ''; ?>> Every Four Weeks</option>
+
+                                    <?php
+                                    require_once( SPRO_PLUGIN_DIR . '/public/class-spro-public.php' );
+
+                                    $public = new Spro_Public( 'spro', SPRO_VERSION );
+
+                                    $response_body = $public->spro_get_product( $_product->get_sku() );
+                                    $intervals = $response_body[0]->intervals;
+
+                                    foreach ( $intervals as $interval ): ?>
+                                        <option value="<?php echo $interval; ?>" <?php echo $cart_item['delivery_frequency'] == $interval ? 'selected' : ''; ?>><?php echo $interval; ?></option>
+                                    <?php endforeach; ?>
+
                                 </select>
                             </div>
 

@@ -264,7 +264,7 @@ class Spro_Public {
 		if( ! empty( $_POST['delivery_discount'] ) && ! empty( $_POST['delivery_type'] ) ) {
 
 			// Add the item data
-			if ( $_POST['delivery_type'] == 'Regular' ) {
+			if ( $_POST['delivery_type'] == 'regular' ) {
 				$cart_item_data['delivery_discount'] = $_POST['delivery_discount'];
 			}
 
@@ -301,9 +301,9 @@ class Spro_Public {
 					$price = get_post_meta( $cart_item['product_id'] , '_price', true );
 					$quantity = $cart_item['quantity'];
 
-					$discount_fee = ($discount / 100) * $price;
+					$discount_fee = ( $discount / 100 ) * $price;
 
-					$fee += ($discount_fee * $quantity);
+					$fee += ( $discount_fee * $quantity );
 
 				}
 				
@@ -333,6 +333,9 @@ class Spro_Public {
 			}
 			
 			if( isset( $values['delivery_discount'] ) ) {
+
+				error_log( 'delivery discount added' );
+
 				$item->add_meta_data( __( 'Delivery Discount', 'spro' ), $values['delivery_discount'], true );
 			}
 		}
@@ -490,11 +493,6 @@ class Spro_Public {
 		$cc_month = get_post_meta( $order_id, 'card_exp_month', true );
 		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
 		$cc_type = get_post_meta( $order_id, 'card_type', true );
-
-		// echo 'ebiz data is ' . $ebiz_data;
-		
-		// update_post_meta( $order_id, 'ebiz_payment_method_id', $ebiz_payment_method );
-
 		$shipping_method = $order->get_shipping_method();
 
 		// Customer Billing Address
@@ -543,17 +541,7 @@ class Spro_Public {
 			$spro_customer_id = $response_body->customer->id;
 			update_user_meta( $customer_id, 'spro_id', $spro_customer_id );
 
-			// echo '<pre>';
-			// print_r( $response_body );
-			// echo '</pre>';
-
 		}
-
-		// echo '<pre>';
-		// print_r( $order );
-		// echo '</pre>';
-
-		// echo 'ebiz payment method is ' . $ebiz_payment_method;
 
 		$data = array(
 			'payment_token' => $ebiz_payment_method,
@@ -573,16 +561,7 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
-		// echo 'payment response';
-		// echo '<pre>';
-		// print_r( $payment_profile_response );
-		// echo '</pre>';
-
-		if ( 1 == 2) { //empty( $payment_profile_array ) ) {
-
-			// echo 'creating new payment profile.';
-
-			// echo 'month is ' . $cc_month;
+		if ( empty( $payment_profile_array ) ) {
 			
 			// Create new payment profile if needed		
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
@@ -607,6 +586,7 @@ class Spro_Public {
 
 		} else {
 
+			// Payment profile found, update existing profile instead of creating new one.
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
 
 			// Get CC Data from eBizCharge
@@ -630,10 +610,6 @@ class Spro_Public {
 					)
 				);
 
-				// echo '<pre>';
-				// print_r($res->GetCustomerPaymentMethodProfileResult);
-				// echo '</pre>';
-
 				$payment_data = $res->GetCustomerPaymentMethodProfileResult;
 				$expiration = $payment_data->CardExpiration;
 
@@ -652,17 +628,13 @@ class Spro_Public {
 					]
 				]);
 			
-			} catch (SoapFault $e) {
+			} catch ( SoapFault $e ) {
 				
-				die("getTransaction failed: " . $e->getMessage());
+				die( "Payment profile update failed: " . $e->getMessage() );
 
 			}
 
 		}
-
-		// echo '<pre>';
-		// print_r( $payment_profile_response );
-		// echo '</pre>';
 
 		foreach( $order->get_items() as $item_id => $line_item ) {
 
@@ -699,10 +671,6 @@ class Spro_Public {
 				]);
 				
 				$response_body = json_decode( $response->getBody() );
-	
-				// echo '<pre>';
-				// print_r( $response_body );
-				// echo '</pre>';
 
 			}
 
@@ -720,10 +688,6 @@ class Spro_Public {
 		update_post_meta( $order_id, 'card_exp_year', $_POST['expyear'] );
 		update_post_meta( $order_id, 'card_exp_month', $_POST['expmonth'] );
 		update_post_meta( $order_id, 'card_last4', substr( $_POST['ccnum'], -4 ) );
-
-		error_log( 'hit' );
-
-		error_log( print_r( $_POST, true ) );
 
 	}
 
@@ -757,14 +721,6 @@ class Spro_Public {
 
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
-
-		// $order_data = get_transient( 'order_data' );
-
-		// set_transient( 'order_data', $order_data );
-
-		error_log( 'hit' );
-
-		error_log( print_r( $order_data, true ) );
 
 		// Create WooCommerce Order
 		global $woocommerce;
@@ -946,14 +902,6 @@ class Spro_Public {
 
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
-
-		// $order_data = get_transient( 'order_data' );
-
-		// set_transient( 'order_data', $order_data );
-
-		// error_log( 'hit' );
-
-		// error_log( print_r( $order_data, true ) );
 
 		// Create WooCommerce Order
 		global $woocommerce;
@@ -1226,8 +1174,6 @@ class Spro_Public {
 	
 			$transaction = $transactionResult->runCustomerTransactionResult;
 	
-			error_log( print_r( $transaction, true ) );
-
 			if ( $transaction->Result != 'Approved' ) {
 				
 				$return_data = array(
