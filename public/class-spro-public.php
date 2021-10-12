@@ -349,11 +349,25 @@ class Spro_Public {
 		
 		if ( ! is_user_logged_in() && is_checkout() ) {
 
-			wc_add_notice( 'Please log in or register to complete your purchase.', 'notice' );
-
-			wp_redirect( home_url( '/my-account?redirect_to_checkout' ) );
-			exit;
+			global $woocommerce;
+			$items = $woocommerce->cart->get_cart();
+			$redirect = false;
 		
+			foreach( $items as $item => $values ) {
+
+				if ( $values['delivery_type'] == 'regular' ) {
+					$redirect = true;
+				}
+
+			} 
+
+			// Force customer to create an account is checking out with a subscription product
+			if ( $redirect ) {
+				wc_add_notice( 'Please log in or register to complete your purchase.', 'notice' );
+				wp_redirect( home_url( '/my-account?redirect_to_checkout' ) );
+				exit;	
+			}
+
 		}
 	
 	}
