@@ -1109,3 +1109,2359 @@ Stack trace:
     [StatusCode] => P
 )
 
+[28-Sep-2021 18:36:07 UTC] hit
+[28-Sep-2021 18:36:07 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => 5f04cdb91ea05811c60114711c26f066
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 3
+            [paymentProfileId] => 416481
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1234
+            [creditcardMonth] => 2
+            [creditcardYear] => 2022
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244037
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[28-Sep-2021 18:36:10 UTC] stdClass Object
+(
+    [CustNum] => 11778460
+    [ResultCode] => A
+    [Result] => Approved
+    [RemainingBalance] => 0
+    [RefNum] => 3125750270
+    [Payload] => 
+    [isDuplicate] => 
+    [ErrorCode] => 0
+    [Error] => Approved
+    [VpasResultCode] => 
+    [ConvertedAmountCurrency] => 0
+    [ConvertedAmount] => 0
+    [ConversionRate] => 0
+    [CardCodeResultCode] => M
+    [CardCodeResult] => Match
+    [BatchRefNum] => 433064
+    [BatchNum] => 1
+    [AvsResultCode] => YYY
+    [AvsResult] => Address: Match & 5 Digit Zip: Match
+    [AuthCode] => 088938
+    [AuthAmount] => 15
+    [AcsUrl] => 
+    [Status] => Pending
+    [StatusCode] => P
+)
+
+[28-Sep-2021 18:36:10 UTC] PHP Warning:  Undefined property: stdClass::$results in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 1048
+[28-Sep-2021 18:38:08 UTC] hit
+[28-Sep-2021 18:38:08 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => e875b99bd128912e39637b99dfb195e2
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 3
+            [paymentProfileId] => 416481
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1234
+            [creditcardMonth] => 2
+            [creditcardYear] => 2022
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244037
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[28-Sep-2021 18:38:11 UTC] stdClass Object
+(
+    [CustNum] => 11778460
+    [ResultCode] => A
+    [Result] => Approved
+    [RemainingBalance] => 0
+    [RefNum] => 3125750294
+    [Payload] => 
+    [isDuplicate] => 
+    [ErrorCode] => 0
+    [Error] => Approved
+    [VpasResultCode] => 
+    [ConvertedAmountCurrency] => 0
+    [ConvertedAmount] => 0
+    [ConversionRate] => 0
+    [CardCodeResultCode] => M
+    [CardCodeResult] => Match
+    [BatchRefNum] => 433064
+    [BatchNum] => 1
+    [AvsResultCode] => YYY
+    [AvsResult] => Address: Match & 5 Digit Zip: Match
+    [AuthCode] => 088947
+    [AuthAmount] => 15
+    [AcsUrl] => 
+    [Status] => Pending
+    [StatusCode] => P
+)
+
+[28-Sep-2021 18:42:08 UTC] hit
+[28-Sep-2021 18:42:08 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => d74e5ab4bd07d1386918932f59b5b85d
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 3
+            [paymentProfileId] => 416482
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1234
+            [creditcardMonth] => 3
+            [creditcardYear] => 2023
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244038
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[28-Sep-2021 18:42:12 UTC] stdClass Object
+(
+    [CustNum] => 11778460
+    [ResultCode] => A
+    [Result] => Approved
+    [RemainingBalance] => 0
+    [RefNum] => 3125750374
+    [Payload] => 
+    [isDuplicate] => 
+    [ErrorCode] => 0
+    [Error] => Approved
+    [VpasResultCode] => 
+    [ConvertedAmountCurrency] => 0
+    [ConvertedAmount] => 0
+    [ConversionRate] => 0
+    [CardCodeResultCode] => M
+    [CardCodeResult] => Match
+    [BatchRefNum] => 433064
+    [BatchNum] => 1
+    [AvsResultCode] => YYY
+    [AvsResult] => Address: Match & 5 Digit Zip: Match
+    [AuthCode] => 088988
+    [AuthAmount] => 15
+    [AcsUrl] => 
+    [Status] => Pending
+    [StatusCode] => P
+)
+
+[28-Sep-2021 18:50:08 UTC] hit
+[28-Sep-2021 18:50:08 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => e3a3812ca271aa914b04bd7cf5de7ca4
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 3
+            [paymentProfileId] => 416482
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1234
+            [creditcardMonth] => 3
+            [creditcardYear] => 2023
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244038
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[28-Sep-2021 18:50:11 UTC] stdClass Object
+(
+    [CustNum] => 11778460
+    [ResultCode] => A
+    [Result] => Approved
+    [RemainingBalance] => 0
+    [RefNum] => 3125750614
+    [Payload] => 
+    [isDuplicate] => 
+    [ErrorCode] => 0
+    [Error] => Approved
+    [VpasResultCode] => 
+    [ConvertedAmountCurrency] => 0
+    [ConvertedAmount] => 0
+    [ConversionRate] => 0
+    [CardCodeResultCode] => M
+    [CardCodeResult] => Match
+    [BatchRefNum] => 433064
+    [BatchNum] => 1
+    [AvsResultCode] => YYY
+    [AvsResult] => Address: Match & 5 Digit Zip: Match
+    [AuthCode] => 089056
+    [AuthAmount] => 15
+    [AcsUrl] => 
+    [Status] => Pending
+    [StatusCode] => P
+)
+
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 19:03:38 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[28-Sep-2021 19:04:06 UTC] hit
+[28-Sep-2021 19:04:06 UTC] Array
+(
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => e2df7e20b0d5fe3a44e1365913fbc81c
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 3
+            [paymentProfileId] => 416482
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1234
+            [creditcardMonth] => 3
+            [creditcardYear] => 2023
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244038
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[28-Sep-2021 19:04:09 UTC] stdClass Object
+(
+    [CustNum] => 11778460
+    [ResultCode] => A
+    [Result] => Approved
+    [RemainingBalance] => 0
+    [RefNum] => 3125751134
+    [Payload] => 
+    [isDuplicate] => 
+    [ErrorCode] => 0
+    [Error] => Approved
+    [VpasResultCode] => 
+    [ConvertedAmountCurrency] => 0
+    [ConvertedAmount] => 0
+    [ConversionRate] => 0
+    [CardCodeResultCode] => M
+    [CardCodeResult] => Match
+    [BatchRefNum] => 433064
+    [BatchNum] => 1
+    [AvsResultCode] => YYY
+    [AvsResult] => Address: Match & 5 Digit Zip: Match
+    [AuthCode] => 089170
+    [AuthAmount] => 15
+    [AcsUrl] => 
+    [Status] => Pending
+    [StatusCode] => P
+)
+
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 19:22:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 19:33:58 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[28-Sep-2021 20:05:06 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[29-Sep-2021 04:11:07 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[29-Sep-2021 05:09:14 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[29-Sep-2021 07:42:51 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 00:24:10 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 01:14:18 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 19:32:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[30-Sep-2021 22:30:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[01-Oct-2021 01:13:27 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[01-Oct-2021 05:53:59 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[01-Oct-2021 10:20:44 UTC] PHP Warning:  Undefined variable $response in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 329
+[01-Oct-2021 10:20:44 UTC] PHP Fatal error:  Uncaught Error: Call to a member function getBody() on null in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php:329
+Stack trace:
+#0 /var/www/html/wp-content/plugins/spro/public/class-spro-public.php(351): Spro_Public->spro_get_access_token()
+#1 /var/www/html/wp-content/plugins/spro/public/class-spro-public.php(161): Spro_Public->spro_get_product()
+#2 /var/www/html/wp-includes/class-wp-hook.php(303): Spro_Public->spro_before_add_to_cart_btn()
+#3 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#4 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#5 /var/www/html/wp-content/plugins/woocommerce/templates/single-product/add-to-cart/simple.php(33): do_action()
+#6 /var/www/html/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include('...')
+#7 /var/www/html/wp-content/plugins/woocommerce/includes/wc-template-functions.php(1676): wc_get_template()
+#8 /var/www/html/wp-includes/class-wp-hook.php(303): woocommerce_simple_add_to_cart()
+#9 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#10 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#11 /var/www/html/wp-content/plugins/woocommerce/includes/wc-template-functions.php(1667): do_action()
+#12 /var/www/html/wp-includes/class-wp-hook.php(303): woocommerce_template_single_add_to_cart()
+#13 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#14 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#15 /var/www/html/wp-content/plugins/woocommerce/templates/content-single-product.php(60): do_action()
+#16 /var/www/html/wp-includes/template.php(772): require('...')
+#17 /var/www/html/wp-content/plugins/woocommerce/includes/wc-core-functions.php(284): load_template()
+#18 /var/www/html/wp-content/plugins/woocommerce/templates/single-product.php(37): wc_get_template_part()
+#19 /var/www/html/wp-includes/template-loader.php(106): include('...')
+#20 /var/www/html/wp-blog-header.php(19): require_once('...')
+#21 /var/www/html/index.php(17): require('...')
+#22 {main}
+  thrown in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 329
+[01-Oct-2021 10:22:58 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 579
+[01-Oct-2021 10:22:58 UTC] hit
+[01-Oct-2021 10:22:58 UTC] Array
+(
+    [billing_first_name] => Brady
+    [billing_last_name] => Christopher
+    [billing_company] => 
+    [billing_country] => US
+    [billing_address_1] => 1414 Dianna Dr
+    [billing_address_2] => 
+    [billing_city] => Yukon
+    [billing_state] => OK
+    [billing_postcode] => 73099
+    [billing_phone] => 4059907450
+    [billing_email] => brady.s.christopher10@gmail.com
+    [shipping_first_name] => Brady
+    [shipping_last_name] => Christopher
+    [shipping_company] => 
+    [shipping_country] => US
+    [shipping_address_1] => 1414 Dianna Dr
+    [shipping_address_2] => 
+    [shipping_city] => Yukon
+    [shipping_state] => OK
+    [shipping_postcode] => 73099
+    [order_comments] => 
+    [shipping_method] => Array
+        (
+            [0] => flat_rate:1
+        )
+
+    [payment_method] => ebizcharge
+    [ccholder] => test
+    [ccnum] => 4000100011112224
+    [cardtype] => Visa
+    [expmonth] => 9
+    [expyear] => 2022
+    [cvv] => 123
+    [saveinfo] => on
+    [woocommerce-process-checkout-nonce] => 52a7245a50
+    [_wp_http_referer] => /?wc-ajax=update_order_review
+)
+
+[01-Oct-2021 10:24:16 UTC] hit
+[01-Oct-2021 10:24:16 UTC] Array
+(
+    [billing_first_name] => Brady
+    [billing_last_name] => Christopher
+    [billing_company] => 
+    [billing_country] => US
+    [billing_address_1] => 1414 Dianna Dr
+    [billing_address_2] => 
+    [billing_city] => Yukon
+    [billing_state] => OK
+    [billing_postcode] => 73099
+    [billing_phone] => 4059907450
+    [billing_email] => brady.s.christopher10@gmail.com
+    [shipping_first_name] => Brady
+    [shipping_last_name] => Christopher
+    [shipping_company] => 
+    [shipping_country] => US
+    [shipping_address_1] => 1414 Dianna Dr
+    [shipping_address_2] => 
+    [shipping_city] => Yukon
+    [shipping_state] => OK
+    [shipping_postcode] => 73099
+    [order_comments] => 
+    [shipping_method] => Array
+        (
+            [0] => flat_rate:1
+        )
+
+    [payment_method] => ebizcharge
+    [ebizcharge-payment-method] => 59
+    [ebizcharge-use-stored-payment-info] => no
+    [ccholder] => test
+    [ccnum] => 4000101611112226
+    [cardtype] => Visa
+    [expmonth] => 9
+    [expyear] => 2022
+    [cvv] => 999
+    [saveinfo] => on
+    [woocommerce-process-checkout-nonce] => 52a7245a50
+    [_wp_http_referer] => /?wc-ajax=update_order_review
+)
+
+[01-Oct-2021 10:25:46 UTC] hit
+[01-Oct-2021 10:25:46 UTC] Array
+(
+    [billing_first_name] => Brady
+    [billing_last_name] => Christopher
+    [billing_company] => 
+    [billing_country] => US
+    [billing_address_1] => 1414 Dianna Dr
+    [billing_address_2] => 
+    [billing_city] => Yukon
+    [billing_state] => OK
+    [billing_postcode] => 73099
+    [billing_phone] => 4059907450
+    [billing_email] => brady.s.christopher10@gmail.com
+    [shipping_first_name] => Brady
+    [shipping_last_name] => Christopher
+    [shipping_company] => 
+    [shipping_country] => US
+    [shipping_address_1] => 1414 Dianna Dr
+    [shipping_address_2] => 
+    [shipping_city] => Yukon
+    [shipping_state] => OK
+    [shipping_postcode] => 73099
+    [order_comments] => 
+    [shipping_method] => Array
+        (
+            [0] => flat_rate:1
+        )
+
+    [payment_method] => ebizcharge
+    [ebizcharge-payment-method] => 62
+    [ebizcharge-use-stored-payment-info] => no
+    [ccholder] => test
+    [ccnum] => 4000101111112221
+    [cardtype] => Visa
+    [expmonth] => 9
+    [expyear] => 2022
+    [cvv] => 999
+    [saveinfo] => on
+    [woocommerce-process-checkout-nonce] => 52a7245a50
+    [_wp_http_referer] => /?wc-ajax=update_order_review
+)
+
+[01-Oct-2021 10:26:48 UTC] hit
+[01-Oct-2021 10:26:48 UTC] Array
+(
+    [billing_first_name] => Brady
+    [billing_last_name] => Christopher
+    [billing_company] => 
+    [billing_country] => US
+    [billing_address_1] => 1414 Dianna Dr
+    [billing_address_2] => 
+    [billing_city] => Yukon
+    [billing_state] => OK
+    [billing_postcode] => 73099
+    [billing_phone] => 4059907450
+    [billing_email] => brady.s.christopher10@gmail.com
+    [shipping_first_name] => Brady
+    [shipping_last_name] => Christopher
+    [shipping_company] => 
+    [shipping_country] => US
+    [shipping_address_1] => 1414 Dianna Dr
+    [shipping_address_2] => 
+    [shipping_city] => Yukon
+    [shipping_state] => OK
+    [shipping_postcode] => 73099
+    [order_comments] => 
+    [shipping_method] => Array
+        (
+            [0] => flat_rate:1
+        )
+
+    [payment_method] => ebizcharge
+    [ebizcharge-payment-method] => 65
+    [ebizcharge-use-stored-payment-info] => no
+    [ccholder] => test
+    [ccnum] => 4000100411112220
+    [cardtype] => Visa
+    [expmonth] => 9
+    [expyear] => 2022
+    [cvv] => 999
+    [saveinfo] => on
+    [woocommerce-process-checkout-nonce] => 52a7245a50
+    [_wp_http_referer] => /?wc-ajax=update_order_review
+)
+
+[01-Oct-2021 12:35:57 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 600
+[01-Oct-2021 12:35:57 UTC] hit
+[01-Oct-2021 12:35:57 UTC] Array
+(
+    [billing_first_name] => Brady
+    [billing_last_name] => Christopher
+    [billing_company] => 
+    [billing_country] => US
+    [billing_address_1] => 1414 Dianna Dr
+    [billing_address_2] => 
+    [billing_city] => Yukon
+    [billing_state] => OK
+    [billing_postcode] => 73099
+    [billing_phone] => 4059907450
+    [billing_email] => brady.s.christopher12@gmail.com
+    [shipping_first_name] => Brady
+    [shipping_last_name] => Christopher
+    [shipping_company] => 
+    [shipping_country] => US
+    [shipping_address_1] => 1414 Dianna Dr
+    [shipping_address_2] => 
+    [shipping_city] => Yukon
+    [shipping_state] => OK
+    [shipping_postcode] => 73099
+    [order_comments] => 
+    [shipping_method] => Array
+        (
+            [0] => flat_rate:1
+        )
+
+    [payment_method] => ebizcharge
+    [ccholder] => test
+    [ccnum] => 4000100011112224
+    [cardtype] => Visa
+    [expmonth] => 9
+    [expyear] => 2022
+    [cvv] => 123
+    [saveinfo] => on
+    [woocommerce-process-checkout-nonce] => 886b98a410
+    [_wp_http_referer] => /?wc-ajax=update_order_review
+)
+
+[01-Oct-2021 12:36:28 UTC] hit
+[01-Oct-2021 12:36:28 UTC] Array
+(
+    [billing_first_name] => Brady
+    [billing_last_name] => Christopher
+    [billing_company] => 
+    [billing_country] => US
+    [billing_address_1] => 1414 Dianna Dr
+    [billing_address_2] => 
+    [billing_city] => Yukon
+    [billing_state] => OK
+    [billing_postcode] => 73099
+    [billing_phone] => 4059907450
+    [billing_email] => brady.s.christopher12@gmail.com
+    [shipping_first_name] => Brady
+    [shipping_last_name] => Christopher
+    [shipping_company] => 
+    [shipping_country] => US
+    [shipping_address_1] => 1414 Dianna Dr
+    [shipping_address_2] => 
+    [shipping_city] => Yukon
+    [shipping_state] => OK
+    [shipping_postcode] => 73099
+    [order_comments] => 
+    [shipping_method] => Array
+        (
+            [0] => flat_rate:1
+        )
+
+    [payment_method] => ebizcharge
+    [ebizcharge-use-stored-payment-info] => yes
+    [ebizcharge-payment-method] => 80
+    [ccholder] => 
+    [ccnum] => 
+    [cardtype] => Visa
+    [expmonth] => 
+    [expyear] => 
+    [cvv] => 
+    [saveinfo] => on
+    [woocommerce-process-checkout-nonce] => 886b98a410
+    [_wp_http_referer] => /?wc-ajax=update_order_review
+)
+
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[01-Oct-2021 14:29:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 11:41:24 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 13:23:43 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 13:38:45 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[02-Oct-2021 15:40:01 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 01:12:30 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 11:09:31 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 14:37:47 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[03-Oct-2021 23:39:55 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[04-Oct-2021 11:39:32 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[04-Oct-2021 19:45:24 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 02:56:53 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 03:07:19 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 07:21:46 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 10:39:08 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 13:12:59 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 15:33:32 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[05-Oct-2021 19:41:27 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[06-Oct-2021 00:40:57 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[06-Oct-2021 09:04:50 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 02:49:11 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 03:25:32 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 09:17:25 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 09:44:24 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 09:48:15 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 12:59:52 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 16:20:38 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[07-Oct-2021 17:14:03 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[08-Oct-2021 04:07:03 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[08-Oct-2021 12:00:08 UTC] hit
+[08-Oct-2021 12:00:08 UTC] Array
+(
+    [timestamp] => 1633694408
+    [allowSomeFailedItems] => 
+    [customerId] => 356487
+    [customerEmail] => brady.s.christopher5@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => 84277d03685d90f3cdf1fba2ff16c61b
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 3555
+            [paymentProfileId] => 416475
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => XXXX
+            [creditcardMonth] => 5
+            [creditcardYear] => 2024
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244032
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-08
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[08-Oct-2021 12:00:12 UTC] hit
+[08-Oct-2021 12:00:12 UTC] Array
+(
+    [timestamp] => 1633694412
+    [allowSomeFailedItems] => 
+    [customerId] => 356487
+    [customerEmail] => brady.s.christopher5@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => b429e0966f99bdef9150ce7c740b408d
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 333
+            [paymentProfileId] => 416476
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => XXXX
+            [creditcardMonth] => 3
+            [creditcardYear] => 2024
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244033
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-08
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[08-Oct-2021 19:39:36 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[09-Oct-2021 12:52:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 01:32:08 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 05:20:51 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 06:05:41 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 09:12:59 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 09:14:57 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 14:27:21 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[10-Oct-2021 15:59:47 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 04:41:30 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 05:55:09 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 07:56:39 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[11-Oct-2021 15:57:56 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:42 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:43 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 04:51:45 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 05:42:54 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 06:01:19 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 06:01:20 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 687
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 696
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "host" in /var/www/html/wp-includes/canonical.php on line 699
+[12-Oct-2021 08:39:26 UTC] PHP Warning:  Undefined array key "scheme" in /var/www/html/wp-includes/canonical.php on line 720
+[12-Oct-2021 12:00:08 UTC] hit
+[12-Oct-2021 12:00:08 UTC] Array
+(
+    [timestamp] => 1634040008
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => 5437591a606cbd52b30e716fb2292a68
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 33
+            [paymentProfileId] => 416479
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1111
+            [creditcardMonth] => 8
+            [creditcardYear] => 2024
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244035
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[12-Oct-2021 12:00:12 UTC] hit
+[12-Oct-2021 12:00:12 UTC] Array
+(
+    [timestamp] => 1634040012
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => bdcb32e15274afaa111f0198ba047d8b
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 33333333333
+            [paymentProfileId] => 416481
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1234
+            [creditcardMonth] => 2
+            [creditcardYear] => 2022
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244037
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[12-Oct-2021 12:00:16 UTC] hit
+[12-Oct-2021 12:00:16 UTC] Array
+(
+    [timestamp] => 1634040015
+    [allowSomeFailedItems] => 
+    [customerId] => 356488
+    [customerEmail] => brady.s.christopher6@gmail.com
+    [platformCustomerId] => 1
+    [salesOrderToken] => 33ffa56fe915a4a2bab81480df87369c
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 33333333333333
+            [paymentProfileId] => 416482
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => 
+            [creditcardLastDigits] => 1234
+            [creditcardMonth] => 3
+            [creditcardYear] => 2023
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => 1414 Dianna Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244038
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-10-12
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[12-Oct-2021 13:53:30 UTC] delivery discount added
+[12-Oct-2021 13:53:36 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 686
+[12-Oct-2021 13:53:36 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 490
+[12-Oct-2021 13:53:36 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 491
+[12-Oct-2021 13:55:58 UTC] delivery discount added
+[12-Oct-2021 13:56:10 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 686
+[12-Oct-2021 13:56:47 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 490
+[12-Oct-2021 13:56:47 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 491
+[12-Oct-2021 13:57:50 UTC] delivery discount added
+[12-Oct-2021 13:57:56 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 686
+[12-Oct-2021 13:57:57 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 490
+[12-Oct-2021 13:57:57 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 491
+[12-Oct-2021 13:59:02 UTC] delivery discount added
+[12-Oct-2021 13:59:08 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 688
+[12-Oct-2021 13:59:09 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 490
+[12-Oct-2021 13:59:09 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 491
+[12-Oct-2021 13:59:40 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 491
+[12-Oct-2021 13:59:40 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 492
+[12-Oct-2021 14:05:27 UTC] WordPress database error Server shutdown in progress for query SELECT * FROM wp_wc_admin_notes WHERE note_id = 53 LIMIT 1 made by require('wp-blog-header.php'), wp, WP->main, WP->parse_request, do_action_ref_array('parse_request'), WP_Hook->do_action, WP_Hook->apply_filters, rest_api_loaded, WP_REST_Server->serve_request, WP_REST_Server->dispatch, WP_REST_Server->respond_to_request, Automattic\WooCommerce\Admin\API\Notes->get_items, Automattic\WooCommerce\Admin\Notes\Notes::get_notes, Automattic\WooCommerce\Admin\Notes\Note->__construct, WC_Data_Store->read, Automattic\WooCommerce\Admin\Notes\DataStore->read
+[12-Oct-2021 14:05:27 UTC] Exception caught in Automattic\WooCommerce\Admin\Notes\Notes::get_notes. Invalid admin note. Args: Array
+(
+    [0] => 55
+)
+..
+[12-Oct-2021 14:05:27 UTC] PHP Warning:  mysqli_query(): (08S01/1053): Server shutdown in progress in /var/www/html/wp-includes/wp-db.php on line 2056
+[12-Oct-2021 14:05:27 UTC] WordPress database error Server shutdown in progress for query SELECT option_value FROM wp_options WHERE option_name = 'dismissed_update_core' LIMIT 1 made by require('wp-admin/menu.php'), wp_get_update_data, get_core_updates, get_site_option, get_network_option, get_option
+[12-Oct-2021 14:05:27 UTC] WordPress database error Server shutdown in progress for query SELECT option_value FROM wp_options WHERE option_name = 'WPLANG' LIMIT 1 made by require_once('wp-load.php'), require_once('wp-config.php'), require_once('wp-settings.php'), do_action('plugins_loaded'), WP_Hook->do_action, WP_Hook->apply_filters, woocommerce_ebizcharge_commerce_init, WC_ebizcharge->__construct, __, translate, get_translations_for_domain, _load_textdomain_just_in_time, _get_path_to_translation, _get_path_to_translation_from_lang_dir, determine_locale, get_locale, get_option
+[12-Oct-2021 14:05:27 UTC] WordPress database error Server shutdown in progress for query SELECT option_value FROM wp_options WHERE option_name = 'WPLANG' LIMIT 1 made by require_once('wp-load.php'), require_once('wp-config.php'), require_once('wp-settings.php'), do_action('plugins_loaded'), WP_Hook->do_action, WP_Hook->apply_filters, woocommerce_ebizcharge_commerce_init, WC_ebizcharge->__construct, __, translate, get_translations_for_domain, _load_textdomain_just_in_time, _get_path_to_translation, _get_path_to_translation_from_lang_dir, determine_locale, get_locale, get_option
+[12-Oct-2021 14:05:27 UTC] WordPress database error Server shutdown in progress for query SELECT option_value FROM wp_options WHERE option_name = 'WPLANG' LIMIT 1 made by require_once('wp-load.php'), require_once('wp-config.php'), require_once('wp-settings.php'), do_action('plugins_loaded'), WP_Hook->do_action, WP_Hook->apply_filters, woocommerce_ebizcharge_commerce_init, WC_ebizcharge->__construct, __, translate, get_translations_for_domain, _load_textdomain_just_in_time, _get_path_to_translation, _get_path_to_translation_from_lang_dir, determine_locale, get_locale, get_option
+[12-Oct-2021 14:05:28 UTC] WordPress database error Server shutdown in progress for query SELECT option_value FROM wp_options WHERE option_name = 'woocommerce_cart_page_id' LIMIT 1 made by require('wp-blog-header.php'), wp, WP->main, WP->parse_request, do_action_ref_array('parse_request'), WP_Hook->do_action, WP_Hook->apply_filters, rest_api_loaded, WP_REST_Server->serve_request, wp_get_nocache_headers, apply_filters('nocache_headers'), WP_Hook->apply_filters, WC_Cache_Helper::additional_nocache_headers, is_cart, wc_get_page_id, get_option
+[12-Oct-2021 14:06:31 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2002): No such file or directory in /var/www/html/wp-includes/wp-db.php on line 1653
+[12-Oct-2021 14:06:32 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2002): No such file or directory in /var/www/html/wp-includes/wp-db.php on line 1653
+[12-Oct-2021 14:06:34 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2002): No such file or directory in /var/www/html/wp-includes/wp-db.php on line 1653
+[12-Oct-2021 14:06:34 UTC] PHP Warning:  mysqli_real_connect(): (HY000/2002): No such file or directory in /var/www/html/wp-includes/wp-db.php on line 1653
+[12-Oct-2021 14:07:50 UTC] PHP Warning:  Undefined property: stdClass::$environment_key in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 160
+[12-Oct-2021 14:08:31 UTC] delivery discount added
+[12-Oct-2021 14:08:37 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 688
+[12-Oct-2021 14:08:38 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 491
+[12-Oct-2021 14:08:38 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 492
+[12-Oct-2021 14:10:35 UTC] delivery discount added
+[12-Oct-2021 14:10:42 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 688
+[12-Oct-2021 14:10:42 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 491
+[12-Oct-2021 14:10:42 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 492
+[12-Oct-2021 14:11:48 UTC] delivery discount added
+[12-Oct-2021 14:11:54 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 689
+[12-Oct-2021 14:11:55 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 492
+[12-Oct-2021 14:11:55 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 493
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:14:41 UTC] PHP Warning:  chmod(): Operation not permitted in /var/www/html/wp-admin/includes/class-wp-filesystem-direct.php on line 173
+[12-Oct-2021 14:17:24 UTC] delivery discount added
+[12-Oct-2021 14:19:40 UTC] delivery discount added
+[12-Oct-2021 14:19:46 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 689
+[12-Oct-2021 14:19:46 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 492
+[12-Oct-2021 14:19:46 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 493
+[12-Oct-2021 14:21:35 UTC] delivery discount added
+[12-Oct-2021 14:21:42 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 689
+[12-Oct-2021 14:23:18 UTC] delivery discount added
+[12-Oct-2021 14:23:31 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 689
+[12-Oct-2021 14:23:31 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 492
+[12-Oct-2021 14:23:31 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 493
+[12-Oct-2021 14:26:13 UTC] delivery discount added
+[12-Oct-2021 14:26:26 UTC] PHP Warning:  Undefined array key "ebizcharge-use-stored-payment-info" in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 689
+[12-Oct-2021 14:26:26 UTC] PHP Warning:  Undefined array key 1 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 492
+[12-Oct-2021 14:26:26 UTC] PHP Warning:  Undefined array key 2 in /var/www/html/wp-content/plugins/spro/public/class-spro-public.php on line 493
+[12-Oct-2021 14:27:48 UTC] delivery discount added
+[12-Oct-2021 14:27:52 UTC] PHP Fatal error:  Uncaught GuzzleHttp\Exception\ClientException: Client error: `POST https://api-stage.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json` resulted in a `409 Conflict` response:
+{"code":409,"message":"Invalid month  Field: creditcardMonth  Value: "}
+ in /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php:111
+Stack trace:
+#0 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/guzzle/src/Middleware.php(66): GuzzleHttp\Exception\RequestException::create()
+#1 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/Promise.php(204): GuzzleHttp\Middleware::GuzzleHttp\{closure}()
+#2 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/Promise.php(153): GuzzleHttp\Promise\Promise::callHandler()
+#3 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/TaskQueue.php(48): GuzzleHttp\Promise\Promise::GuzzleHttp\Promise\{closure}()
+#4 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/Promise.php(248): GuzzleHttp\Promise\TaskQueue->run()
+#5 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/Promise.php(224): GuzzleHttp\Promise\Promise->invokeWaitFn()
+#6 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/Promise.php(269): GuzzleHttp\Promise\Promise->waitIfPending()
+#7 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/Promise.php(226): GuzzleHttp\Promise\Promise->invokeWaitList()
+#8 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/promises/src/Promise.php(62): GuzzleHttp\Promise\Promise->waitIfPending()
+#9 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/guzzle/src/Client.php(181): GuzzleHttp\Promise\Promise->wait()
+#10 /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/guzzle/src/ClientTrait.php(95): GuzzleHttp\Client->request()
+#11 /var/www/html/wp-content/plugins/spro/public/class-spro-public.php(587): GuzzleHttp\Client->post()
+#12 /var/www/html/wp-includes/class-wp-hook.php(303): Spro_Public->spro_payment_complete()
+#13 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#14 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#15 /var/www/html/wp-content/plugins/woocommerce/templates/checkout/thankyou.php(80): do_action()
+#16 /var/www/html/wp-content/plugins/woocommerce/includes/wc-core-functions.php(345): include('...')
+#17 /var/www/html/wp-content/plugins/woocommerce/includes/shortcodes/class-wc-shortcode-checkout.php(256): wc_get_template()
+#18 /var/www/html/wp-content/plugins/woocommerce/includes/shortcodes/class-wc-shortcode-checkout.php(63): WC_Shortcode_Checkout::order_received()
+#19 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-shortcodes.php(72): WC_Shortcode_Checkout::output()
+#20 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-shortcodes.php(95): WC_Shortcodes::shortcode_wrapper()
+#21 /var/www/html/wp-includes/shortcodes.php(356): WC_Shortcodes::checkout()
+#22 [internal function]: do_shortcode_tag()
+#23 /var/www/html/wp-includes/shortcodes.php(228): preg_replace_callback()
+#24 /var/www/html/wp-includes/class-wp-hook.php(303): do_shortcode()
+#25 /var/www/html/wp-includes/plugin.php(189): WP_Hook->apply_filters()
+#26 /var/www/html/wp-includes/post-template.php(253): apply_filters()
+#27 /var/www/html/wp-content/themes/storefront/inc/storefront-template-functions.php(352): the_content()
+#28 /var/www/html/wp-includes/class-wp-hook.php(303): storefront_page_content()
+#29 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#30 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#31 /var/www/html/wp-content/themes/storefront/content-page.php(18): do_action()
+#32 /var/www/html/wp-includes/template.php(772): require('...')
+#33 /var/www/html/wp-includes/template.php(716): load_template()
+#34 /var/www/html/wp-includes/general-template.php(204): locate_template()
+#35 /var/www/html/wp-content/themes/storefront/page.php(24): get_template_part()
+#36 /var/www/html/wp-includes/template-loader.php(106): include('...')
+#37 /var/www/html/wp-blog-header.php(19): require_once('...')
+#38 /var/www/html/index.php(17): require('...')
+#39 {main}
+  thrown in /var/www/html/wp-content/plugins/spro/vendor/guzzlehttp/guzzle/src/Exception/RequestException.php on line 111
+[12-Oct-2021 14:30:05 UTC] delivery discount added
+[12-Oct-2021 14:30:11 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($var) must be of type Countable|array, stdClass given in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php:803
+Stack trace:
+#0 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(740): WC_Gateway_EBizCharge->searchCustomerListByEmail()
+#1 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(916): WC_Gateway_EBizCharge->searchAndSyncCustomer()
+#2 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/woocommerce-gateway-ebizcharge.php(725): WC_Gateway_EBizCharge->TokenProcess()
+#3 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(980): WC_ebizcharge->process_payment()
+#4 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1195): WC_Checkout->process_order_payment()
+#5 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(466): WC_Checkout->process_checkout()
+#6 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::checkout()
+#7 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#8 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#9 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(90): do_action()
+#10 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::do_wc_ajax()
+#11 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#12 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#13 /var/www/html/wp-includes/template-loader.php(13): do_action()
+#14 /var/www/html/wp-blog-header.php(19): require_once('...')
+#15 /var/www/html/index.php(17): require('...')
+#16 {main}
+  thrown in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php on line 803
+[12-Oct-2021 14:30:28 UTC] delivery discount added
+[12-Oct-2021 14:30:34 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($var) must be of type Countable|array, stdClass given in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php:803
+Stack trace:
+#0 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(740): WC_Gateway_EBizCharge->searchCustomerListByEmail()
+#1 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(916): WC_Gateway_EBizCharge->searchAndSyncCustomer()
+#2 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/woocommerce-gateway-ebizcharge.php(725): WC_Gateway_EBizCharge->TokenProcess()
+#3 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(980): WC_ebizcharge->process_payment()
+#4 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1195): WC_Checkout->process_order_payment()
+#5 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(466): WC_Checkout->process_checkout()
+#6 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::checkout()
+#7 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#8 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#9 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(90): do_action()
+#10 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::do_wc_ajax()
+#11 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#12 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#13 /var/www/html/wp-includes/template-loader.php(13): do_action()
+#14 /var/www/html/wp-blog-header.php(19): require_once('...')
+#15 /var/www/html/index.php(17): require('...')
+#16 {main}
+  thrown in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php on line 803
+[12-Oct-2021 14:30:57 UTC] delivery discount added
+[12-Oct-2021 14:31:03 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($var) must be of type Countable|array, stdClass given in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php:803
+Stack trace:
+#0 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(740): WC_Gateway_EBizCharge->searchCustomerListByEmail()
+#1 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(916): WC_Gateway_EBizCharge->searchAndSyncCustomer()
+#2 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/woocommerce-gateway-ebizcharge.php(725): WC_Gateway_EBizCharge->TokenProcess()
+#3 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(980): WC_ebizcharge->process_payment()
+#4 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1195): WC_Checkout->process_order_payment()
+#5 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(466): WC_Checkout->process_checkout()
+#6 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::checkout()
+#7 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#8 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#9 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(90): do_action()
+#10 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::do_wc_ajax()
+#11 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#12 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#13 /var/www/html/wp-includes/template-loader.php(13): do_action()
+#14 /var/www/html/wp-blog-header.php(19): require_once('...')
+#15 /var/www/html/index.php(17): require('...')
+#16 {main}
+  thrown in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php on line 803
+[12-Oct-2021 14:40:22 UTC] delivery discount added
+[12-Oct-2021 14:40:28 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($var) must be of type Countable|array, stdClass given in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php:803
+Stack trace:
+#0 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(740): WC_Gateway_EBizCharge->searchCustomerListByEmail()
+#1 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(916): WC_Gateway_EBizCharge->searchAndSyncCustomer()
+#2 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/woocommerce-gateway-ebizcharge.php(725): WC_Gateway_EBizCharge->TokenProcess()
+#3 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(980): WC_ebizcharge->process_payment()
+#4 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1195): WC_Checkout->process_order_payment()
+#5 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(466): WC_Checkout->process_checkout()
+#6 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::checkout()
+#7 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#8 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#9 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(90): do_action()
+#10 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::do_wc_ajax()
+#11 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#12 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#13 /var/www/html/wp-includes/template-loader.php(13): do_action()
+#14 /var/www/html/wp-blog-header.php(19): require_once('...')
+#15 /var/www/html/index.php(17): require('...')
+#16 {main}
+  thrown in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php on line 803
+[12-Oct-2021 15:02:10 UTC] delivery discount added
+[12-Oct-2021 15:02:16 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($var) must be of type Countable|array, stdClass given in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php:803
+Stack trace:
+#0 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(740): WC_Gateway_EBizCharge->searchCustomerListByEmail()
+#1 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(916): WC_Gateway_EBizCharge->searchAndSyncCustomer()
+#2 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/woocommerce-gateway-ebizcharge.php(725): WC_Gateway_EBizCharge->TokenProcess()
+#3 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(980): WC_ebizcharge->process_payment()
+#4 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1195): WC_Checkout->process_order_payment()
+#5 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(466): WC_Checkout->process_checkout()
+#6 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::checkout()
+#7 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#8 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#9 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(90): do_action()
+#10 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::do_wc_ajax()
+#11 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#12 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#13 /var/www/html/wp-includes/template-loader.php(13): do_action()
+#14 /var/www/html/wp-blog-header.php(19): require_once('...')
+#15 /var/www/html/index.php(17): require('...')
+#16 {main}
+  thrown in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php on line 803
+[12-Oct-2021 15:02:40 UTC] delivery discount added
+[12-Oct-2021 15:02:46 UTC] PHP Fatal error:  Uncaught TypeError: count(): Argument #1 ($var) must be of type Countable|array, stdClass given in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php:803
+Stack trace:
+#0 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(740): WC_Gateway_EBizCharge->searchCustomerListByEmail()
+#1 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php(916): WC_Gateway_EBizCharge->searchAndSyncCustomer()
+#2 /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/woocommerce-gateway-ebizcharge.php(725): WC_Gateway_EBizCharge->TokenProcess()
+#3 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(980): WC_ebizcharge->process_payment()
+#4 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-checkout.php(1195): WC_Checkout->process_order_payment()
+#5 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(466): WC_Checkout->process_checkout()
+#6 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::checkout()
+#7 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#8 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#9 /var/www/html/wp-content/plugins/woocommerce/includes/class-wc-ajax.php(90): do_action()
+#10 /var/www/html/wp-includes/class-wp-hook.php(303): WC_AJAX::do_wc_ajax()
+#11 /var/www/html/wp-includes/class-wp-hook.php(327): WP_Hook->apply_filters()
+#12 /var/www/html/wp-includes/plugin.php(470): WP_Hook->do_action()
+#13 /var/www/html/wp-includes/template-loader.php(13): do_action()
+#14 /var/www/html/wp-blog-header.php(19): require_once('...')
+#15 /var/www/html/index.php(17): require('...')
+#16 {main}
+  thrown in /var/www/html/wp-content/plugins/woocommerce-ebizcharge-gateway/includes/class-wc-gateway-ebizcharge.php on line 803

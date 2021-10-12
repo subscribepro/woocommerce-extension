@@ -485,7 +485,13 @@ class Spro_Public {
 		$user_email = $user_info->user_email;
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
-		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
+		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode', true );
+
+		if ( $ebiz_data == '' ) {
+			$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
+			// echo 'ebiz data empty';
+		}
+
 		$ebiz_data_array = explode('|', $ebiz_data);
 		$ebiz_payment_method = $ebiz_data_array[1];
 		$ebiz_ref_num = $ebiz_data_array[2];
@@ -494,6 +500,7 @@ class Spro_Public {
 		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
 		$cc_type = get_post_meta( $order_id, 'card_type', true );
 		$shipping_method = $order->get_shipping_method();
+
 
 		// Customer Billing Address
 		$billing_address = array(
@@ -561,7 +568,14 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
-		if ( empty( $payment_profile_array ) ) {
+		// echo 'payment profile response';
+		// echo '<pre>';
+		// print_r( $payment_profile_array );
+		// echo '</pre>';
+
+		if ( !$payment_profile_array ) {
+
+			// echo 'creating new payment profile';
 			
 			// Create new payment profile if needed		
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
@@ -585,6 +599,8 @@ class Spro_Public {
 			$sp_payment_profile_id = $response_body->payment_profile->id;
 
 		} else {
+
+			// echo 'found existing payment profile. Updating.';
 
 			// Payment profile found, update existing profile instead of creating new one.
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
@@ -629,6 +645,8 @@ class Spro_Public {
 				]);
 			
 			} catch ( SoapFault $e ) {
+
+				// echo 'payment profile id is ' . $sp_payment_profile_id;
 				
 				die( "Payment profile update failed: " . $e->getMessage() );
 
