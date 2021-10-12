@@ -488,6 +488,10 @@ class Spro_Public {
 	 */
 	public function spro_payment_complete( $order_id ) {
 
+		if ( !is_user_logged_in() ) {
+			return;
+		}
+
 		// Get Order Info
 		$order = wc_get_order( $order_id );
 		$customer_id = get_current_user_id();
@@ -499,22 +503,27 @@ class Spro_Public {
 		$user_email = $user_info->user_email;
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
-		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode', true );
-
-		if ( $ebiz_data == '' ) {
-			$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
-			// echo 'ebiz data empty';
-		}
-
-		$ebiz_data_array = explode('|', $ebiz_data);
-		$ebiz_payment_method = $ebiz_data_array[1];
-		$ebiz_ref_num = $ebiz_data_array[2];
 		$cc_year = get_post_meta( $order_id, 'card_exp_year', true );
 		$cc_month = get_post_meta( $order_id, 'card_exp_month', true );
 		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
 		$cc_type = get_post_meta( $order_id, 'card_type', true );
 		$shipping_method = $order->get_shipping_method();
 
+		// Don't run if ebiz data is not present
+		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode', true );
+
+		if ( $ebiz_data == '' ) {
+			$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
+		}
+		
+		if ( $ebiz_data == '' ) {
+			return;
+		}
+
+		// Ebiz Data
+		$ebiz_data_array = explode('|', $ebiz_data);
+		$ebiz_payment_method = $ebiz_data_array[1];
+		$ebiz_ref_num = $ebiz_data_array[2];
 
 		// Customer Billing Address
 		$billing_address = array(
