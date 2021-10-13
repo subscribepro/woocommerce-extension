@@ -508,6 +508,16 @@ class Spro_Public {
 		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
 		$cc_type = get_post_meta( $order_id, 'card_type', true );
 		$shipping_method = $order->get_shipping_method();
+		$is_subscription_order = false;
+
+		// Check if this is a subscription order
+		foreach( $order->get_items() as $item_id => $line_item ) {
+			$type = wc_get_order_item_meta( $item_id, 'Delivery Type', true );
+			
+			if ( $type == 'regular' ) {
+				$is_subscription_order = true;
+			}
+		}
 
 		// Don't run if ebiz data is not present
 		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode', true );
@@ -516,9 +526,11 @@ class Spro_Public {
 			$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
 		}
 		
-		if ( $ebiz_data == '' ) {
+		if ( $ebiz_data == '' || $is_subscription_order == false ) {
 			return;
 		}
+
+		echo 'ebiz data is ' . $ebiz_data;
 
 		// Ebiz Data
 		$ebiz_data_array = explode('|', $ebiz_data);
@@ -598,7 +610,7 @@ class Spro_Public {
 
 		if ( !$payment_profile_array ) {
 
-			// echo 'creating new payment profile';
+			echo 'creating new payment profile';
 			
 			// Create new payment profile if needed		
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
@@ -621,9 +633,11 @@ class Spro_Public {
 
 			$sp_payment_profile_id = $response_body->payment_profile->id;
 
+			echo 'new profile id is ' . $sp_payment_profile_id;
+
 		} else {
 
-			// echo 'found existing payment profile. Updating.';
+			echo 'found existing payment profile. Updating.';
 
 			// Payment profile found, update existing profile instead of creating new one.
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
@@ -669,7 +683,7 @@ class Spro_Public {
 			
 			} catch ( SoapFault $e ) {
 
-				// echo 'payment profile id is ' . $sp_payment_profile_id;
+				echo 'payment profile id is ' . $sp_payment_profile_id;
 				
 				die( "Payment profile update failed: " . $e->getMessage() );
 
@@ -690,28 +704,33 @@ class Spro_Public {
 
 			if ( $is_subscription_product == 'yes' ) {
 
+				$type = wc_get_order_item_meta( $item_id, 'Delivery Type', true );
 				$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
-				
-				$response = $client->post( SPRO_BASE_URL . '/services/v2/subscription.json', [
-					'verify' => false,
-					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
-					'json' => ['subscription' => 
-						array(
-							'customer_id' => $spro_customer_id,
-							'payment_profile_id' => $sp_payment_profile_id,
-							'product_sku' => $sku,
-							'requires_shipping' => true,
-							'shipping_method_code' => $shipping_method,
-							'shipping_address' => $shipping_address,
-							'qty' => $item_quantity,
-							'next_order_date' => date("F j, Y"),
-							'first_order_already_created' => true,
-							'interval' => $frequency
-						)
-					]
-				]);
-				
-				$response_body = json_decode( $response->getBody() );
+
+				echo 'type is ' . $type;
+
+				if ( $type == 'regular' ) {
+					$response = $client->post( SPRO_BASE_URL . '/services/v2/subscription.json', [
+						'verify' => false,
+						'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+						'json' => ['subscription' => 
+							array(
+								'customer_id' => $spro_customer_id,
+								'payment_profile_id' => $sp_payment_profile_id,
+								'product_sku' => $sku,
+								'requires_shipping' => true,
+								'shipping_method_code' => $shipping_method,
+								'shipping_address' => $shipping_address,
+								'qty' => $item_quantity,
+								'next_order_date' => date("F j, Y"),
+								'first_order_already_created' => true,
+								'interval' => $frequency
+							)
+						]
+					]);
+					
+					$response_body = json_decode( $response->getBody() );
+				}
 
 			}
 
