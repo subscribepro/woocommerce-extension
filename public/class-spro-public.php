@@ -603,10 +603,10 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
-		// echo 'payment profile response';
-		// echo '<pre>';
-		// print_r( $payment_profile_array );
-		// echo '</pre>';
+		echo 'payment profile response';
+		echo '<pre>';
+		print_r( $payment_profile_array );
+		echo '</pre>';
 
 		if ( !$payment_profile_array ) {
 
