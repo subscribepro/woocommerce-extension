@@ -235,6 +235,10 @@ class Spro {
 		// Create Order Endpoint
 		$this->loader->add_action( 'rest_api_init', $plugin_public, 'spro_rest_init' );
 
+		// Custom Payment Method
+		// $this->loader->add_filter( 'woocommerce_payment_gateways', $plugin_public, 'spro_add_gateway' );
+		// $this->loader->add_action( 'plugins_loaded', $plugin_public, 'spro_init_payment_gateway' );
+
 	}
 
 	/**

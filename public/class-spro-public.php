@@ -710,6 +710,11 @@ class Spro_Public {
 				echo 'type is ' . $type;
 
 				if ( $type == 'regular' ) {
+
+					// echo '<pre>';
+					// print_r( $shipping_address );
+					// echo '</pre>';
+
 					$response = $client->post( SPRO_BASE_URL . '/services/v2/subscription.json', [
 						'verify' => false,
 						'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
@@ -743,7 +748,7 @@ class Spro_Public {
 	 */
 	public function spro_payment_post( $order_id ) { 
 	
-		update_post_meta( $order_id, 'ebiz_payment_method_save', $_POST['ebizcharge-use-stored-payment-info'] );
+		// update_post_meta( $order_id, 'ebiz_payment_method_save', $_POST['ebizcharge-use-stored-payment-info'] );
 		update_post_meta( $order_id, 'card_type', $_POST['cardtype'] );
 		update_post_meta( $order_id, 'card_exp_year', $_POST['expyear'] );
 		update_post_meta( $order_id, 'card_exp_month', $_POST['expmonth'] );
@@ -1356,6 +1361,26 @@ class Spro_Public {
 		}
 
 		return $return_data;
+
+	}
+
+	/**
+	 * Add Payment Gateway
+	 */
+	public function spro_add_gateway( $methods ) {
+		
+		$methods[] = 'WC_EBIZ_GATEWAY';
+		return $methods;
+
+	}
+
+	/**
+	 * Initialize Pyament Gateway
+	 */
+	public function spro_init_payment_gateway() {
+
+		new WC_Ebiz_Gateway();
+
 
 	}
 
