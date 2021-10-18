@@ -1362,24 +1362,4 @@ class Spro_Public {
 
 	}
 
-	/**
-	 * Add Payment Gateway
-	 */
-	public function spro_add_gateway( $methods ) {
-		
-		$methods[] = 'WC_EBIZ_GATEWAY';
-		return $methods;
-
-	}
-
-	/**
-	 * Initialize Pyament Gateway
-	 */
-	public function spro_init_payment_gateway() {
-
-		new WC_Ebiz_Gateway();
-
-
-	}
-
 }
