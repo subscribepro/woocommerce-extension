@@ -364,7 +364,7 @@ class Spro_Public {
 			// Force customer to create an account is checking out with a subscription product
 			if ( $redirect ) {
 				wc_add_notice( 'Please log in or register to complete your purchase.', 'notice' );
-				wp_redirect( home_url( '/my-account?redirect_to_checkout' ) );
+				wp_redirect( get_permalink( get_option('woocommerce_myaccount_page_id') ) . '?redirect_to_checkout' );
 				exit;	
 			}
 
@@ -603,12 +603,14 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
+		echo 'ebiz payment method is ' . $ebiz_payment_method;
+
 		echo 'payment profile response';
 		echo '<pre>';
 		print_r( $payment_profile_array );
 		echo '</pre>';
 
-		if ( !$payment_profile_array ) {
+		if ( empty( $payment_profile_array ) ) {
 
 			echo 'creating new payment profile';
 			
@@ -710,10 +712,6 @@ class Spro_Public {
 				echo 'type is ' . $type;
 
 				if ( $type == 'regular' ) {
-
-					// echo '<pre>';
-					// print_r( $shipping_address );
-					// echo '</pre>';
 
 					$response = $client->post( SPRO_BASE_URL . '/services/v2/subscription.json', [
 						'verify' => false,
