@@ -217,7 +217,7 @@ class Spro_Admin {
 
 		wp_send_json_success( json_encode( array( 'name' => $name, 'val' => get_option( 'spro_settings_' . $name ) ) ) );
 
-	}	
+	}
 	
 	/**
 	 * Test API Connection

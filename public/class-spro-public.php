@@ -109,6 +109,13 @@ class Spro_Public {
 	 * @since 1.0.0
 	 */
 	public function spro_render_subscriptions_tab() {
+
+		$widget_url = get_option( 'spro_settings_subscriptions_widget_url' );
+		$widget_config = get_option( 'spro_settings_subscriptions_widget_config' );
+		$config_obj = json_decode( str_replace( '\\', '', $widget_config ) );
+		$config_count = count( (array)$config_obj );
+		$counter = 1;
+
 		?>
 	
 		<h2>Your Subscriptions</h2>
@@ -121,15 +128,15 @@ class Spro_Public {
 		<!-- Load the Subscribe Pro widget script -->
 		<script
 			type="text/javascript"
-			src="https://hosted.subscribepro.com/my-subscriptions/widget-my-subscriptions-1.2.5.js"
+			src="<?php echo $widget_url; ?>"
 		></script>
 	
 		<?php
 	
 		$user_id = get_current_user_id();
 		$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
-		$username = "1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8";
-		$password = "4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko";
+		$username = SPRO_CLIENT_ID;
+		$password = SPRO_CLIENT_SECRET;
 		$host = SPRO_BASE_URL . '/oauth/v2/token';
 	
 		$data = array(
@@ -148,19 +155,39 @@ class Spro_Public {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		$return = json_decode( curl_exec($ch) );
-		
+
+		// echo '<pre>';
+		// print_r( $return );
+		// echo '</pre>';
+
 		?>
 	
 		<!-- Pass configuration and init the Subscribe Pro widget -->
 		<script type="text/javascript">
+
 			// Setup config for Subscribe Pro
 			var widgetConfig = {
-				apiBaseUrl: 'SPRO_BASE_URL',
+				apiBaseUrl: '<?php echo SPRO_BASE_URL; ?>',
 				apiAccessToken: '<?php echo $return->access_token; ?>',
-				environmentKey: '<?php echo $return->environment_key; ?>',
+				environmentKey: '<?php echo $return->spreedly_environment_key; ?>',
 				customerId: '<?php echo $spro_customer_id; ?>',
-				themeName: 'base',
+				<?php 
+				foreach ( $config_obj as $key => $value ):
+
+    				echo $key . ": '" . $value . "'";
+					
+					if ( $counter != $config_count ) {
+						echo ',';
+					}
+					
+					$counter++;
+
+				endforeach;
+				?>
 			};
+
+			console.log(widgetConfig);
+
 			// Call widget init()
 			window.MySubscriptions.init(widgetConfig);
 		</script>

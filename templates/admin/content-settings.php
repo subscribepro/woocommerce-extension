@@ -5,6 +5,10 @@ if ( ! defined( 'WPINC' ) ) die;
 ?>
 
 <style>
+    
+    .settings-heading {
+        margin-bottom: 15px !important;
+    }
 
     .spro-input {
         min-width: 475px;
@@ -49,11 +53,20 @@ if ( ! defined( 'WPINC' ) ) die;
         color: red;
     }
 
+    fieldset {
+        margin-bottom: 15px;
+    }
+
+    fieldset label {
+        display: block;
+        margin-bottom: 5px;
+    }
+
 </style>
 
 <div class="wrap">
 
-    <h2>Subscribe Pro <?php esc_attr_e('Options', 'spro' ); ?></h2>
+    <h2 class="settings-heading">Subscribe Pro <?php esc_attr_e('Options', 'spro' ); ?></h2>
 
     <form method="post" name="spro_settings" action="options.php">
         <?php
@@ -63,11 +76,13 @@ if ( ! defined( 'WPINC' ) ) die;
         $base_url = get_option( 'spro_settings_base_url' );
         $client_id = get_option( 'spro_settings_client_id' );
         $client_secret = get_option( 'spro_settings_client_secret' );
+        $subscriptions_widget_url = get_option( 'spro_settings_subscriptions_widget_url' );
+        $subscriptions_widget_config = get_option( 'spro_settings_subscriptions_widget_config' );
 
         ?>
 
         <fieldset>
-            <p><?php esc_attr_e( 'Payment Method', 'spro' ); ?></p>
+            <label for="payment_method"><?php esc_attr_e( 'Payment Method', 'spro' ); ?></label>
             <legend class="screen-reader-text">
                 <span><?php esc_attr_e( 'Payment Method', 'spro' ); ?></span>
             </legend>
@@ -79,7 +94,7 @@ if ( ! defined( 'WPINC' ) ) die;
         </fieldset>
 
         <fieldset>
-            <p><?php esc_attr_e( 'Base URL', 'spro' ); ?></p>
+            <label for="base_url"><?php esc_attr_e( 'Base URL', 'spro' ); ?></label>
             <legend class="screen-reader-text">
                 <span><?php esc_attr_e( 'Base URL', 'spro' ); ?></span>
             </legend>
@@ -87,7 +102,7 @@ if ( ! defined( 'WPINC' ) ) die;
         </fieldset>
 
         <fieldset>
-            <p><?php esc_attr_e( 'Client ID', 'spro' ); ?></p>
+            <label for="client_id"><?php esc_attr_e( 'Client ID', 'spro' ); ?></label>
             <legend class="screen-reader-text">
                 <span><?php esc_attr_e( 'Client ID', 'spro' ); ?></span>
             </legend>
@@ -95,11 +110,27 @@ if ( ! defined( 'WPINC' ) ) die;
         </fieldset>
         
         <fieldset>
-            <p><?php esc_attr_e( 'Client Secret', 'spro' ); ?></p>
+            <label for="client_secret"><?php esc_attr_e( 'Client Secret', 'spro' ); ?></label>
             <legend class="screen-reader-text">
                 <span><?php esc_attr_e( 'Client Secret', 'spro' ); ?></span>
             </legend>
             <input type="password" class="spro-input" id="client_secret" name="client_secret" value="<?php if( ! empty( $client_secret ) ) echo $client_secret; else echo ''; ?>"/>
+        </fieldset>
+        
+        <fieldset>
+            <label for="subscriptions_widget_url"><?php esc_attr_e( 'Hosted My Subscriptions Page Widget Source URL', 'spro' ); ?></label>
+            <legend class="screen-reader-text">
+                <span><?php esc_attr_e( 'Hosted My Subscriptions Page Widget Source URL', 'spro' ); ?></span>
+            </legend>
+            <input type="text" class="spro-input" id="subscriptions_widget_url" name="subscriptions_widget_url" value="<?php if( ! empty( $subscriptions_widget_url ) ) echo $subscriptions_widget_url; else echo ''; ?>"/>
+        </fieldset>
+        
+        <fieldset>
+            <label for="subscriptions_widget_config"><?php esc_attr_e( 'Hosted My Subscriptions Page Configuration', 'spro' ); ?></label>
+            <legend class="screen-reader-text">
+                <span><?php esc_attr_e( 'Hosted My Subscriptions Page Configuration', 'spro' ); ?></span>
+            </legend>
+            <textarea class="spro-input" rows="6" id="subscriptions_widget_config" name="subscriptions_widget_config"><?php if( ! empty( $subscriptions_widget_config ) ) echo str_replace( '\\', '', $subscriptions_widget_config ) ; else echo ''; ?></textarea>
         </fieldset>
 
         <div class="connection-buttons">
@@ -143,10 +174,11 @@ if ( ! defined( 'WPINC' ) ) die;
                 wp.ajax.post( "save_connection_credentials", { 'val': val, 'name': name } )
                 .done(function(response) {
 
-                    var name = jQuery.parseJSON( response ).name.replace('_',' ');
+                    var name = jQuery.parseJSON( response ).name,
+                        label = jQuery( 'label[for="' + name + '"]' ).contents().get(0).nodeValue;
 
                     jQuery('.connection-message').addClass('success').removeClass('fail').show();
-                    jQuery('.connection-message').html( '<span class="name">' + name + '</span> was saved!');
+                    jQuery('.connection-message').html( '<span class="name">' + label + '</span> was saved!');
 
 
                 });
