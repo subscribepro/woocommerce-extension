@@ -156,10 +156,6 @@ class Spro_Public {
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		$return = json_decode( curl_exec($ch) );
 
-		// echo '<pre>';
-		// print_r( $return );
-		// echo '</pre>';
-
 		?>
 	
 		<!-- Pass configuration and init the Subscribe Pro widget -->
@@ -185,8 +181,6 @@ class Spro_Public {
 				endforeach;
 				?>
 			};
-
-			console.log(widgetConfig);
 
 			// Call widget init()
 			window.MySubscriptions.init(widgetConfig);
@@ -557,8 +551,6 @@ class Spro_Public {
 			return;
 		}
 
-		echo 'ebiz data is ' . $ebiz_data;
-
 		// Ebiz Data
 		$ebiz_data_array = explode('|', $ebiz_data);
 		$ebiz_payment_method = $ebiz_data_array[1];
@@ -587,6 +579,7 @@ class Spro_Public {
 			'zip' => $order->get_shipping_postcode(),
 			'country' => $order->get_shipping_country()
 		);
+
 
 		// Create the customer in Subscribe Pro if needed
 		if ( !$is_spro_customer ) {
@@ -674,10 +667,16 @@ class Spro_Public {
 			// Get CC Data from eBizCharge
 			$client_e = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
 
+			$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
+		
+			$ebiz_security_id = $ebiz_settings['securityid'];
+			$ebiz_user_id = $ebiz_settings['username'];
+			$ebiz_password = $ebiz_settings['password'];
+
 			$securityToken = array(
-				'SecurityId' => 'ec3b1d57-962b-4cca-9004-d15abb525dfb',
-				'UserId' => 'SubscribeSB',
-				'Password' => 'ZtQFpin4'
+				'SecurityId' => $ebiz_security_id,
+				'UserId' => $ebiz_user_id,
+				'Password' => $ebiz_password
 			);
 
 			$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
@@ -736,9 +735,13 @@ class Spro_Public {
 				$type = wc_get_order_item_meta( $item_id, 'Delivery Type', true );
 				$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
 
-				echo 'type is ' . $type;
-
 				if ( $type == 'regular' ) {
+
+					if ( $shipping_address['first_name'] != '' ) {
+						$subscription_address = $shipping_address;
+					} else {
+						$subscription_address = $billing_address;
+					}
 
 					$response = $client->post( SPRO_BASE_URL . '/services/v2/subscription.json', [
 						'verify' => false,
@@ -750,7 +753,7 @@ class Spro_Public {
 								'product_sku' => $sku,
 								'requires_shipping' => true,
 								'shipping_method_code' => $shipping_method,
-								'shipping_address' => $shipping_address,
+								'shipping_address' => $subscription_address,
 								'qty' => $item_quantity,
 								'next_order_date' => date("F j, Y"),
 								'first_order_already_created' => true,
