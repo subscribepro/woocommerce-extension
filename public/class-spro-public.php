@@ -111,11 +111,8 @@ class Spro_Public {
 	public function spro_render_subscriptions_tab() {
 
 		$widget_url = get_option( 'spro_settings_subscriptions_widget_url' );
-		$widget_config = get_option( 'spro_settings_subscriptions_widget_config' );
-		$config_obj = json_decode( str_replace( '\\', '', $widget_config ) );
-		$config_count = count( (array)$config_obj );
-		$counter = 1;
-
+		$widget_config = str_replace( '\\', '', get_option( 'spro_settings_subscriptions_widget_config' ) );
+		
 		?>
 	
 		<h2>Your Subscriptions</h2>
@@ -167,19 +164,7 @@ class Spro_Public {
 				apiAccessToken: '<?php echo $return->access_token; ?>',
 				environmentKey: '<?php echo $return->spreedly_environment_key; ?>',
 				customerId: '<?php echo $spro_customer_id; ?>',
-				<?php 
-				foreach ( $config_obj as $key => $value ):
-
-    				echo $key . ": '" . $value . "'";
-					
-					if ( $counter != $config_count ) {
-						echo ',';
-					}
-					
-					$counter++;
-
-				endforeach;
-				?>
+				<?php echo substr($widget_config, 1, -1); ?>
 			};
 
 			// Call widget init()
