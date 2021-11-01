@@ -531,13 +531,9 @@ class Spro_Public {
 		$cc_year = substr( $cc_expiry, -2 );
 		$cc_last4  = substr( $cc_number, -4);
 		$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
-
-		// $cc_year = get_post_meta( $order_id, 'card_exp_year', true );
-		// $cc_month = get_post_meta( $order_id, 'card_exp_month', true );
-		// $cc_last4 = get_post_meta( $order_id, 'card_last4', true );
-		// $cc_type = get_post_meta( $order_id, 'card_type', true );
 		$shipping_method = $order->get_shipping_method();
 		$is_subscription_order = false;
+		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
 
 		// Check if this is a subscription order
 		foreach( $order->get_items() as $item_id => $line_item ) {
@@ -548,8 +544,6 @@ class Spro_Public {
 			}
 		}
 
-		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
-		
 		// Don't run if ebiz data is not present or if it's not a subscription order
 		if ( $ebiz_data == '' || $is_subscription_order == false ) {
 			return;
@@ -718,6 +712,8 @@ class Spro_Public {
 
 			$sp_payment_profile_id = $response_body->payment_profile->id;
 
+			update_post_meta( $order_id, 'spro_subscription_id', $sp_payment_profile_id );
+
 			echo 'new profile id is ' . $sp_payment_profile_id;
 
 		} else {
@@ -824,6 +820,9 @@ class Spro_Public {
 					]);
 					
 					$response_body = json_decode( $response->getBody() );
+
+					// Save the subscription id to the order for use in the order callback function
+					update_post_meta( $order_id, 'spro_subscription_id', $response_body->subscription->id );
 				}
 
 			}
@@ -933,6 +932,9 @@ class Spro_Public {
 			// The product short description
 			$product_short_desciption = $post_obj->post_excerpt;
 
+			// Get the subscribe pro subscription id
+			$subscription_id = get_post_meta( $order->get_id(), 'spro_subscription_id', true );
+
 			$product = array(
 				"platformOrderItemId" => strval( $order->get_id() ),
 				"productSku" => $sku,
@@ -944,7 +946,7 @@ class Spro_Public {
 				"shippingTotal" => "0",
 				"taxTotal" => strval( $line_total_tax ),
 				"lineTotal" => strval( $line_total ),
-				"subscriptionId" => "243867"
+				"subscriptionId" => $subscription_id
 			);
 
 			array_push( $products_array, $product );
