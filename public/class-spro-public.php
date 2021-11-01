@@ -528,12 +528,17 @@ class Spro_Public {
 		$cc_number = get_post_meta( $order_id, '_card_number', true );
 		$cc_type = get_post_meta( $order_id, '_card_type', true );
 		$cc_month = substr( $cc_expiry, 0, 2 );
-		$cc_year = substr( $cc_expiry, -2 );
+		$cc_year = '20' . substr( $cc_expiry, -2 );
 		$cc_last4  = substr( $cc_number, -4);
 		$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
 		$shipping_method = $order->get_shipping_method();
 		$is_subscription_order = false;
+		
+		// Ebiz Data
 		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
+		$ebiz_data_array = explode('|', $ebiz_data);
+		$ebiz_payment_method = $ebiz_data_array[1];
+		$ebiz_ref_num = $ebiz_data_array[2];
 
 		// Check if this is a subscription order
 		foreach( $order->get_items() as $item_id => $line_item ) {
@@ -555,11 +560,6 @@ class Spro_Public {
 		echo 'cc year: ' . $cc_year . '<br>';
 		echo 'cc number: ' . $cc_number . ' <br>';
 		echo 'cc type: ' . $cc_type . '<br>';
-
-		// Ebiz Data
-		$ebiz_data_array = explode('|', $ebiz_data);
-		$ebiz_payment_method = $ebiz_data_array[1];
-		$ebiz_ref_num = $ebiz_data_array[2];
 
 		// Customer Billing Address
 		$billing_address = array(
@@ -584,7 +584,6 @@ class Spro_Public {
 			'zip' => $order->get_shipping_postcode(),
 			'country' => $order->get_shipping_country()
 		);
-
 
 		// Create the customer in Subscribe Pro if needed
 		if ( !$is_spro_customer ) {
@@ -614,7 +613,7 @@ class Spro_Public {
 			'payment_token' => $ebiz_payment_method,
 		);
 
-		// Check if payment profile exists
+		// Check if payment profile exists if cc data is empty
 		$response = $client->request(
 			'GET',
 			SPRO_BASE_URL . '/services/v2/vault/paymentprofiles.json',
@@ -629,6 +628,7 @@ class Spro_Public {
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
 		echo 'ebiz payment method is ' . $ebiz_payment_method . '<br>';
+		echo 'ebiz customer profile id is ' . $customer_profile_id . '<br>';
 
 		echo 'payment profile response';
 		echo '<pre>';
@@ -642,55 +642,21 @@ class Spro_Public {
 			if ( $cc_number == '' ) {
 				
 				// Get CC Data from eBizCharge
+				$cc_data = $this->spro_get_ebiz_cc_data( $customer_profile_id, $ebiz_payment_method );
 
-				$client_a = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+				$cc_last4 = $cc_data['cc_last4'];
+				$cc_month = $cc_data['cc_month'];
+				$cc_year = $cc_data['cc_year'];
+				$cc_type = $cc_data['cc_type'];
 
-				$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
-			
-				$ebiz_security_id = $ebiz_settings['securityid'];
-				$ebiz_user_id = $ebiz_settings['username'];
-				$ebiz_password = $ebiz_settings['password'];
+				echo 'data from ebiz';
 
-				$securityToken = array(
-					'SecurityId' => $ebiz_security_id,
-					'UserId' => $ebiz_user_id,
-					'Password' => $ebiz_password
-				);
-
-				$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
-
-				try {
-					
-					$res = $client_a->GetCustomerPaymentMethodProfile(
-						array(
-							'securityToken' => $securityToken,
-							'customerToken' => $customer_profile_id,
-							'paymentMethodId' => $ebiz_payment_method
-						)
-					);
-
-					$payment_data = $res->GetCustomerPaymentMethodProfileResult;
-					$expiration = $payment_data->CardExpiration;
-
-					echo '<pre>';
-					print_r( $payment_data );
-					echo '</pre>';
-
-					$cc_last4 = substr( $payment_data->CardNumber, -4 );
-					$cc_month = substr( $expiration, -2 );
-					$cc_year = substr( $expiration, 0, 4 );
-					$cc_type = $payment_data->CardType;
-
-				
-				} catch ( SoapFault $e ) {
-					
-					die( "Payment profile not found: " . $e->getMessage() );
-
-				}
-
-
+				echo '<pre>';
+				print_r( $cc_data );
+				echo '</pre>';
+								
 			}
-			
+
 			// Create new payment profile if needed		
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
 				'verify' => false,
@@ -724,55 +690,32 @@ class Spro_Public {
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
 
 			// Get CC Data from eBizCharge
-			$client_e = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+			$cc_data = $this->spro_get_ebiz_cc_data( $customer_profile_id, $ebiz_payment_method );
 
-			$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
-		
-			$ebiz_security_id = $ebiz_settings['securityid'];
-			$ebiz_user_id = $ebiz_settings['username'];
-			$ebiz_password = $ebiz_settings['password'];
+			$cc_last4 = $cc_data['cc_last4'];
+			$cc_month = $cc_data['cc_month'];
+			$cc_year = $cc_data['cc_year'];
+			$cc_type = $cc_data['cc_type'];
 
-			$securityToken = array(
-				'SecurityId' => $ebiz_security_id,
-				'UserId' => $ebiz_user_id,
-				'Password' => $ebiz_password
-			);
-
-			try {
-				
-				$res = $client_e->GetCustomerPaymentMethodProfile(
-					array(
-						'securityToken' => $securityToken,
-						'customerToken' => $customer_profile_id,
-						'paymentMethodId' => $ebiz_payment_method
-					)
-				);
-
-				$payment_data = $res->GetCustomerPaymentMethodProfileResult;
-				$expiration = $payment_data->CardExpiration;
-
-				// Update existing payment profile
-				$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofiles/' . $sp_payment_profile_id . '.json', [
-					'verify' => false,
-					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
-					'json' => ['payment_profile' =>
-						array(
-							'creditcard_last_digits' => substr( $payment_data->CardNumber, -4 ),
-							'creditcard_month' => substr( $expiration, -2 ),
-							'creditcard_year' => substr( $expiration, 0, 4 ),
-							'creditcard_type' => $payment_data->CardType,
-							'billing_address' => $billing_address
-						)
-					]
-				]);
+			echo 'cc data from ebiz';
+			echo '<pre>';
+			print_r( $cc_data );
+			echo '</pre>';
 			
-			} catch ( SoapFault $e ) {
-
-				echo 'payment profile id is ' . $sp_payment_profile_id;
-				
-				die( "Payment profile update failed: " . $e->getMessage() );
-
-			}
+			// Update existing payment profile
+			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofiles/' . $sp_payment_profile_id . '.json', [
+				'verify' => false,
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+				'json' => ['payment_profile' =>
+					array(
+						'creditcard_last_digits' => $cc_last4,
+						'creditcard_month' => $cc_month,
+						'creditcard_year' => $cc_year,
+						'creditcard_type' => $cc_type,
+						'billing_address' => $billing_address
+					)
+				]
+			]);
 
 		}
 
@@ -829,6 +772,58 @@ class Spro_Public {
 
 		}
 
+	}
+
+	/**
+	 * Get Credit Card Data From Ebizcharge
+	 */
+	public function spro_get_ebiz_cc_data( $customer_profile_id, $ebiz_payment_method ) {
+
+		$client_a = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+
+		$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
+	
+		$ebiz_security_id = $ebiz_settings['securityid'];
+		$ebiz_user_id = $ebiz_settings['username'];
+		$ebiz_password = $ebiz_settings['password'];
+
+		$securityToken = array(
+			'SecurityId' => $ebiz_security_id,
+			'UserId' => $ebiz_user_id,
+			'Password' => $ebiz_password
+		);
+
+		try {
+			
+			$res = $client_a->GetCustomerPaymentMethodProfile(
+				array(
+					'securityToken' => $securityToken,
+					'customerToken' => $customer_profile_id,
+					'paymentMethodId' => $ebiz_payment_method
+				)
+			);
+
+			$payment_data = $res->GetCustomerPaymentMethodProfileResult;
+			$expiration = $payment_data->CardExpiration;
+
+			$cc_last4 = substr( $payment_data->CardNumber, -4 );
+			$cc_month = substr( $expiration, -2 );
+			$cc_year = substr( $expiration, 0, 4 );
+			$cc_type = $payment_data->CardType;
+
+			return array(
+				'cc_last4' => $cc_last4,
+				'cc_month' => $cc_month,
+				'cc_year' => $cc_year,
+				'cc_type' => $cc_type
+			);
+
+		
+		} catch ( SoapFault $e ) {
+			
+			die( "Payment profile not found: " . $e->getMessage() );
+
+		}
 	}
 
     /**
