@@ -524,10 +524,18 @@ class Spro_Public {
 		$user_email = $user_info->user_email;
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
-		$cc_year = get_post_meta( $order_id, 'card_exp_year', true );
-		$cc_month = get_post_meta( $order_id, 'card_exp_month', true );
-		$cc_last4 = get_post_meta( $order_id, 'card_last4', true );
-		$cc_type = get_post_meta( $order_id, 'card_type', true );
+		$cc_expiry = get_post_meta( $order_id, '_card_expiry', true );
+		$cc_number = get_post_meta( $order_id, '_card_number', true );
+		$cc_type = get_post_meta( $order_id, '_card_type', true );
+		$cc_month = substr( $cc_expiry, 0, 2 );
+		$cc_year = substr( $cc_expiry, -2 );
+		$cc_last4  = substr( $cc_number, -4);
+		$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
+
+		// $cc_year = get_post_meta( $order_id, 'card_exp_year', true );
+		// $cc_month = get_post_meta( $order_id, 'card_exp_month', true );
+		// $cc_last4 = get_post_meta( $order_id, 'card_last4', true );
+		// $cc_type = get_post_meta( $order_id, 'card_type', true );
 		$shipping_method = $order->get_shipping_method();
 		$is_subscription_order = false;
 
@@ -546,6 +554,13 @@ class Spro_Public {
 		if ( $ebiz_data == '' || $is_subscription_order == false ) {
 			return;
 		}
+
+		echo 'ebiz data is ' . $ebiz_data . '<br>';
+		
+		echo 'cc month: ' . $cc_month  . '<br>';
+		echo 'cc year: ' . $cc_year . '<br>';
+		echo 'cc number: ' . $cc_number . ' <br>';
+		echo 'cc type: ' . $cc_type . '<br>';
 
 		// Ebiz Data
 		$ebiz_data_array = explode('|', $ebiz_data);
@@ -619,7 +634,7 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
-		echo 'ebiz payment method is ' . $ebiz_payment_method;
+		echo 'ebiz payment method is ' . $ebiz_payment_method . '<br>';
 
 		echo 'payment profile response';
 		echo '<pre>';
@@ -629,6 +644,58 @@ class Spro_Public {
 		if ( empty( $payment_profile_array ) ) {
 
 			echo 'creating new payment profile';
+
+			if ( $cc_number == '' ) {
+				
+				// Get CC Data from eBizCharge
+
+				$client_a = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+
+				$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
+			
+				$ebiz_security_id = $ebiz_settings['securityid'];
+				$ebiz_user_id = $ebiz_settings['username'];
+				$ebiz_password = $ebiz_settings['password'];
+
+				$securityToken = array(
+					'SecurityId' => $ebiz_security_id,
+					'UserId' => $ebiz_user_id,
+					'Password' => $ebiz_password
+				);
+
+				$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
+
+				try {
+					
+					$res = $client_a->GetCustomerPaymentMethodProfile(
+						array(
+							'securityToken' => $securityToken,
+							'customerToken' => $customer_profile_id,
+							'paymentMethodId' => $ebiz_payment_method
+						)
+					);
+
+					$payment_data = $res->GetCustomerPaymentMethodProfileResult;
+					$expiration = $payment_data->CardExpiration;
+
+					echo '<pre>';
+					print_r( $payment_data );
+					echo '</pre>';
+
+					$cc_last4 = substr( $payment_data->CardNumber, -4 );
+					$cc_month = substr( $expiration, -2 );
+					$cc_year = substr( $expiration, 0, 4 );
+					$cc_type = $payment_data->CardType;
+
+				
+				} catch ( SoapFault $e ) {
+					
+					die( "Payment profile not found: " . $e->getMessage() );
+
+				}
+
+
+			}
 			
 			// Create new payment profile if needed		
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
@@ -674,8 +741,6 @@ class Spro_Public {
 				'UserId' => $ebiz_user_id,
 				'Password' => $ebiz_password
 			);
-
-			$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
 
 			try {
 				
