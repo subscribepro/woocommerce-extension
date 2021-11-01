@@ -832,19 +832,6 @@ class Spro_Public {
 
 	}
 
-	/**
-	 * Save Ebiz Data to Order
-	 */
-	public function spro_payment_post( $order_id ) { 
-	
-		// update_post_meta( $order_id, 'ebiz_payment_method_save', $_POST['ebizcharge-use-stored-payment-info'] );
-		update_post_meta( $order_id, 'card_type', $_POST['cardtype'] );
-		update_post_meta( $order_id, 'card_exp_year', $_POST['expyear'] );
-		update_post_meta( $order_id, 'card_exp_month', $_POST['expmonth'] );
-		update_post_meta( $order_id, 'card_last4', substr( $_POST['ccnum'], -4 ) );
-
-	}
-
     /**
      * @param \GuzzleHttp\Psr7\Request $request
      * @param string $sharedSecret
