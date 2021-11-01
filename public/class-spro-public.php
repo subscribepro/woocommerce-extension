@@ -540,13 +540,9 @@ class Spro_Public {
 			}
 		}
 
-		// Don't run if ebiz data is not present
-		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode', true );
-
-		if ( $ebiz_data == '' ) {
-			$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
-		}
+		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
 		
+		// Don't run if ebiz data is not present or if it's not a subscription order
 		if ( $ebiz_data == '' || $is_subscription_order == false ) {
 			return;
 		}
