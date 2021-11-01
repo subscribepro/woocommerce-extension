@@ -719,6 +719,7 @@ class Spro_Public {
 
 		}
 
+		// Create the subscriptions for each subscription product
 		foreach( $order->get_items() as $item_id => $line_item ) {
 
 			$item_data = $line_item->get_data();
@@ -1268,10 +1269,16 @@ class Spro_Public {
 		
 		$client = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
 
+		$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
+	
+		$ebiz_security_id = $ebiz_settings['securityid'];
+		$ebiz_user_id = $ebiz_settings['username'];
+		$ebiz_password = $ebiz_settings['password'];
+
 		$securityToken = array(
-			'SecurityId' => 'ec3b1d57-962b-4cca-9004-d15abb525dfb',
-			'UserId' => 'SubscribeSB',
-			'Password' => 'ZtQFpin4'
+			'SecurityId' => $ebiz_security_id,
+			'UserId' => $ebiz_user_id,
+			'Password' => $ebiz_password
 		);
 
 		$customerTransactionRequest = array(
