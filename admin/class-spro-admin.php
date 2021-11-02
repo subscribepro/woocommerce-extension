@@ -260,7 +260,7 @@ class Spro_Admin {
 
 		$product = wc_get_product( $product_id );
 
-		// Don't run if product isn't published or doesn't exist
+		// Don't run if not a product
 		if ($product->post_type != 'product' ) {
 			return;
 		}

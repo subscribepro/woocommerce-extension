@@ -76,6 +76,7 @@ if ( ! defined( 'WPINC' ) ) die;
         $base_url = get_option( 'spro_settings_base_url' );
         $client_id = get_option( 'spro_settings_client_id' );
         $client_secret = get_option( 'spro_settings_client_secret' );
+        $callback_secret = get_option( 'spro_settings_callback_secret' );
         $subscriptions_widget_url = get_option( 'spro_settings_subscriptions_widget_url' );
         $subscriptions_widget_config = get_option( 'spro_settings_subscriptions_widget_config' );
 
@@ -115,6 +116,14 @@ if ( ! defined( 'WPINC' ) ) die;
                 <span><?php esc_attr_e( 'Client Secret', 'spro' ); ?></span>
             </legend>
             <input type="password" class="spro-input" id="client_secret" name="client_secret" value="<?php if( ! empty( $client_secret ) ) echo $client_secret; else echo ''; ?>"/>
+        </fieldset>
+        
+        <fieldset>
+            <label for="callback_secret"><?php esc_attr_e( 'Order Callback Shared Secret', 'spro' ); ?></label>
+            <legend class="screen-reader-text">
+                <span><?php esc_attr_e( 'Order Callback Shared Secret', 'spro' ); ?></span>
+            </legend>
+            <input type="password" class="spro-input" id="callback_secret" name="callback_secret" value="<?php if( ! empty( $callback_secret ) ) echo $callback_secret; else echo ''; ?>"/>
         </fieldset>
         
         <fieldset>

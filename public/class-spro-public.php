@@ -819,6 +819,13 @@ class Spro_Public {
 	 */
 	function spro_order_callback_ebiz( $data ) {
 
+		// Shared Secret Validation
+		$secret = get_option( 'spro_settings_callback_secret' );
+
+		if ( !$this->validate_request_hmac( $_SERVER, $secret ) ) {
+			return new WP_REST_Response( array( 'error' => 'Invalid Shared Secret' ), 409 );
+		}
+
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
 
@@ -917,12 +924,6 @@ class Spro_Public {
 			array_push( $products_array, $product );
 
 		}
-
-		// Add Shipping Method
-		// $item = new WC_Order_Item_Shipping();
-
-		// $item->set_method_title( $order_data['shippingMethodCodes'][0]['method_code'] );
-		// $order->add_item( $item );
 
 		// Set Addresses
 		$order->set_address( $billing_address, 'billing' );
@@ -1098,12 +1099,6 @@ class Spro_Public {
 			array_push( $products_array, $product );
 
 		}
-
-		// Add Shipping Method
-		// $item = new WC_Order_Item_Shipping();
-
-		// $item->set_method_title( $order_data['shippingMethodCodes'][0]['method_code'] );
-		// $order->add_item( $item );
 
 		// Set Addresses
 		$order->set_address( $billing_address, 'billing' );

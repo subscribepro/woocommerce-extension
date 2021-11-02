@@ -1,9 +1,5 @@
 <?php
 
-// echo '<pre>';
-// print_r($product_data);
-// echo '</pre>';
-
 if ( $product_data->intervals ):
 
     $percentage = intval( str_replace( '%', '', $product_data->discount ) );
