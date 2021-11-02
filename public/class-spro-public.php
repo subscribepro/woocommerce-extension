@@ -548,13 +548,6 @@ class Spro_Public {
 			return;
 		}
 
-		echo 'ebiz data is ' . $ebiz_data . '<br>';
-		
-		echo 'cc month: ' . $cc_month  . '<br>';
-		echo 'cc year: ' . $cc_year . '<br>';
-		echo 'cc number: ' . $cc_number . ' <br>';
-		echo 'cc type: ' . $cc_type . '<br>';
-
 		// Customer Billing Address
 		$billing_address = array(
 			'first_name' => $order->get_billing_first_name(),
@@ -621,17 +614,7 @@ class Spro_Public {
 		$payment_profile_response =  json_decode( $response->getBody() );
 		$payment_profile_array = $payment_profile_response->payment_profiles;
 
-		echo 'ebiz payment method is ' . $ebiz_payment_method . '<br>';
-		echo 'ebiz customer profile id is ' . $customer_profile_id . '<br>';
-
-		echo 'payment profile response';
-		echo '<pre>';
-		print_r( $payment_profile_array );
-		echo '</pre>';
-
 		if ( empty( $payment_profile_array ) ) {
-
-			echo 'creating new payment profile';
 
 			if ( $cc_number == '' ) {
 				
@@ -642,13 +625,6 @@ class Spro_Public {
 				$cc_month = $cc_data['cc_month'];
 				$cc_year = $cc_data['cc_year'];
 				$cc_type = $cc_data['cc_type'];
-
-				echo 'data from ebiz';
-
-				echo '<pre>';
-				print_r( $cc_data );
-				echo '</pre>';
-								
 			}
 
 			// Create new payment profile if needed		
@@ -674,11 +650,9 @@ class Spro_Public {
 
 			update_post_meta( $order_id, 'spro_subscription_id', $sp_payment_profile_id );
 
-			echo 'new profile id is ' . $sp_payment_profile_id;
 
 		} else {
 
-			echo 'found existing payment profile. Updating.';
 
 			// Payment profile found, update existing profile instead of creating new one.
 			$sp_payment_profile_id = $payment_profile_array[0]->id;
@@ -690,11 +664,6 @@ class Spro_Public {
 			$cc_month = $cc_data['cc_month'];
 			$cc_year = $cc_data['cc_year'];
 			$cc_type = $cc_data['cc_type'];
-
-			echo 'cc data from ebiz';
-			echo '<pre>';
-			print_r( $cc_data );
-			echo '</pre>';
 			
 			// Update existing payment profile
 			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofiles/' . $sp_payment_profile_id . '.json', [
