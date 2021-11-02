@@ -751,7 +751,8 @@ class Spro_Public {
 					$response_body = json_decode( $response->getBody() );
 
 					// Save the subscription id to the order for use in the order callback function
-					update_post_meta( $order_id, 'spro_subscription_id', $response_body->subscription->id );
+					wc_update_order_item_meta( $item_id, 'spro_subscription_id', $response_body->subscription->id );
+
 				}
 
 			}
@@ -914,7 +915,7 @@ class Spro_Public {
 			$product_short_desciption = $post_obj->post_excerpt;
 
 			// Get the subscribe pro subscription id
-			$subscription_id = get_post_meta( $order->get_id(), 'spro_subscription_id', true );
+			$subscription_id = wc_get_order_item_meta( $item_id, 'spro_subscription_id', true );
 
 			$product = array(
 				"platformOrderItemId" => strval( $order->get_id() ),
