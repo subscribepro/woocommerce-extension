@@ -251,4 +251,22 @@ class Spro_Admin {
 
 	}
 
+	/**
+	 * Clears Product Data Cache on Product Save
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_clear_product_cache( $product_id ) {
+
+		$product = wc_get_product( $product_id );
+
+		// Don't run if product isn't published or doesn't exist
+		if ($product->post_type != 'product' ) {
+			return;
+		}
+
+		delete_transient( $product_id . '_spro_product' );
+
+	}
+
 }

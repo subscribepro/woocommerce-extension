@@ -232,19 +232,26 @@ class Spro_Public {
 	 */
 	public function spro_validate_custom_field( $passed, $product_id, $quantity ) {
 
-		if( empty( $_POST['delivery_type'] ) ) {
-			// Fails validation
-			$passed = false;
-			wc_add_notice( __( 'Please select a delivery type', 'spro' ), 'error' );
-		}
+		$is_subscription_product = ( get_post_meta( $product_id, '_spro_product', true ) == 'yes' ) ? true : false;
 
-		if( empty( $_POST['delivery_frequency'] ) ) {
-			// Fails validation
-			$passed = false;
-			wc_add_notice( __( 'Please select a delivery frequency', 'spro' ), 'error' );
+		if ( $is_subscription_product ) {
+
+			if( empty( $_POST['delivery_type'] ) ) {
+				// Fails validation
+				$passed = false;
+				wc_add_notice( __( 'Please select a delivery type', 'spro' ), 'error' );
+			}
+	
+			if( empty( $_POST['delivery_frequency'] ) ) {
+				// Fails validation
+				$passed = false;
+				wc_add_notice( __( 'Please select a delivery frequency', 'spro' ), 'error' );
+			}
+
 		}
 
 		return $passed;
+
 	}
 
 	/**
@@ -454,10 +461,12 @@ class Spro_Public {
 	 */
 	public function spro_get_product( $sku ) {
 
-		// delete_transient( $sku . '_spro_product' );
-		
-		if ( false === ( $value = get_transient( $sku . '_spro_product' ) ) ) {
-			
+		$product_id = wc_get_product_id_by_sku( $sku );
+
+		// delete_transient( $product_id . '_spro_product' );
+
+		if ( false === ( get_transient( $product_id . '_spro_product' ) ) ) {
+
 			$client = new Client();
 			$access_token = $this->spro_get_access_token();
 
@@ -478,11 +487,11 @@ class Spro_Public {
 	
 			$response_body = json_decode( $response->getBody() );
 
-			set_transient( $sku . '_spro_product', $response_body, 24 * HOUR_IN_SECONDS );
+			set_transient( $product_id . '_spro_product', $response_body, 24 * HOUR_IN_SECONDS );
 
 		}
 
-		return get_transient( $sku . '_spro_product' );
+		return get_transient( $product_id . '_spro_product' );
 
 	}
 
@@ -878,12 +887,17 @@ class Spro_Public {
 
 		// Add products to the order
 		$products_array = array();
+		$subscription_ids = array();
 
 		foreach ( $order_data['items'] as $item ) {
 			
 			// Item Data
 			$sku = $item['productSku'];
 			$product_id = wc_get_product_id_by_sku( $sku );
+
+			// Add subscription id to order item
+			$subscription_id = $item['subscriptionId'];
+			array_push( $subscription_ids, $subscription_id );
 
 			// Add product to order
 			$order->add_product( wc_get_product( $product_id ) );
