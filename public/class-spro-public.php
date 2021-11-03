@@ -797,19 +797,19 @@ class Spro_Public {
      *
      * @return bool
      */
-    public function validate_request_hmac(\GuzzleHttp\Psr7\Request $request, $sharedSecret) {
+    public function validate_request_hmac( \GuzzleHttp\Psr7\Request $request, $sharedSecret ) {
 
         // Get signature from request header
-        $hmacSignature = $request->getHeader(SP_HMAC_HEADER);
+        $hmacSignature = $request->getHeader( SP_HMAC_HEADER );
         
         // Get request body (JSON string)
         $body = $request->getBody();
 
         // Calculate the hash of body using shared secret and SHA-256 algorithm
-        $calculatedHash = hash_hmac('sha256', $body, $sharedSecret, false);
+        $calculatedHash = hash_hmac( 'sha256', $body, $sharedSecret, false );
         
         // Compare signature using secure compare method
-        return hash_equals($calculatedHash, $hmacSignature);
+        return hash_equals( $calculatedHash, $hmacSignature );
 
     }
 
@@ -823,7 +823,7 @@ class Spro_Public {
 		$secret = get_option( 'spro_settings_callback_secret' );
 
 		if ( !$this->validate_request_hmac( $_SERVER, $secret ) ) {
-			return new WP_REST_Response( array( 'error' => 'Invalid Shared Secret' ), 409 );
+			return new WP_REST_Response( array( 'error' => 'Invalid Shared Secret' ), 401 );
 		}
 
 		// Get Order Data From Subscribe Pro
@@ -881,6 +881,8 @@ class Spro_Public {
 		}
 
 		// Create Product Array For Response
+		$i = 0;
+
 		foreach ( $order->get_items() as $item_key => $item ) {
 
 			// Item ID is directly accessible from the $item_key in the foreach loop or
@@ -918,10 +920,12 @@ class Spro_Public {
 				"shippingTotal" => "0",
 				"taxTotal" => strval( $line_total_tax ),
 				"lineTotal" => strval( $line_total ),
-				"subscriptionId" => $subscription_id
+				"subscriptionId" => $subscription_ids[$i]
 			);
 
 			array_push( $products_array, $product );
+
+			$i++;
 
 		}
 

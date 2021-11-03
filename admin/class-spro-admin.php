@@ -258,10 +258,10 @@ class Spro_Admin {
 	 */
 	public function spro_clear_product_cache( $product_id ) {
 
-		$product = wc_get_product( $product_id );
+		global $post;
 
-		// Don't run if not a product
-		if ($product->post_type != 'product' ) {
+		// Don't run if product isn't published or doesn't exist
+		if ( $post->post_type != 'product' ) {
 			return;
 		}
 
