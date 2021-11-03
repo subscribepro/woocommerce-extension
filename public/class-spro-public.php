@@ -797,13 +797,10 @@ class Spro_Public {
      *
      * @return bool
      */
-    public function validate_request_hmac( \GuzzleHttp\Psr7\Request $request, $sharedSecret ) {
+    public function validate_request_hmac( \GuzzleHttp\Psr7\Request $request, $body, $sharedSecret ) {
 
         // Get signature from request header
-        $hmacSignature = $request->getHeader( SP_HMAC_HEADER );
-        
-        // Get request body (JSON string)
-        $body = $request->getBody();
+        $hmacSignature = $request[SP_HMAC_HEADER];
 
         // Calculate the hash of body using shared secret and SHA-256 algorithm
         $calculatedHash = hash_hmac( 'sha256', $body, $sharedSecret, false );
@@ -821,11 +818,12 @@ class Spro_Public {
 
 		// Shared Secret Validation
 		$secret = get_option( 'spro_settings_callback_secret' );
+		$body = http_get_request_body();
 
-		if ( !$this->validate_request_hmac( $_SERVER, $secret ) ) {
+		if ( !$this->validate_request_hmac( $_SERVER, $body, $secret ) ) {
 			return new WP_REST_Response( array( 'error' => 'Invalid Shared Secret' ), 401 );
 		}
-
+		
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
 
