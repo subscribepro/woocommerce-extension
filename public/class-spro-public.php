@@ -829,8 +829,6 @@ class Spro_Public {
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
 
-		error_log( print_r( $order_data, true ) );
-
 		// Create WooCommerce Order
 		global $woocommerce;
 
@@ -913,7 +911,9 @@ class Spro_Public {
 				array_push( $item_error_array, $error_array );
 
 			} else {
+
 				$order->add_product( $product, $qty );
+			
 			}
 
 		}
@@ -975,52 +975,53 @@ class Spro_Public {
 		// Charge payment profile
 		$charge = $this->ebizChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total(), $billing_address['postcode'] );
 
+		// Prepare return data
+		$return_data = array(
+			"orderNumber" => strval( $order->get_id() ),
+			"orderDetails" => array(
+				"customerId" => strval( $order_data["customerId"] ),
+				"customerEmail" => $order_data["customerEmail"],
+				"platformCustomerId" => strval( $order_data["platformCustomerId"] ),
+				"platformOrderId" => strval( $order->get_id() ),
+				"orderNumber" => strval( $order->get_id() ),
+				"orderStatus" => "placed",
+				"orderState" => "open",
+				"orderDateTime" => strval( $order->get_date_created() ),
+				"currency" => "USD",
+				"shippingTotal" => strval( $order->get_shipping_total() ),
+				"taxTotal" => strval( $order->get_total_tax() ),
+				"total" => strval( $order->get_total() ),
+				"shippingAddress" => array(
+					"firstName" => $order_data["shippingAddress"]["firstName"],
+					"lastName" => $order_data["shippingAddress"]["lastName"],
+					"street1" => $order_data["shippingAddress"]["street1"],
+					"street2" => $order_data["shippingAddress"]["street2"],
+					"city" => $order_data["shippingAddress"]["city"],
+					"region" => $order_data["shippingAddress"]["region"],
+					"postcode" => $order_data["shippingAddress"]["postcode"],
+					"country" => $order_data["shippingAddress"]["country"],
+					"phone" => $order_data["shippingAddress"]["phone"]
+				),
+				"billingAddress" => array(
+					"firstName" => $order_data["billingAddress"]["firstName"],
+					"lastName" => $order_data["billingAddress"]["lastName"],
+					"street1" => $order_data["billingAddress"]["street1"],
+					"street2" => $order_data["billingAddress"]["street2"],
+					"city" => $order_data["billingAddress"]["city"],
+					"region" => $order_data["billingAddress"]["region"],
+					"postcode" => $order_data["billingAddress"]["postcode"],
+					"country" => $order_data["billingAddress"]["country"],
+					"phone" => $order_data["billingAddress"]["phone"]
+				),
+				"items" => $products_array
+			),
+		);
+
 		// Prepare return data and update order with ebiz data if payment was successful
 		if ( $charge['status'] ) {
-
-			$return_data = array(
-				"orderNumber" => strval( $order->get_id() ),
-				"orderDetails" => array(
-					"customerId" => strval( $order_data["customerId"] ),
-					"customerEmail" => $order_data["customerEmail"],
-					"platformCustomerId" => strval( $order_data["platformCustomerId"] ),
-					"platformOrderId" => strval( $order->get_id() ),
-					"orderNumber" => strval( $order->get_id() ),
-					"salesOrderToken" => strval( $charge['trans_id'] ),
-					"orderStatus" => "placed",
-					"orderState" => "open",
-					"orderDateTime" => strval( $order->get_date_created() ),
-					"currency" => "USD",
-					"shippingTotal" => strval( $order->get_shipping_total() ),
-					"taxTotal" => strval( $order->get_total_tax() ),
-					"total" => strval( $order->get_total() ),
-					"shippingAddress" => array(
-						"firstName" => $order_data["shippingAddress"]["firstName"],
-						"lastName" => $order_data["shippingAddress"]["lastName"],
-						"street1" => $order_data["shippingAddress"]["street1"],
-						"street2" => $order_data["shippingAddress"]["street2"],
-						"city" => $order_data["shippingAddress"]["city"],
-						"region" => $order_data["shippingAddress"]["region"],
-						"postcode" => $order_data["shippingAddress"]["postcode"],
-						"country" => $order_data["shippingAddress"]["country"],
-						"phone" => $order_data["shippingAddress"]["phone"]
-					),
-					"billingAddress" => array(
-						"firstName" => $order_data["billingAddress"]["firstName"],
-						"lastName" => $order_data["billingAddress"]["lastName"],
-						"street1" => $order_data["billingAddress"]["street1"],
-						"street2" => $order_data["billingAddress"]["street2"],
-						"city" => $order_data["billingAddress"]["city"],
-						"region" => $order_data["billingAddress"]["region"],
-						"postcode" => $order_data["billingAddress"]["postcode"],
-						"country" => $order_data["billingAddress"]["country"],
-						"phone" => $order_data["billingAddress"]["phone"]
-					),
-					"items" => $products_array
-				),
-			);
 	
 			// Update order status
+			$return_data['salesOrderToken'] = strval( $charge['trans_id'] );
 			$trans_id = $charge['trans_id'];
 			update_post_meta(  $order->get_id(), '_transaction_id', $trans_id );
 			update_post_meta(  $order->get_id(), '_payment_method_title', 'Credit Card' );
@@ -1029,14 +1030,20 @@ class Spro_Public {
 			// Return response
 			if ( !empty( $item_error_array) ) {
 
+				// Add any errors generated while adding products to the order
 				foreach( $item_error_array as $error ) {
+					$return_data['itemErrors'] = array();
 					array_push( $return_data['itemErrors'], $error );
 				}
 
+				// Partial Success
 				$response = new WP_REST_Response( $return_data, 202 );
 
 			} else {
+
+				// Success
 				$response = new WP_REST_Response( $return_data, 201 );
+			
 			}
 
 
@@ -1045,26 +1052,28 @@ class Spro_Public {
 			// Update order status
 			$order->update_status( 'failed', $charge['error'] );
 
-			$error_array = array(
-				'orderNumber'=> null,
-				'orderDetails' => null,
-				'itemErrors' => array(
-					array(
-						'subscriptionId' => $order_data['items'][0]['subscriptionId'],
-						'errorMessage' => $charge['error']
-					)
-				)
+			// Add charge error to return data
+			$charge_error = array(
+				'subscriptionId' => $order_data['items'][0]['subscriptionId'],
+				'errorMessage' => $charge['error']
 			);
 
+			array_push( $return_data['itemErrors'], $charge_error );
+
+			// Add any errors generated while adding products to the order
 			if ( !empty( $item_error_array ) ) {
 
 				foreach( $item_error_array as $error ) {
-					array_push( $error_array['itemErrors'], $error );
+
+					$return_data['itemErrors'] = array();
+					array_push( $return_data['itemErrors'], $error );
+
 				}
 
 			}
 
-			$response = new WP_REST_Response( $error_array, 202 );
+			// Partial Success
+			$response = new WP_REST_Response( $return_data, 202 );
 
 		}
 
