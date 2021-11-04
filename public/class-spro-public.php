@@ -347,8 +347,6 @@ class Spro_Public {
 			
 			if( isset( $values['delivery_discount'] ) ) {
 
-				error_log( 'delivery discount added' );
-
 				$item->add_meta_data( __( 'Delivery Discount', 'spro' ), $values['delivery_discount'], true );
 			}
 		}
@@ -525,7 +523,8 @@ class Spro_Public {
 		$cc_year = '20' . substr( $cc_expiry, -2 );
 		$cc_last4  = substr( $cc_number, -4);
 		$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
-		$shipping_method = $order->get_shipping_method();
+		$shipping_method = @array_shift( $order->get_shipping_methods() );;
+		$shipping_method_id = $shipping_method['method_id'];
 		$is_subscription_order = false;
 		
 		// Ebiz Data
@@ -716,7 +715,7 @@ class Spro_Public {
 								'payment_profile_id' => $sp_payment_profile_id,
 								'product_sku' => $sku,
 								'requires_shipping' => true,
-								'shipping_method_code' => $shipping_method,
+								'shipping_method_code' => $shipping_method_id,
 								'shipping_address' => $subscription_address,
 								'qty' => $item_quantity,
 								'next_order_date' => date("F j, Y"),
@@ -867,11 +866,9 @@ class Spro_Public {
 			$error_string = $order->get_error_message();
 
 			$response = new WP_REST_Response( array( 
-				'orderNumber'=> null,
-				'orderDetails' => null,
 				'itemErrors' => array(
 					array(
-						'subscriptionId' => $order_data['items'][0]['subscriptionId'],
+						'subscriptionId' => strval( $order_data['items'][0]['subscription']['id'] ),
 						'errorMessage' => $error_string
 					)
 				)
@@ -881,17 +878,14 @@ class Spro_Public {
 			
 		}
 
-		// Add shipping to order
-		$shipping_item = new WC_Order_Item_Shipping();
-
-		$shipping_item->set_method_title( $order_data['shippingMethodCode'] );
-		// $item->set_method_id( "flat_rate:14" );
-
-		$order->add_item( $shipping_item );
+		// Set Addresses
+		$order->set_address( $billing_address, 'billing' );
+		$order->set_address( $shipping_address, 'shipping' );
 
 		// Add products to the order
 		$products_array = array();
 		$item_error_array = array();
+		$subscription_ids = array();
 
 		foreach ( $order_data['items'] as $item ) {
 			
@@ -904,16 +898,15 @@ class Spro_Public {
 			if ( $product == null || $product == false ) {
 
 				$error_array = array(
-					'subscriptionId' => $item['subscription']['id'],
+					'subscriptionId' => strval( $item['subscription']['id'] ),
 					'errorMessage' => 'Invalid SKU, product not found'
 				);
 
 				array_push( $item_error_array, $error_array );
 
 			} else {
-
 				$order->add_product( $product, $qty );
-			
+				array_push( $subscription_ids, strval( $item['subscription']['id'] ) );	
 			}
 
 		}
@@ -955,6 +948,7 @@ class Spro_Public {
 				"shippingTotal" => "0",
 				"taxTotal" => strval( $line_total_tax ),
 				"lineTotal" => strval( $line_total ),
+				'subscriptionId' => $subscription_ids[$i]
 			);
 
 			array_push( $products_array, $product );
@@ -963,9 +957,10 @@ class Spro_Public {
 
 		}
 
-		// Set Addresses
-		$order->set_address( $billing_address, 'billing' );
-		$order->set_address( $shipping_address, 'shipping' );
+		// Add shipping to order
+		// $shipping_item = new WC_Order_Item_Shipping();
+		// $shipping_item->set_method_id( $order_data['shippingMethodCode'] );
+		// $order->add_item( $shipping_item );
 
 		// Calculate totals
 		$order->calculate_totals();
@@ -1013,16 +1008,32 @@ class Spro_Public {
 					"country" => $order_data["billingAddress"]["country"],
 					"phone" => $order_data["billingAddress"]["phone"]
 				),
-				"items" => $products_array
 			),
 		);
+
+		if ( !empty( $products_array ) ) {
+			$return_data['orderDetails']['items'] = $products_array;
+		} else {
+
+			// Remove the order
+			wp_delete_post( $order_id, true );
+
+			// Return 409 with product errors if no products were added
+			$response = new WP_REST_Response( array( 
+				'itemErrors' => $item_error_array
+			), 409 );
+
+			return $response;
+		}
 
 		// Prepare return data and update order with ebiz data if payment was successful
 		if ( $charge['status'] ) {
 	
 			// Update order status
-			$return_data['salesOrderToken'] = strval( $charge['trans_id'] );
 			$trans_id = $charge['trans_id'];
+			
+			$return_data['orderDetails']['salesOrderToken'] = strval( $trans_id );
+			
 			update_post_meta(  $order->get_id(), '_transaction_id', $trans_id );
 			update_post_meta(  $order->get_id(), '_payment_method_title', 'Credit Card' );
 			$order->update_status( 'processing', 'Ebiz charge completed successfully, transaction ID: ' . $trans_id );
@@ -1031,8 +1042,9 @@ class Spro_Public {
 			if ( !empty( $item_error_array) ) {
 
 				// Add any errors generated while adding products to the order
+				$return_data['itemErrors'] = array();
+
 				foreach( $item_error_array as $error ) {
-					$return_data['itemErrors'] = array();
 					array_push( $return_data['itemErrors'], $error );
 				}
 
@@ -1046,15 +1058,16 @@ class Spro_Public {
 			
 			}
 
-
 		} else {
 
 			// Update order status
 			$order->update_status( 'failed', $charge['error'] );
 
+			$return_data['itemErrors'] = array();
+
 			// Add charge error to return data
 			$charge_error = array(
-				'subscriptionId' => $order_data['items'][0]['subscriptionId'],
+				'subscriptionId' => strval( $order_data['items'][0]['subscription']['id'] ),
 				'errorMessage' => $charge['error']
 			);
 
