@@ -48,7 +48,7 @@ define( 'SPRO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SPRO_BASE_URL', get_option( 'spro_settings_base_url' ) );
 define( 'SPRO_CLIENT_ID', get_option( 'spro_settings_client_id' ) );
 define( 'SPRO_CLIENT_SECRET', get_option( 'spro_settings_client_secret' ) );
-define( 'SP_HMAC_HEADER', 'Sp-Hmac' );
+define( 'SP_HMAC_HEADER', 'sp_hmac' );
 
 /**
  * The code that runs during plugin activation.
@@ -109,3 +109,31 @@ function sp_locate_template( $template, $template_name, $template_path ) {
 
 }
 add_filter( 'woocommerce_locate_template', 'sp_locate_template', 10, 3 );
+
+// add_action( 'init', 'init' );
+function init() {
+
+	$order = wc_create_order( array( 'customer_id' => 1 ) );
+
+	$product_id = wc_get_product_id_by_sku( 'test' );
+	$product = wc_get_product( $product_id );
+	$order->add_product( $product, 1 );
+
+	// Set Addresses
+	// $order->set_address( $billing_address, 'billing' );
+	// $order->set_address( $shipping_address, 'shipping' );
+
+	$shipping_item = new WC_Order_Item_Shipping();
+
+	$shipping_item->set_method_title( 'Flat rate' );
+
+	// $shipping_item->set_method_id( "flat_rate:14" );
+	$order->add_item( $shipping_item );
+
+	// Calculate totals
+	$order->calculate_totals();
+
+
+
+
+}

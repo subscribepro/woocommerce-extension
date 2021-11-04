@@ -792,22 +792,22 @@ class Spro_Public {
 	}
 
     /**
-     * @param \GuzzleHttp\Psr7\Request $request
+     * @param $request
      * @param string $sharedSecret
      *
      * @return bool
      */
-    public function validate_request_hmac( \GuzzleHttp\Psr7\Request $request, $sharedSecret ) {
+    public function validate_request_hmac( $request, $sharedSecret ) {
 
         // Get signature from request header
-        $hmacSignature = $request->getHeader(SP_HMAC_HEADER);
+        $hmacSignature = $request->get_header( SP_HMAC_HEADER );
 
 		// Get request body (JSON string)
-		$body = $request->getBody();
+		$body = $request->get_body();
 
         // Calculate the hash of body using shared secret and SHA-256 algorithm
         $calculatedHash = hash_hmac( 'sha256', $body, $sharedSecret, false );
-        
+
         // Compare signature using secure compare method
         return hash_equals( $calculatedHash, $hmacSignature );
 
@@ -823,11 +823,13 @@ class Spro_Public {
 		$secret = get_option( 'spro_settings_callback_secret' );
 
 		if ( !$this->validate_request_hmac( $data, $secret ) ) {
-			return new WP_REST_Response( array( 'error' => 'Invalid Shared Secret' ), 401 );
+			return new WP_REST_Response( array( 'error' => 'Invalid Shared Secret', 'secret' => $secret ), 401 );
 		}
 		
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
+
+		error_log( print_r( $order_data, true ) );
 
 		// Create WooCommerce Order
 		global $woocommerce;
@@ -861,22 +863,58 @@ class Spro_Public {
 		// Create the order
 		$order = wc_create_order( array( 'customer_id' => $order_data['platformCustomerId'] ) );
 
+		// Return error if order creation failed
+		if ( is_wp_error( $order ) ) {
+
+			$error_string = $order->get_error_message();
+
+			$response = new WP_REST_Response( array( 
+				'orderNumber'=> null,
+				'orderDetails' => null,
+				'itemErrors' => array(
+					array(
+						'subscriptionId' => $order_data['items'][0]['subscriptionId'],
+						'errorMessage' => $error_string
+					)
+				)
+			), 409 );
+
+			return $response;
+			
+		}
+
+		// Add shipping to order
+		$shipping_item = new WC_Order_Item_Shipping();
+
+		$shipping_item->set_method_title( $order_data['shippingMethodCode'] );
+		// $item->set_method_id( "flat_rate:14" );
+
+		$order->add_item( $shipping_item );
+
 		// Add products to the order
 		$products_array = array();
-		$subscription_ids = array();
+		$item_error_array = array();
 
 		foreach ( $order_data['items'] as $item ) {
 			
 			// Item Data
 			$sku = $item['productSku'];
+			$qty = $item['qty'];
 			$product_id = wc_get_product_id_by_sku( $sku );
+			$product = wc_get_product( $product_id );
 
-			// Add subscription id to order item
-			$subscription_id = $item['subscriptionId'];
-			array_push( $subscription_ids, $subscription_id );
+			if ( $product == null || $product == false ) {
 
-			// Add product to order
-			$order->add_product( wc_get_product( $product_id ) );
+				$error_array = array(
+					'subscriptionId' => $item['subscription']['id'],
+					'errorMessage' => 'Invalid SKU, product not found'
+				);
+
+				array_push( $item_error_array, $error_array );
+
+			} else {
+				$order->add_product( $product, $qty );
+			}
 
 		}
 
@@ -906,9 +944,6 @@ class Spro_Public {
 			// The product short description
 			$product_short_desciption = $post_obj->post_excerpt;
 
-			// Get the subscribe pro subscription id
-			$subscription_id = wc_get_order_item_meta( $item_id, 'spro_subscription_id', true );
-
 			$product = array(
 				"platformOrderItemId" => strval( $order->get_id() ),
 				"productSku" => $sku,
@@ -920,7 +955,6 @@ class Spro_Public {
 				"shippingTotal" => "0",
 				"taxTotal" => strval( $line_total_tax ),
 				"lineTotal" => strval( $line_total ),
-				"subscriptionId" => $subscription_ids[$i]
 			);
 
 			array_push( $products_array, $product );
@@ -938,7 +972,7 @@ class Spro_Public {
 
 		$customer_profile_id = get_user_meta( $order_data["platformCustomerId"], 'CustNum', true );
 
-		// Charge payment profile 
+		// Charge payment profile
 		$charge = $this->ebizChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total(), $billing_address['postcode'] );
 
 		// Prepare return data and update order with ebiz data if payment was successful
@@ -993,13 +1027,44 @@ class Spro_Public {
 			$order->update_status( 'processing', 'Ebiz charge completed successfully, transaction ID: ' . $trans_id );
 
 			// Return response
-			$response = new WP_REST_Response( $return_data, 201 );
+			if ( !empty( $item_error_array) ) {
+
+				foreach( $item_error_array as $error ) {
+					array_push( $return_data['itemErrors'], $error );
+				}
+
+				$response = new WP_REST_Response( $return_data, 202 );
+
+			} else {
+				$response = new WP_REST_Response( $return_data, 201 );
+			}
+
 
 		} else {
 
 			// Update order status
 			$order->update_status( 'failed', $charge['error'] );
-			$response = new WP_REST_Response( array( 'error' => $charge['error'] ), 400 );
+
+			$error_array = array(
+				'orderNumber'=> null,
+				'orderDetails' => null,
+				'itemErrors' => array(
+					array(
+						'subscriptionId' => $order_data['items'][0]['subscriptionId'],
+						'errorMessage' => $charge['error']
+					)
+				)
+			);
+
+			if ( !empty( $item_error_array ) ) {
+
+				foreach( $item_error_array as $error ) {
+					array_push( $error_array['itemErrors'], $error );
+				}
+
+			}
+
+			$response = new WP_REST_Response( $error_array, 202 );
 
 		}
 
