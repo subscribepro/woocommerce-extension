@@ -115,7 +115,7 @@ class Spro_Public {
 		
 		?>
 	
-		<h2>Your Subscriptions</h2>
+		<h2>My Subscriptions</h2>
 	
 		<div class="content">
 			<!-- My Subscriptions Widget div goes in main body of page -->
