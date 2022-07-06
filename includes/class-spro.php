@@ -181,6 +181,30 @@ class Spro {
 		$this->loader->add_action( 'personal_options_update', $plugin_admin, 'spro_save_extra_user_profile_fields' );
 		$this->loader->add_action( 'edit_user_profile_update', $plugin_admin, 'spro_save_extra_user_profile_fields' );
 
+		// Save/Update our plugin options
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'options_update' );
+
+		// Add menu item
+		$this->loader->add_action( 'admin_menu', $plugin_admin, 'add_plugin_admin_menu' );
+	
+		// Add Settings link to the plugin
+		$plugin_basename = plugin_basename( plugin_dir_path( __DIR__ ) . $this->plugin_name . '.php' );
+
+		// AJAX Handler for Test Connection Button
+		$this->loader->add_action( 'wp_ajax_nopriv_test_connection', $plugin_admin, 'spro_test_connection' );
+		$this->loader->add_action( 'wp_ajax_test_connection', $plugin_admin, 'spro_test_connection' );
+		
+		$this->loader->add_action( 'wp_ajax_nopriv_save_connection_credentials', $plugin_admin, 'spro_save_connection_credentials' );
+		$this->loader->add_action( 'wp_ajax_save_connection_credentials', $plugin_admin, 'spro_save_connection_credentials' );
+
+		// Clear Product Cache and Create SP Product on Save
+		$this->loader->add_action( 'save_post', $plugin_admin, 'spro_update_product_on_save', 10, 3 );
+		$this->loader->add_action( 'admin_notices', $plugin_admin, 'spro_admin_notices' );
+
+		// Add Bulk Edit Fields
+		$this->loader->add_action( 'woocommerce_product_bulk_edit_start', $plugin_admin, 'spro_bulk_edit_fields' );
+		$this->loader->add_action( 'woocommerce_product_bulk_edit_save', $plugin_admin, 'spro_bulk_edit_save' );
+
 	}
 
 	/**
@@ -194,6 +218,9 @@ class Spro {
 
 		$plugin_public = new Spro_Public( $this->get_plugin_name(), $this->get_version() );
 
+		// Enqueue Scripts
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+
 		// Add the endpoint for the subscriptions page within WooCommerce My Account
 		$this->loader->add_action( 'init', $plugin_public, 'spro_add_endpoints' );
 		$this->loader->add_filter( 'woocommerce_account_menu_items', $plugin_public, 'spro_subscriptions_tab' );
@@ -204,15 +231,16 @@ class Spro {
 		$this->loader->add_action( 'woocommerce_before_add_to_cart_button', $plugin_public, 'spro_before_add_to_cart_btn' );
 		$this->loader->add_filter( 'woocommerce_add_to_cart_validation', $plugin_public, 'spro_validate_custom_field', 10, 3 );
 		$this->loader->add_filter( 'woocommerce_add_cart_item_data', $plugin_public, 'spro_add_custom_field_item_data', 10, 4 );
-		$this->loader->add_filter( 'woocommerce_cart_item_name', $plugin_public, 'spro_cart_item_name', 10, 3 );
 		$this->loader->add_action( 'woocommerce_checkout_create_order_line_item', $plugin_public, 'spro_add_custom_data_to_order', 10, 4 );
+		$this->loader->add_action( 'woocommerce_cart_calculate_fees', $plugin_public, 'spro_apply_discount', 10, 1 );
+		$this->loader->add_action( 'template_redirect', $plugin_public, 'spro_checkout_redirect', 10, 1 );
+		$this->loader->add_action( 'woocommerce_update_cart_action_cart_updated', $plugin_public, 'spro_cart_updated', 10, 1 );
 
 		// WooCommerce Payment Complete
 		$this->loader->add_action( 'woocommerce_thankyou', $plugin_public, 'spro_payment_complete' );
 
 		// Create Order Endpoint
 		$this->loader->add_action( 'rest_api_init', $plugin_public, 'spro_rest_init' );
-
 	}
 
 	/**

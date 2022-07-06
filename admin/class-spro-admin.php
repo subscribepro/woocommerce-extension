@@ -10,16 +10,10 @@
  * @subpackage Spro/admin
  */
 
-/**
- * The admin-specific functionality of the plugin.
- *
- * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
- *
- * @package    Spro
- * @subpackage Spro/admin
- * @author     Brady Christopher <brady.christopher@toptal.com>
- */
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7;
+use GuzzleHttp\Exception\RequestException;
+
 class Spro_Admin {
 
 	/**
@@ -72,6 +66,7 @@ class Spro_Admin {
 		return $tabs;
 	}
 
+
 	/**
 	 * Add Custom Fields to the Subscribe Pro Tab on WooCommerce Products
 	 * 
@@ -104,6 +99,7 @@ class Spro_Admin {
 	public function spro_save_subscription_options_field( $post_id ) {
 
 		$spro_checkbox = isset( $_POST['_spro_product'] ) ? 'yes' : 'no';
+
 		update_post_meta( $post_id, '_spro_product', $spro_checkbox );
 	
 	}
@@ -150,6 +146,433 @@ class Spro_Admin {
 
 		update_user_meta( $user_id, 'spro_id', $_POST['spro_id'] );
 	
+	}
+
+	/**
+	 * Register the administration menu for this plugin into the WordPress Dashboard menu.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_plugin_admin_menu() {
+
+		/**
+		 * Add a settings page for this plugin to the Settings menu.
+		 *
+		 * @link https://codex.wordpress.org/Function_Reference/add_options_page
+		 *
+		 */
+		add_submenu_page( 'woocommerce', 'Subscribe Pro Settings', 'Subscribe Pro', 'manage_options', 'spro_settings', array( $this, 'display_plugin_setup_page' ) );
+
+	}
+
+	/**
+	 * Add settings action link to the plugins page.
+	 *
+	 * @since    1.0.0
+	 */
+	public function add_action_links( $links ) {
+
+		/**
+		 * Documentation : https://codex.wordpress.org/Plugin_API/Filter_Reference/plugin_action_links_(plugin_file_name)
+		 * The "plugins.php" must match with the previously added add_submenu_page first option.
+		 */
+		$settings_link = array( '<a href="' . admin_url( 'woocommerce?page=spro_settings' ) . '">' . __( 'Settings', 'spro_settings' ) . '</a>', );
+
+		return array_merge(  $settings_link, $links );
+
+	}
+
+	/**
+	 * Render the settings page for this plugin.
+	 *
+	 * @since    1.0.0
+	 */
+	public function display_plugin_setup_page() {
+
+		$templates = new Spro_Template_Loader;
+	
+		ob_start();
+
+		$templates->get_template_part( 'admin/content', 'settings' );
+
+		echo ob_get_clean();
+
+	}
+
+	public function options_update() {
+
+		register_setting( 'spro_settings', 'spro_settings', array(
+			'sanitize_callback' => array( $this, 'validate' ),
+		) );
+
+	}
+
+	/**
+	 * Save Connection Credentials
+	 */
+	public function spro_save_connection_credentials() {
+
+		$name = isset( $_POST['name'] ) ? $_POST['name'] : '';
+		$val = isset( $_POST['val'] ) ? $_POST['val'] : '';
+
+		update_option( 'spro_settings_' . $name, $val );
+
+		wp_send_json_success( json_encode( array( 'name' => $name, 'val' => get_option( 'spro_settings_' . $name ) ) ) );
+
+	}
+	
+	/**
+	 * Test API Connection
+	 */
+	public function spro_test_connection() {
+
+		$client = new Client();	
+		
+		$data = array(
+			'grant_type' => 'client_credentials',
+			'client_id' => SPRO_CLIENT_ID,
+			'client_secret' => SPRO_CLIENT_SECRET
+		);
+
+		try {
+
+			$response = $client->request(
+				'GET',
+				SPRO_BASE_URL . '/oauth/v2/token',
+				[
+				'verify' => false,
+				'query' => http_build_query($data)
+				]
+			);
+			
+		} catch (\Throwable $t) {
+			wp_send_json_success($t);
+		}
+
+		wp_send_json_success( 'success' );
+
+	}
+
+	/**
+	 * Clears Product Data Cache on Product Save and Creates Subscribe Pro Product if it doesn't exist
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_update_product_on_save( $post_id, $post, $update ) {
+		
+		if ( $post->post_status == 'auto-draft' || $post->post_status == 'draft' || $post->post_type != 'product' ) {
+			return;
+		}
+
+		$spro_product = get_post_meta( $post_id, '_spro_product', true);
+
+		if ( $spro_product == 'yes' ) {
+
+			// Clear product cache
+			delete_transient( $post_id . '_spro_product' );
+
+			// Check if product exists within Subscribe Pro
+			$product = wc_get_product( $post_id );
+
+			if ( isset( $_POST['_sku'] ) ) {
+				$sku = $_POST['_sku'];
+			}
+
+			// Check if product exists in Subscribe Pro and create if it doesn't
+			$exists = $this->spro_product_exists( $sku );
+
+			// Create new product or update product
+			if ( $exists != false ) {
+
+				$name = get_the_title( $post_id );
+				$price = $product->get_price();
+
+				$this->spro_update_product( $name, $price, $exists );
+			
+			} else {
+				$this->spro_create_product( $post_id );
+			}
+
+		}
+
+	}
+
+	/**
+	 * Retrieves Access Token
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_get_access_token() {
+
+		// delete_transient( 'spro_access_token' );
+
+		if ( false === ( $value = get_transient( 'spro_access_token' ) ) ) {
+			
+			$client = new Client();
+
+			$data = array(
+				'grant_type' => 'client_credentials',
+				'scope' => 'client',
+			);
+
+			try {
+				
+				$response = $client->request(
+					'GET',
+					SPRO_BASE_URL . '/oauth/v2/token',
+					[
+					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+					'verify' => false,
+					'query' => http_build_query($data)
+					]
+				);
+
+			} catch (RequestException $e) {
+				echo Psr7\Message::toString($e->getRequest());
+				if ($e->hasResponse()) {
+					echo Psr7\Message::toString($e->getResponse());
+				}
+			}
+
+			$access_token = json_decode( $response->getBody() )->access_token;
+	
+			set_transient( 'spro_access_token', $access_token, HOUR_IN_SECONDS );
+
+		}
+
+		return get_transient( 'spro_access_token' );
+
+	}
+
+	/**
+	 * Add query var for admin notices
+	 * 
+	 * @since 1.0.0
+	 */
+	public function add_notice_query_var( $location ) {
+		remove_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
+		session_start();
+		return add_query_arg( array( 'admin_message' => $_SESSION['admin_message'] ), $location );
+	}
+
+	/**
+	 * Display admin notices
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_admin_notices() {
+
+		session_start();
+
+		if ( ! isset( $_SESSION['admin_message'] ) ) {
+			return;
+		}
+
+		?>
+		  	<div class="<?php echo esc_html_e( $_SESSION['admin_message']['type'], 'spro' ); ?>">
+			<p><?php esc_html_e( $_SESSION['admin_message']['message'], 'spro' ); ?></p>
+		  </div>
+
+		<?php
+
+		unset( $_SESSION['admin_message'] );
+	}
+
+	/**
+	 * Bulk Edit Fields
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_bulk_edit_fields() {
+
+		$is_spro_product = get_post_meta( get_the_ID(), '_spro_product', true );
+
+		?>
+		<div class="inline-edit-group">
+			<label class="alignleft">
+				<span class="title" style="width: 11em;">Subscription Product?</span>
+				<input type="checkbox" class="checkbox" name="_spro_product" id="_spro_product" <?php echo $is_spro_product == 'yes' ? 'checked' : ''; ?>>
+			</label>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Bulk Edit Save
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_bulk_edit_save( $product ) {
+		
+		$post_id = $product->get_id();
+		$sku = $product->get_sku();
+		$name = get_the_title( $post_id );
+		$price = $product->get_price();
+
+	   if ( isset( $_REQUEST['_spro_product'] ) && $_REQUEST['_spro_product'] == 'on' ) {
+
+			$field = $_REQUEST['_spro_product'];
+			update_post_meta( $post_id, '_spro_product', 'yes' );
+
+			// Check if product exists in Subscribe Pro and create if it doesn't
+			$exists = $this->spro_product_exists( $sku );
+
+			// Create new product or update product
+			if ( $exists != false ) {
+
+				$name = get_the_title( $post_id );
+				$price = $product->get_price();
+
+				$this->spro_update_product( $name, $price, $exists );
+			} else {
+				$this->spro_create_product( $post_id );
+			}
+
+		} else {
+			
+			update_post_meta( $post_id, '_spro_product', 'no' );
+
+		}
+
+	}
+
+	/**
+	 * Check if a product exists in Subscribe Pro
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_product_exists( $sku ) {
+
+		$client = new Client();
+		$access_token = $this->spro_get_access_token();
+
+		$response = $client->get( SPRO_BASE_URL . '/services/v2/products.json?sku=' . $sku, [
+			'verify' => false,
+			'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+		]);
+		
+		$response_body = json_decode( $response->getBody() );
+
+		if ( empty( $response_body->products ) ) {
+
+			// Product Doesn't Exist
+			return false;
+		
+		} else {
+			
+			// Product Exists
+			return $response_body->products[0]->id;
+		}
+
+	}
+
+	/**
+	 * Create a Subscribe Pro Product
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_create_product( $post_id ) {
+
+		// If product does not exist, create product
+		$product = wc_get_product( $post_id );
+		$name = get_the_title( $post_id );
+		$price = $product->get_price();
+		$sku = $product->get_sku();
+
+		$client = new Client();
+		$access_token = $this->spro_get_access_token();
+
+		try {
+
+			$response = $client->request(
+				'POST',
+				SPRO_BASE_URL . '/services/v2/product.json',
+				[
+					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+					'verify' => false,
+					'json' => ['product' =>
+						array(
+							'sku' => $sku,
+							'name' => $name,
+							'price' => $price
+						)
+					]
+				]
+			);
+	
+			$response_body = json_decode( $response->getBody() );
+
+			session_start();
+
+			$_SESSION['admin_message'] = array(
+				'type' => 'updated',
+				'message' => 'Successfully created product #' . $response_body->product->id,
+			);
+
+		} catch (RequestException $e) {
+
+			session_start();
+
+			$_SESSION['admin_message'] = array(
+				'type' => 'error',
+				'message' => $e->getMessage()
+			);
+
+			add_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
+
+		}
+
+	}
+
+	/**
+	 * Update a Subscribe Pro Product
+	 * 
+	 * @since 1.0.0
+	 */
+	public function spro_update_product( $name, $price, $id ) {
+
+		$client = new Client();
+		$access_token = $this->spro_get_access_token();
+
+		try {
+
+			$response = $client->request(
+				'POST',
+				SPRO_BASE_URL . '/services/v2/products/' . $id,
+				[
+					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+					'verify' => false,
+					'json' => ['product' =>
+						array(
+							'name' => $name,
+							'price' => $price
+						)
+					]
+				]
+			);
+	
+			$response_body = json_decode( $response->getBody() );
+
+			session_start();
+
+			$_SESSION['admin_message'] = array(
+				'type' => 'updated',
+				'message' => 'Successfully updated product #' . $response_body->product->id,
+			);
+
+		} catch (RequestException $e) {
+
+			session_start();
+
+			$_SESSION['admin_message'] = array(
+				'type' => 'error',
+				'message' => $e->getMessage()
+			);
+
+			add_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
+
+		}
+
 	}
 
 }

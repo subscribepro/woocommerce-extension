@@ -43,6 +43,14 @@ define( 'SPRO_VERSION', '1.0.0' );
 define( 'SPRO_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 
 /**
+ * Define plugin settings constant
+ */
+define( 'SPRO_BASE_URL', get_option( 'spro_settings_base_url' ) );
+define( 'SPRO_CLIENT_ID', get_option( 'spro_settings_client_id' ) );
+define( 'SPRO_CLIENT_SECRET', get_option( 'spro_settings_client_secret' ) );
+define( 'SP_HMAC_HEADER', 'sp_hmac' );
+
+/**
  * The code that runs during plugin activation.
  * This action is documented in includes/class-spro-activator.php
  */
@@ -85,3 +93,19 @@ function run_spro() {
 
 }
 run_spro();
+
+/**
+ * Filter the cart template path to use our cart.php template instead of the theme's
+ */
+function sp_locate_template( $template, $template_name, $template_path ) {
+	
+	$basename = basename( $template );
+	
+	if( $basename == 'cart.php' ) {
+		$template = trailingslashit( plugin_dir_path( __FILE__ ) ) . 'templates/woocommerce/cart/cart.php';
+	}
+
+	return $template;
+
+}
+add_filter( 'woocommerce_locate_template', 'sp_locate_template', 10, 3 );

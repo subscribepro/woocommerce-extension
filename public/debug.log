@@ -1,0 +1,380 @@
+[04-Nov-2021 13:48:26 UTC] Array
+(
+    [timestamp] => 1636033706
+    [allowSomeFailedItems] => 
+    [customerId] => 356549
+    [customerEmail] => brady2@test2.com
+    [platformCustomerId] => 1001
+    [salesOrderToken] => 33c4ada3b58d186e905a9e666a14885b
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 49
+            [paymentProfileId] => 416612
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => V
+            [creditcardLastDigits] => 2224
+            [creditcardMonth] => 09
+            [creditcardYear] => 2022
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244280
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-11-18
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[04-Nov-2021 13:48:28 UTC] WP_REST_Response Object
+(
+    [links:protected] => Array
+        (
+        )
+
+    [matched_route:protected] => 
+    [matched_handler:protected] => 
+    [data] => Array
+        (
+            [orderNumber] => 84
+            [orderDetails] => Array
+                (
+                    [customerId] => 356549
+                    [customerEmail] => brady2@test2.com
+                    [platformCustomerId] => 1001
+                    [platformOrderId] => 84
+                    [orderNumber] => 84
+                    [orderStatus] => placed
+                    [orderState] => open
+                    [orderDateTime] => 2021-11-04T13:48:26+00:00
+                    [currency] => USD
+                    [shippingTotal] => 0
+                    [taxTotal] => 0
+                    [total] => 15.00
+                    [shippingAddress] => Array
+                        (
+                            [firstName] => Brady
+                            [lastName] => Christopher
+                            [street1] => Test Dr
+                            [street2] => 
+                            [city] => Yukon
+                            [region] => OK
+                            [postcode] => 
+                            [country] => US
+                            [phone] => 
+                        )
+
+                    [billingAddress] => Array
+                        (
+                            [firstName] => Brady
+                            [lastName] => Christopher
+                            [street1] => Test Dr
+                            [street2] => 
+                            [city] => Yukon
+                            [region] => OK
+                            [postcode] => 
+                            [country] => US
+                            [phone] => 
+                        )
+
+                    [items] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [platformOrderItemId] => 84
+                                    [productSku] => test
+                                    [productName] => Subscription Product
+                                    [shortDescription] => 
+                                    [qty] => 1
+                                    [requiresShipping] => 1
+                                    [unitPrice] => 15
+                                    [shippingTotal] => 0
+                                    [taxTotal] => 0
+                                    [lineTotal] => 15
+                                )
+
+                        )
+
+                )
+
+            [itemErrors] => Array
+                (
+                    [0] => Array
+                        (
+                            [subscriptionId] => 244280
+                            [errorMessage] => Payment failed, no response.
+                        )
+
+                )
+
+        )
+
+    [headers] => Array
+        (
+        )
+
+    [status] => 202
+)
+
+[04-Nov-2021 13:55:10 UTC] Array
+(
+    [timestamp] => 1636034110
+    [allowSomeFailedItems] => 
+    [customerId] => 356549
+    [customerEmail] => brady2@test2.com
+    [platformCustomerId] => 1001
+    [salesOrderToken] => 99ca18b4f72edb8465b347e47d03d2ea
+    [shippingMethodCode] => subscribepro_recurring
+    [currency] => USD
+    [payment] => Array
+        (
+            [paymentToken] => 49
+            [paymentProfileId] => 416612
+            [paymentProfileType] => external_vault
+            [paymentMethodType] => 
+            [creditcardType] => V
+            [creditcardLastDigits] => 2224
+            [creditcardMonth] => 09
+            [creditcardYear] => 2022
+        )
+
+    [couponCodes] => Array
+        (
+            [0] => 
+        )
+
+    [billingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingAddress] => Array
+        (
+            [firstName] => Brady
+            [lastName] => Christopher
+            [street1] => Test Dr
+            [street2] => 
+            [street3] => 
+            [city] => Yukon
+            [region] => OK
+            [postcode] => 
+            [country] => US
+            [countryName] => US
+            [phone] => 
+        )
+
+    [shippingMethodCodes] => Array
+        (
+            [0] => Array
+                (
+                    [method_code] => subscribepro_recurring
+                )
+
+        )
+
+    [items] => Array
+        (
+            [0] => Array
+                (
+                    [productSku] => test
+                    [shortDescription] => Test Product
+                    [qty] => 1
+                    [requiresShipping] => 1
+                    [subscription] => Array
+                        (
+                            [id] => 244280
+                            [interval] => Every Two Weeks
+                            [scheduleName] => Every Two Weeks
+                            [reorderOrdinal] => 1
+                            [nextOrderDate] => 2021-11-18
+                            [userDefinedFields] => Array
+                                (
+                                )
+
+                            [platformSpecificFields] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+)
+
+[04-Nov-2021 13:55:11 UTC] WP_REST_Response Object
+(
+    [links:protected] => Array
+        (
+        )
+
+    [matched_route:protected] => 
+    [matched_handler:protected] => 
+    [data] => Array
+        (
+            [orderNumber] => 85
+            [orderDetails] => Array
+                (
+                    [customerId] => 356549
+                    [customerEmail] => brady2@test2.com
+                    [platformCustomerId] => 1001
+                    [platformOrderId] => 85
+                    [orderNumber] => 85
+                    [orderStatus] => placed
+                    [orderState] => open
+                    [orderDateTime] => 2021-11-04T13:55:10+00:00
+                    [currency] => USD
+                    [shippingTotal] => 0
+                    [taxTotal] => 0
+                    [total] => 15.00
+                    [shippingAddress] => Array
+                        (
+                            [firstName] => Brady
+                            [lastName] => Christopher
+                            [street1] => Test Dr
+                            [street2] => 
+                            [city] => Yukon
+                            [region] => OK
+                            [postcode] => 
+                            [country] => US
+                            [phone] => 
+                        )
+
+                    [billingAddress] => Array
+                        (
+                            [firstName] => Brady
+                            [lastName] => Christopher
+                            [street1] => Test Dr
+                            [street2] => 
+                            [city] => Yukon
+                            [region] => OK
+                            [postcode] => 
+                            [country] => US
+                            [phone] => 
+                        )
+
+                    [items] => Array
+                        (
+                            [0] => Array
+                                (
+                                    [platformOrderItemId] => 85
+                                    [productSku] => test
+                                    [productName] => Subscription Product
+                                    [shortDescription] => 
+                                    [qty] => 1
+                                    [requiresShipping] => 1
+                                    [unitPrice] => 15
+                                    [shippingTotal] => 0
+                                    [taxTotal] => 0
+                                    [lineTotal] => 15
+                                )
+
+                        )
+
+                )
+
+            [itemErrors] => Array
+                (
+                    [0] => Array
+                        (
+                            [subscriptionId] => 244280
+                            [errorMessage] => Payment failed, no response.
+                        )
+
+                )
+
+        )
+
+    [headers] => Array
+        (
+        )
+
+    [status] => 202
+)
+
+[04-Nov-2021 13:56:07 UTC] PHP Warning:  Attempt to read property "display_name" on bool in /var/www/html/wp-content/plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php on line 302
+[04-Nov-2021 13:56:07 UTC] PHP Warning:  Attempt to read property "ID" on bool in /var/www/html/wp-content/plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php on line 303
+[04-Nov-2021 13:56:07 UTC] PHP Warning:  Attempt to read property "user_email" on bool in /var/www/html/wp-content/plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php on line 304
+[04-Nov-2021 13:57:30 UTC] PHP Warning:  Attempt to read property "display_name" on bool in /var/www/html/wp-content/plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php on line 302
+[04-Nov-2021 13:57:30 UTC] PHP Warning:  Attempt to read property "ID" on bool in /var/www/html/wp-content/plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php on line 303
+[04-Nov-2021 13:57:30 UTC] PHP Warning:  Attempt to read property "user_email" on bool in /var/www/html/wp-content/plugins/woocommerce/includes/admin/meta-boxes/class-wc-meta-box-order-data.php on line 304

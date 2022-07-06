@@ -21,10 +21,6 @@ use net\authorize\api\controller as AnetController;
 
 class Spro_Public {
 
-	const SP_HMAC_HEADER = 'Sp-Hmac';
-	const CLIENT_ID = '1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8';
-	const CLIENT_SECRET = '4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko';
-
 	/**
 	 * The ID of this plugin.
 	 *
@@ -54,6 +50,29 @@ class Spro_Public {
 
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
+
+	}
+
+	/**
+	 * Register the JavaScript for the public-facing side of the site.
+	 *
+	 * @since    1.0.0
+	 */
+	public function enqueue_scripts() {
+
+		/**
+		 * This function is provided for demonstration purposes only.
+		 *
+		 * An instance of this class should be passed to the run() function
+		 * defined in Plugin_Name_Loader as all of the hooks are defined
+		 * in that particular class.
+		 *
+		 * The Plugin_Name_Loader will then create the relationship
+		 * between the defined hooks and the functions defined in this
+		 * class.
+		 */
+
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/public.js', array( 'jquery' ), $this->version, false );
 
 	}
 
@@ -90,9 +109,13 @@ class Spro_Public {
 	 * @since 1.0.0
 	 */
 	public function spro_render_subscriptions_tab() {
+
+		$widget_url = get_option( 'spro_settings_subscriptions_widget_url' );
+		$widget_config = str_replace( '\\', '', get_option( 'spro_settings_subscriptions_widget_config' ) );
+		
 		?>
 	
-		<h2>Your Subscriptions</h2>
+		<h2>My Subscriptions</h2>
 	
 		<div class="content">
 			<!-- My Subscriptions Widget div goes in main body of page -->
@@ -102,16 +125,16 @@ class Spro_Public {
 		<!-- Load the Subscribe Pro widget script -->
 		<script
 			type="text/javascript"
-			src="https://hosted.subscribepro.com/my-subscriptions/widget-my-subscriptions-1.2.5.js"
+			src="<?php echo $widget_url; ?>"
 		></script>
 	
 		<?php
 	
 		$user_id = get_current_user_id();
 		$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
-		$username = "1609_5gbssq82jj0gkg448s4gsg08swgogscswsgg48oks4c4wc8oc8";
-		$password = "4o86nv7vj4w0o0o000ws8o8cckgsk8gcksw4oos488gsg00kko";
-		$host = 'https://api-stage.subscribepro.com/oauth/v2/token';
+		$username = SPRO_CLIENT_ID;
+		$password = SPRO_CLIENT_SECRET;
+		$host = SPRO_BASE_URL . '/oauth/v2/token';
 	
 		$data = array(
 			'grant_type' => 'client_credentials',
@@ -129,19 +152,21 @@ class Spro_Public {
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		$return = json_decode( curl_exec($ch) );
-		
+
 		?>
 	
 		<!-- Pass configuration and init the Subscribe Pro widget -->
 		<script type="text/javascript">
+
 			// Setup config for Subscribe Pro
 			var widgetConfig = {
-				apiBaseUrl: 'https://api-stage.subscribepro.com',
+				apiBaseUrl: '<?php echo SPRO_BASE_URL; ?>',
 				apiAccessToken: '<?php echo $return->access_token; ?>',
-				environmentKey: '<?php echo $return->environment_key; ?>',
+				environmentKey: '<?php echo $return->spreedly_environment_key; ?>',
 				customerId: '<?php echo $spro_customer_id; ?>',
-				themeName: 'base',
+				<?php echo substr($widget_config, 1, -1); ?>
 			};
+
 			// Call widget init()
 			window.MySubscriptions.init(widgetConfig);
 		</script>
@@ -207,19 +232,26 @@ class Spro_Public {
 	 */
 	public function spro_validate_custom_field( $passed, $product_id, $quantity ) {
 
-		if( empty( $_POST['delivery_type'] ) ) {
-			// Fails validation
-			$passed = false;
-			wc_add_notice( __( 'Please select a delivery type', 'spro' ), 'error' );
-		}
+		$is_subscription_product = ( get_post_meta( $product_id, '_spro_product', true ) == 'yes' ) ? true : false;
 
-		if( empty( $_POST['delivery_frequency'] ) ) {
-			// Fails validation
-			$passed = false;
-			wc_add_notice( __( 'Please select a delivery frequency', 'spro' ), 'error' );
+		if ( $is_subscription_product ) {
+
+			if( empty( $_POST['delivery_type'] ) ) {
+				// Fails validation
+				$passed = false;
+				wc_add_notice( __( 'Please select a delivery type', 'spro' ), 'error' );
+			}
+	
+			if( empty( $_POST['delivery_frequency'] ) ) {
+				// Fails validation
+				$passed = false;
+				wc_add_notice( __( 'Please select a delivery frequency', 'spro' ), 'error' );
+			}
+
 		}
 
 		return $passed;
+
 	}
 
 	/**
@@ -241,33 +273,59 @@ class Spro_Public {
 			// Add the item data
 			$cart_item_data['delivery_frequency'] = $_POST['delivery_frequency'];
 		}
+		
+		if( ! empty( $_POST['delivery_discount'] ) && ! empty( $_POST['delivery_type'] ) ) {
+
+			// Add the item data
+			if ( $_POST['delivery_type'] == 'regular' ) {
+				$cart_item_data['delivery_discount'] = $_POST['delivery_discount'];
+			}
+
+		}
 
 		return $cart_item_data;
 
 	}
 
 	/**
-	 * Display the custom field value in the cart
-	 * 
-	 * @since 1.0.0
+	 * Apply discount to product
 	 */
-	public function spro_cart_item_name( $name, $cart_item, $cart_item_key ) {
-		
-		if( isset( $cart_item['delivery_type'] ) ) {
-			$name .= sprintf(
-			'<br><strong>Delivery Type</strong>: %s<br>',
-			esc_html( $cart_item['delivery_type'] )
-			);
+	public function spro_apply_discount( $cart ) {
+
+		if ( is_admin() && ! defined('DOING_AJAX' ) ) {
+			return;
 		}
 
-		if( isset( $cart_item['delivery_frequency'] ) ) {
-			$name .= sprintf(
-			'<strong>Delivery Frequency</strong>: %s<br>',
-			esc_html( $cart_item['delivery_frequency'] )
-			);
+		if ( did_action('woocommerce_cart_calculate_fees') >= 2 ) {
+			return;
 		}
 
-		return $name;
+		$fee = 0;
+
+		// Loop through cart items
+		foreach ( $cart->get_cart() as $cart_item ) {
+
+			if( isset( $cart_item['delivery_discount'] ) ) {
+				
+				$discount = intval( $cart_item['delivery_discount'] );
+
+				if ( $discount != '' ) {
+
+					$price = get_post_meta( $cart_item['product_id'] , '_price', true );
+					$quantity = $cart_item['quantity'];
+
+					$discount_fee = ( $discount / 100 ) * $price;
+
+					$fee += ( $discount_fee * $quantity );
+
+				}
+				
+			}
+		}
+
+		if ( $fee > 0 ) {
+			$cart->add_fee( __( "Discount for subscription", "woocommerce" ), - $fee );
+		}
 
 	}
 
@@ -286,7 +344,63 @@ class Spro_Public {
 			if( isset( $values['delivery_frequency'] ) ) {
 				$item->add_meta_data( __( 'Delivery Frequency', 'spro' ), $values['delivery_frequency'], true );
 			}
+			
+			if( isset( $values['delivery_discount'] ) ) {
+
+				$item->add_meta_data( __( 'Delivery Discount', 'spro' ), $values['delivery_discount'], true );
+			}
 		}
+
+	}
+
+	/**
+	 * Redirect on checkout if not logged in
+	 */
+	function spro_checkout_redirect() {
+		
+		if ( ! is_user_logged_in() && is_checkout() ) {
+
+			global $woocommerce;
+			$items = $woocommerce->cart->get_cart();
+			$redirect = false;
+		
+			foreach( $items as $item => $values ) {
+
+				if ( $values['delivery_type'] == 'regular' ) {
+					$redirect = true;
+				}
+
+			} 
+
+			// Force customer to create an account is checking out with a subscription product
+			if ( $redirect ) {
+				wc_add_notice( 'Please log in or register to complete your purchase.', 'notice' );
+				wp_redirect( get_permalink( get_option('woocommerce_myaccount_page_id') ) . '?redirect_to_checkout' );
+				exit;	
+			}
+
+		}
+	
+	}
+	
+	/**
+	 * Update cart products
+	 */
+	function spro_cart_updated() {
+
+		$contents = WC()->cart->cart_contents;
+
+		// loop over the cart
+		foreach( $contents as $key => $values ) {
+
+			$contents[$key]['delivery_type'] = $_POST['cart'][$key]['delivery_type'];
+			$contents[$key]['delivery_frequency'] = $_POST['cart'][$key]['delivery_frequency'];
+
+		}
+
+		WC()->cart->set_cart_contents( $contents );
+		
+		return true;
 
 	}
 
@@ -303,21 +417,19 @@ class Spro_Public {
 			
 			$client = new Client();
 			$user_id = get_current_user_id();
-			$spro_customer_id = get_the_author_meta( 'spro_id', $user_id );
 
 			$data = array(
 				'grant_type' => 'client_credentials',
-				'scope' => 'widget',
-				'customer_id' => $spro_customer_id
+				'scope' => 'client',
 			);
 
 			try {
 				
 				$response = $client->request(
 					'GET',
-					'https://api-stage.subscribepro.com/oauth/v2/token',
+					SPRO_BASE_URL . '/oauth/v2/token',
 					[
-					'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+					'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 					'verify' => false,
 					'query' => http_build_query($data)
 					]
@@ -347,10 +459,12 @@ class Spro_Public {
 	 */
 	public function spro_get_product( $sku ) {
 
-		// delete_transient( $sku . '_spro_product' );
-		
-		if ( false === ( $value = get_transient( $sku . '_spro_product' ) ) ) {
-			
+		$product_id = wc_get_product_id_by_sku( $sku );
+
+		// delete_transient( $product_id . '_spro_product' );
+
+		if ( false === ( get_transient( $product_id . '_spro_product' ) ) ) {
+
 			$client = new Client();
 			$access_token = $this->spro_get_access_token();
 
@@ -361,9 +475,9 @@ class Spro_Public {
 	
 			$response = $client->request(
 				'GET',
-				'https://api-stage.subscribepro.com/products',
+				SPRO_BASE_URL . '/products',
 				[
-				'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 				'verify' => false,
 				'query' => http_build_query( $data )
 				]
@@ -371,11 +485,11 @@ class Spro_Public {
 	
 			$response_body = json_decode( $response->getBody() );
 
-			set_transient( $sku . '_spro_product', $response_body, 24 * HOUR_IN_SECONDS );
+			set_transient( $product_id . '_spro_product', $response_body, 24 * HOUR_IN_SECONDS );
 
 		}
 
-		return get_transient( $sku . '_spro_product' );
+		return get_transient( $product_id . '_spro_product' );
 
 	}
 
@@ -387,19 +501,51 @@ class Spro_Public {
 	 */
 	public function spro_payment_complete( $order_id ) {
 
+		if ( !is_user_logged_in() ) {
+			return;
+		}
+
 		// Get Order Info
 		$order = wc_get_order( $order_id );
 		$customer_id = get_current_user_id();
 		$spro_customer_id = get_user_meta( $customer_id, 'spro_id', true );
 		$is_spro_customer = $spro_customer_id != '' ? true : false;
-		$payment_token = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_payment_token', true );
+		$user_info = get_userdata( $customer_id );
+		$user_first_name = $user_info->first_name;
+		$user_last_name = $user_info->last_name;
+		$user_email = $user_info->user_email;
 		$client = new Client();
 		$access_token = $this->spro_get_access_token();
-		$cc_last4 = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_account_four', true );
-		$cc_expiry = get_post_meta( $order_id, '_wc_authorize_net_cim_credit_card_card_expiry_date', true );
-		$cc_month = substr( $cc_expiry, 3, 5 );
-		$cc_year = substr( $cc_expiry, 0, 2 );
-		$shipping_method = $order->get_shipping_method();
+		$cc_expiry = get_post_meta( $order_id, '_card_expiry', true );
+		$cc_number = get_post_meta( $order_id, '_card_number', true );
+		$cc_type = get_post_meta( $order_id, '_card_type', true );
+		$cc_month = substr( $cc_expiry, 0, 2 );
+		$cc_year = '20' . substr( $cc_expiry, -2 );
+		$cc_last4  = substr( $cc_number, -4);
+		$customer_profile_id = get_user_meta( $customer_id, 'CustNum', true );
+		$shipping_method = @array_shift( $order->get_shipping_methods() );;
+		$shipping_method_id = $shipping_method['method_id'];
+		$is_subscription_order = false;
+		
+		// Ebiz Data
+		$ebiz_data = get_post_meta( $order_id, '[EBIZCHARGE]|methodid|refnum|authcode|avsresultcode|cvv2resultcode|woocommerceorderid', true );
+		$ebiz_data_array = explode('|', $ebiz_data);
+		$ebiz_payment_method = $ebiz_data_array[1];
+		$ebiz_ref_num = $ebiz_data_array[2];
+
+		// Check if this is a subscription order
+		foreach( $order->get_items() as $item_id => $line_item ) {
+			$type = wc_get_order_item_meta( $item_id, 'Delivery Type', true );
+			
+			if ( $type == 'regular' ) {
+				$is_subscription_order = true;
+			}
+		}
+
+		// Don't run if ebiz data is not present or if it's not a subscription order
+		if ( $ebiz_data == '' || $is_subscription_order == false ) {
+			return;
+		}
 
 		// Customer Billing Address
 		$billing_address = array(
@@ -428,15 +574,15 @@ class Spro_Public {
 		// Create the customer in Subscribe Pro if needed
 		if ( !$is_spro_customer ) {
 
-			$response = $client->post('https://api-stage.subscribepro.com/services/v2/customer.json', [
+			$response = $client->post( SPRO_BASE_URL . '/services/v2/customer.json', [
 				'verify' => false,
-				'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
 				'json' => ['customer' => 
 					array(
 						'platform_specific_customer_id' => $customer_id,
-						'first_name' => $billing_address['first_name'],
-						'last_name' => $billing_address['last_name'],
-						'email' => $order->get_billing_email()
+						'first_name' => $user_first_name,
+						'last_name' => $user_last_name,
+						'email' => $user_email
 					)
 				]
 			]);
@@ -447,38 +593,95 @@ class Spro_Public {
 			$spro_customer_id = $response_body->customer->id;
 			update_user_meta( $customer_id, 'spro_id', $spro_customer_id );
 
-			// echo '<pre>';
-			// print_r( $response_body );
-			// echo '</pre>';
+		}
+
+		$data = array(
+			'payment_token' => $ebiz_payment_method,
+		);
+
+		// Check if payment profile exists if cc data is empty
+		$response = $client->request(
+			'GET',
+			SPRO_BASE_URL . '/services/v2/vault/paymentprofiles.json',
+			[
+			'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+			'verify' => false,
+			'query' => http_build_query( $data )
+			]
+		);
+
+		$payment_profile_response =  json_decode( $response->getBody() );
+		$payment_profile_array = $payment_profile_response->payment_profiles;
+
+		if ( empty( $payment_profile_array ) ) {
+
+			if ( $cc_number == '' ) {
+				
+				// Get CC Data from eBizCharge
+				$cc_data = $this->spro_get_ebiz_cc_data( $customer_profile_id, $ebiz_payment_method );
+
+				$cc_last4 = $cc_data['cc_last4'];
+				$cc_month = $cc_data['cc_month'];
+				$cc_year = $cc_data['cc_year'];
+				$cc_type = $cc_data['cc_type'];
+			}
+
+			// Create new payment profile if needed		
+			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofile/external-vault.json', [
+				'verify' => false,
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+				'json' => ['payment_profile' =>
+					array(
+						'customer_id' => $spro_customer_id,
+						'payment_token' => $ebiz_payment_method,
+						'creditcard_last_digits' => $cc_last4,
+						'creditcard_month' => $cc_month,
+						'creditcard_year' => $cc_year,
+						'creditcard_type' => $cc_type,
+						'billing_address' => $billing_address
+					)
+				]
+			]);
+
+			$response_body = json_decode( $response->getBody() );
+
+			$sp_payment_profile_id = $response_body->payment_profile->id;
+
+			update_post_meta( $order_id, 'spro_subscription_id', $sp_payment_profile_id );
+
+
+		} else {
+
+
+			// Payment profile found, update existing profile instead of creating new one.
+			$sp_payment_profile_id = $payment_profile_array[0]->id;
+
+			// Get CC Data from eBizCharge
+			$cc_data = $this->spro_get_ebiz_cc_data( $customer_profile_id, $ebiz_payment_method );
+
+			$cc_last4 = $cc_data['cc_last4'];
+			$cc_month = $cc_data['cc_month'];
+			$cc_year = $cc_data['cc_year'];
+			$cc_type = $cc_data['cc_type'];
+			
+			// Update existing payment profile
+			$response = $client->post( SPRO_BASE_URL . '/services/v2/vault/paymentprofiles/' . $sp_payment_profile_id . '.json', [
+				'verify' => false,
+				'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+				'json' => ['payment_profile' =>
+					array(
+						'creditcard_last_digits' => $cc_last4,
+						'creditcard_month' => $cc_month,
+						'creditcard_year' => $cc_year,
+						'creditcard_type' => $cc_type,
+						'billing_address' => $billing_address
+					)
+				]
+			]);
 
 		}
 
-		// echo '<pre>';
-		// print_r( $order );
-		// echo '</pre>';
-
-		// Create new payment profile
-		$response = $client->post('https://api-stage.subscribepro.com/services/v2/vault/paymentprofile/external-vault.json', [
-			'verify' => false,
-			'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
-			'json' => ['payment_profile' =>
-				array(
-					'customer_id' => $spro_customer_id,
-					'payment_token' => $payment_token, //1931554041|1843624109
-					'creditcard_last_digits' => $cc_last4,
-					'creditcard_month' => $cc_month,
-					'creditcard_year' => '20' . $cc_year,
-					'billing_address' => $billing_address
-				)
-			]
-		]);
-
-		$response_body = json_decode( $response->getBody() );
-
-		// echo '<pre>';
-		// print_r( $response_body );
-		// echo '</pre>';
-
+		// Create the subscriptions for each subscription product
 		foreach( $order->get_items() as $item_id => $line_item ) {
 
 			$item_data = $line_item->get_data();
@@ -492,32 +695,42 @@ class Spro_Public {
 
 			if ( $is_subscription_product == 'yes' ) {
 
+				$type = wc_get_order_item_meta( $item_id, 'Delivery Type', true );
 				$frequency = wc_get_order_item_meta( $item_id, 'Delivery Frequency', true );
-				
-				$response = $client->post('https://api-stage.subscribepro.com/services/v2/subscription.json', [
-					'verify' => false,
-					'auth' => [self::CLIENT_ID, self::CLIENT_SECRET],
-					'json' => ['subscription' => 
-						array(
-							'customer_id' => $spro_customer_id,
-							'payment_profile_id' => $response_body->payment_profile->id,
-							'product_sku' => $sku,
-							'requires_shipping' => true,
-							'shipping_method_code' => $shipping_method,
-							'shipping_address' => $shipping_address,
-							'qty' => $item_quantity,
-							'next_order_date' => date("F j, Y"),
-							'first_order_already_created' => true,
-							'interval' => $frequency
-						)
-					]
-				]);
-				
-				$response_body = json_decode( $response->getBody() );
-	
-				// echo '<pre>';
-				// print_r( $response_body );
-				// echo '</pre>';
+
+				if ( $type == 'regular' ) {
+
+					if ( $shipping_address['first_name'] != '' ) {
+						$subscription_address = $shipping_address;
+					} else {
+						$subscription_address = $billing_address;
+					}
+
+					$response = $client->post( SPRO_BASE_URL . '/services/v2/subscription.json', [
+						'verify' => false,
+						'auth' => [SPRO_CLIENT_ID, SPRO_CLIENT_SECRET],
+						'json' => ['subscription' => 
+							array(
+								'customer_id' => $spro_customer_id,
+								'payment_profile_id' => $sp_payment_profile_id,
+								'product_sku' => $sku,
+								'requires_shipping' => true,
+								'shipping_method_code' => $shipping_method_id,
+								'shipping_address' => $subscription_address,
+								'qty' => $item_quantity,
+								'next_order_date' => date("F j, Y"),
+								'first_order_already_created' => true,
+								'interval' => $frequency
+							)
+						]
+					]);
+					
+					$response_body = json_decode( $response->getBody() );
+
+					// Save the subscription id to the order for use in the order callback function
+					wc_update_order_item_meta( $item_id, 'spro_subscription_id', $response_body->subscription->id );
+
+				}
 
 			}
 
@@ -525,25 +738,77 @@ class Spro_Public {
 
 	}
 
+	/**
+	 * Get Credit Card Data From Ebizcharge
+	 */
+	public function spro_get_ebiz_cc_data( $customer_profile_id, $ebiz_payment_method ) {
+
+		$client_a = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+
+		$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
+	
+		$ebiz_security_id = $ebiz_settings['securityid'];
+		$ebiz_user_id = $ebiz_settings['username'];
+		$ebiz_password = $ebiz_settings['password'];
+
+		$securityToken = array(
+			'SecurityId' => $ebiz_security_id,
+			'UserId' => $ebiz_user_id,
+			'Password' => $ebiz_password
+		);
+
+		try {
+			
+			$res = $client_a->GetCustomerPaymentMethodProfile(
+				array(
+					'securityToken' => $securityToken,
+					'customerToken' => $customer_profile_id,
+					'paymentMethodId' => $ebiz_payment_method
+				)
+			);
+
+			$payment_data = $res->GetCustomerPaymentMethodProfileResult;
+			$expiration = $payment_data->CardExpiration;
+
+			$cc_last4 = substr( $payment_data->CardNumber, -4 );
+			$cc_month = substr( $expiration, -2 );
+			$cc_year = substr( $expiration, 0, 4 );
+			$cc_type = $payment_data->CardType;
+
+			return array(
+				'cc_last4' => $cc_last4,
+				'cc_month' => $cc_month,
+				'cc_year' => $cc_year,
+				'cc_type' => $cc_type
+			);
+
+		
+		} catch ( SoapFault $e ) {
+			
+			die( "Payment profile not found: " . $e->getMessage() );
+
+		}
+	}
+
     /**
-     * @param \GuzzleHttp\Psr7\Request $request
+     * @param $request
      * @param string $sharedSecret
      *
      * @return bool
      */
-    public function validate_request_hmac(\GuzzleHttp\Psr7\Request $request, $sharedSecret) {
+    public function validate_request_hmac( $request, $sharedSecret ) {
 
         // Get signature from request header
-        $hmacSignature = $request->getHeader(self::SP_HMAC_HEADER);
-        
-        // Get request body (JSON string)
-        $body = $request->getBody();
+        $hmacSignature = $request->get_header( SP_HMAC_HEADER );
+
+		// Get request body (JSON string)
+		$body = $request->get_body();
 
         // Calculate the hash of body using shared secret and SHA-256 algorithm
-        $calculatedHash = hash_hmac('sha256', $body, $sharedSecret, false);
-        
+        $calculatedHash = hash_hmac( 'sha256', $body, $sharedSecret, false );
+
         // Compare signature using secure compare method
-        return hash_equals($calculatedHash, $hmacSignature);
+        return hash_equals( $calculatedHash, $hmacSignature );
 
     }
 
@@ -551,18 +816,292 @@ class Spro_Public {
 	 * spro_rest_testing_endpoint
 	 * @return WP_REST_Response
 	 */
-	function spro_rest_testing_endpoint( $data ) {
+	function spro_order_callback_ebiz( $data ) {
 
+		// Shared Secret Validation
+		$secret = get_option( 'spro_settings_callback_secret' );
+
+		if ( !$this->validate_request_hmac( $data, $secret ) ) {
+			return new WP_REST_Response( array( 'error' => 'Invalid Shared Secret', 'secret' => $secret ), 401 );
+		}
+		
 		// Get Order Data From Subscribe Pro
 		$order_data = $data->get_json_params();
 
-		// $order_data = get_transient( 'order_data' );
+		// Create WooCommerce Order
+		global $woocommerce;
 
-		// set_transient( 'order_data', $order_data );
+		$billing_address = array(
+			'first_name' => $order_data['billingAddress']['firstName'],
+			'last_name'  => $order_data['billingAddress']['lastName'],
+			'email'      => $order_data['customerEmail'],
+			'phone'      => $order_data['billingAddress']['phone'],
+			'address_1'  => $order_data['billingAddress']['street1'],
+			'address_2'  => $order_data['billingAddress']['street2'],
+			'city'       => $order_data['billingAddress']['city'],
+			'state'      => $order_data['billingAddress']['region'],
+			'postcode'   => $order_data['billingAddress']['postcode'],
+			'country'    => $order_data['billingAddress']['country']
+		);
+	  
+		$shipping_address = array(
+			'first_name' => $order_data['shippingAddress']['firstName'],
+			'last_name'  => $order_data['shippingAddress']['lastName'],
+			'email'      => $order_data['customerEmail'],
+			'phone'      => $order_data['shippingAddress']['phone'],
+			'address_1'  => $order_data['shippingAddress']['street1'],
+			'address_2'  => $order_data['shippingAddress']['street2'],
+			'city'       => $order_data['shippingAddress']['city'],
+			'state'      => $order_data['shippingAddress']['region'],
+			'postcode'   => $order_data['shippingAddress']['postcode'],
+			'country'    => $order_data['shippingAddress']['country']
+		);
 
-		// error_log( 'hit' );
+		// Create the order
+		$order = wc_create_order( array( 'customer_id' => $order_data['platformCustomerId'] ) );
 
-		// error_log( print_r( $order_data, true ) );
+		// Return error if order creation failed
+		if ( is_wp_error( $order ) ) {
+
+			$error_string = $order->get_error_message();
+
+			$response = new WP_REST_Response( array( 
+				'itemErrors' => array(
+					array(
+						'subscriptionId' => strval( $order_data['items'][0]['subscription']['id'] ),
+						'errorMessage' => $error_string
+					)
+				)
+			), 409 );
+
+			return $response;
+			
+		}
+
+		// Set Addresses
+		$order->set_address( $billing_address, 'billing' );
+		$order->set_address( $shipping_address, 'shipping' );
+
+		// Add products to the order
+		$products_array = array();
+		$item_error_array = array();
+		$subscription_ids = array();
+
+		foreach ( $order_data['items'] as $item ) {
+			
+			// Item Data
+			$sku = $item['productSku'];
+			$qty = $item['qty'];
+			$product_id = wc_get_product_id_by_sku( $sku );
+			$product = wc_get_product( $product_id );
+
+			if ( $product == null || $product == false ) {
+
+				$error_array = array(
+					'subscriptionId' => strval( $item['subscription']['id'] ),
+					'errorMessage' => 'Invalid SKU, product not found'
+				);
+
+				array_push( $item_error_array, $error_array );
+
+			} else {
+				$order->add_product( $product, $qty );
+				array_push( $subscription_ids, strval( $item['subscription']['id'] ) );	
+			}
+
+		}
+
+		// Create Product Array For Response
+		$i = 0;
+
+		foreach ( $order->get_items() as $item_key => $item ) {
+
+			// Item ID is directly accessible from the $item_key in the foreach loop or
+			$item_id = $item->get_id();
+
+			## Using WC_Order_Item_Product methods ##
+			$product = $item->get_product(); // Get the WC_Product object
+			
+			// Item Data
+			$sku = $product->get_sku();
+			$product_id = wc_get_product_id_by_sku( $sku );
+			$item_name = $item->get_name();
+			$quantity = $item->get_quantity();  
+			$line_subtotal = $item->get_subtotal();
+			$line_total = $item->get_total();
+			$line_total_tax = $item->get_total_tax();
+
+			// Get an instance of Product WP_Post object
+			$post_obj = get_post( $product_id );
+		
+			// The product short description
+			$product_short_desciption = $post_obj->post_excerpt;
+
+			$product = array(
+				"platformOrderItemId" => strval( $order->get_id() ),
+				"productSku" => $sku,
+				"productName" => $item_name,
+				"shortDescription" => $product_short_desciption,
+				"qty" => strval( $quantity ),
+				"requiresShipping" => true,
+				"unitPrice" => strval( $line_subtotal ),
+				"shippingTotal" => "0",
+				"taxTotal" => strval( $line_total_tax ),
+				"lineTotal" => strval( $line_total ),
+				'subscriptionId' => $subscription_ids[$i]
+			);
+
+			array_push( $products_array, $product );
+
+			$i++;
+
+		}
+
+		// Add shipping to order
+		// $shipping_item = new WC_Order_Item_Shipping();
+		// $shipping_item->set_method_id( $order_data['shippingMethodCode'] );
+		// $order->add_item( $shipping_item );
+
+		// Calculate totals
+		$order->calculate_totals();
+
+		$customer_profile_id = get_user_meta( $order_data["platformCustomerId"], 'CustNum', true );
+
+		// Charge payment profile
+		$charge = $this->ebizChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total(), $billing_address['postcode'] );
+
+		// Prepare return data
+		$return_data = array(
+			"orderNumber" => strval( $order->get_id() ),
+			"orderDetails" => array(
+				"customerId" => strval( $order_data["customerId"] ),
+				"customerEmail" => $order_data["customerEmail"],
+				"platformCustomerId" => strval( $order_data["platformCustomerId"] ),
+				"platformOrderId" => strval( $order->get_id() ),
+				"orderNumber" => strval( $order->get_id() ),
+				"orderStatus" => "placed",
+				"orderState" => "open",
+				"orderDateTime" => strval( $order->get_date_created() ),
+				"currency" => "USD",
+				"shippingTotal" => strval( $order->get_shipping_total() ),
+				"taxTotal" => strval( $order->get_total_tax() ),
+				"total" => strval( $order->get_total() ),
+				"shippingAddress" => array(
+					"firstName" => $order_data["shippingAddress"]["firstName"],
+					"lastName" => $order_data["shippingAddress"]["lastName"],
+					"street1" => $order_data["shippingAddress"]["street1"],
+					"street2" => $order_data["shippingAddress"]["street2"],
+					"city" => $order_data["shippingAddress"]["city"],
+					"region" => $order_data["shippingAddress"]["region"],
+					"postcode" => $order_data["shippingAddress"]["postcode"],
+					"country" => $order_data["shippingAddress"]["country"],
+					"phone" => $order_data["shippingAddress"]["phone"]
+				),
+				"billingAddress" => array(
+					"firstName" => $order_data["billingAddress"]["firstName"],
+					"lastName" => $order_data["billingAddress"]["lastName"],
+					"street1" => $order_data["billingAddress"]["street1"],
+					"street2" => $order_data["billingAddress"]["street2"],
+					"city" => $order_data["billingAddress"]["city"],
+					"region" => $order_data["billingAddress"]["region"],
+					"postcode" => $order_data["billingAddress"]["postcode"],
+					"country" => $order_data["billingAddress"]["country"],
+					"phone" => $order_data["billingAddress"]["phone"]
+				),
+			),
+		);
+
+		if ( !empty( $products_array ) ) {
+			$return_data['orderDetails']['items'] = $products_array;
+		} else {
+
+			// Remove the order
+			wp_delete_post( $order_id, true );
+
+			// Return 409 with product errors if no products were added
+			$response = new WP_REST_Response( array( 
+				'itemErrors' => $item_error_array
+			), 409 );
+
+			return $response;
+		}
+
+		// Prepare return data and update order with ebiz data if payment was successful
+		if ( $charge['status'] ) {
+	
+			// Update order status
+			$trans_id = $charge['trans_id'];
+			
+			$return_data['orderDetails']['salesOrderToken'] = strval( $trans_id );
+			
+			update_post_meta(  $order->get_id(), '_transaction_id', $trans_id );
+			update_post_meta(  $order->get_id(), '_payment_method_title', 'Credit Card' );
+			$order->update_status( 'processing', 'Ebiz charge completed successfully, transaction ID: ' . $trans_id );
+
+			// Return response
+			if ( !empty( $item_error_array) ) {
+
+				// Add any errors generated while adding products to the order
+				$return_data['itemErrors'] = array();
+
+				foreach( $item_error_array as $error ) {
+					array_push( $return_data['itemErrors'], $error );
+				}
+
+				// Partial Success
+				$response = new WP_REST_Response( $return_data, 202 );
+
+			} else {
+
+				// Success
+				$response = new WP_REST_Response( $return_data, 201 );
+			
+			}
+
+		} else {
+
+			// Update order status
+			$order->update_status( 'failed', $charge['error'] );
+
+			$return_data['itemErrors'] = array();
+
+			// Add charge error to return data
+			$charge_error = array(
+				'subscriptionId' => strval( $order_data['items'][0]['subscription']['id'] ),
+				'errorMessage' => $charge['error']
+			);
+
+			array_push( $return_data['itemErrors'], $charge_error );
+
+			// Add any errors generated while adding products to the order
+			if ( !empty( $item_error_array ) ) {
+
+				foreach( $item_error_array as $error ) {
+
+					$return_data['itemErrors'] = array();
+					array_push( $return_data['itemErrors'], $error );
+
+				}
+
+			}
+
+			// Partial Success
+			$response = new WP_REST_Response( $return_data, 202 );
+
+		}
+
+		return $response;
+
+	}
+
+	/**
+	 * spro_rest_testing_endpoint
+	 * @return WP_REST_Response
+	 */
+	function spro_order_callback_anet( $data ) {
+
+		// Get Order Data From Subscribe Pro
+		$order_data = $data->get_json_params();
 
 		// Create WooCommerce Order
 		global $woocommerce;
@@ -652,12 +1191,6 @@ class Spro_Public {
 
 		}
 
-		// Add Shipping Method
-		// $item = new WC_Order_Item_Shipping();
-
-		// $item->set_method_title( $order_data['shippingMethodCodes'][0]['method_code'] );
-		// $order->add_item( $item );
-
 		// Set Addresses
 		$order->set_address( $billing_address, 'billing' );
 		$order->set_address( $shipping_address, 'shipping' );
@@ -677,9 +1210,9 @@ class Spro_Public {
 		$customer_profile_id = $results[0]['meta_value'];
 
 		// Charge payment profile 900074265, 900093396
-		$charge = $this->chargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total() );
+		$charge = $this->anetChargeCustomerProfile( $customer_profile_id, $order_data['payment']['paymentToken'], $order->get_total() );
 
-		// Prepare return data and update order with authorize.net data if payment was successful
+		// Prepare return data and update order with ebiz data if payment was successful
 		if ( $charge['status'] ) {
 
 			$return_data = array(
@@ -756,19 +1289,125 @@ class Spro_Public {
 		$namespace = 'api/v1';
 		$route     = 'order';
 
-		register_rest_route($namespace, $route, array(
-			'methods'   => 'POST',
-			'callback'  => array( $this, 'spro_rest_testing_endpoint' ),
-			'args' => array(),
-			'permission_callback' => '__return_true'
-		));
+		$spro_settings_payment_method = get_option( 'spro_settings_payment_method' );
+
+		if ( $spro_settings_payment_method == 'anet' ) {
+			
+			// authorize.net
+			register_rest_route($namespace, $route, array(
+				'methods'   => 'POST',
+				'callback'  => array( $this, 'spro_order_callback_anet' ),
+				'args' => array(),
+				'permission_callback' => '__return_true'
+			));
+
+		}		
+		
+		if ( $spro_settings_payment_method == 'ebiz' ) {
+
+			// eBiz
+			register_rest_route($namespace, $route, array(
+				'methods'   => 'POST',
+				'callback'  => array( $this, 'spro_order_callback_ebiz' ),
+				'args' => array(),
+				'permission_callback' => '__return_true'
+			));
+
+		}
 
 	}
 
 	/**
 	 * Charge Payment Profile
 	 */
-	function chargeCustomerProfile( $profileid, $paymentprofileid, $amount ) {
+	function ebizChargeCustomerProfile( $customer_profile_id, $payment_profile_id, $amount, $zip ) {
+		
+		$client = new SoapClient('https://soap.ebizcharge.net/eBizService.svc?singleWsdl');
+
+		$ebiz_settings = get_option( 'woocommerce_ebizcharge_settings' );
+	
+		$ebiz_security_id = $ebiz_settings['securityid'];
+		$ebiz_user_id = $ebiz_settings['username'];
+		$ebiz_password = $ebiz_settings['password'];
+
+		$securityToken = array(
+			'SecurityId' => $ebiz_security_id,
+			'UserId' => $ebiz_user_id,
+			'Password' => $ebiz_password
+		);
+
+		$customerTransactionRequest = array(
+			'isRecurring' => false,
+			'IgnoreDuplicate' => true,
+			'Details' => array(
+				'Description' => 'WooCommerce Order from Subscribe Pro Subscription',
+				'Amount' => $amount,
+				'Tax' => 0,
+				'Currency' => '',
+				'Shipping' => '',
+				'ShipFromZip' => $zip,
+				'Discount' => 0,
+				'Subtotal' => $amount,
+				'AllowPartialAuth' => false,
+				'Tip' => 0,
+				'NonTax' => false,
+				'Duty' => 0,
+			),
+			'Software' => 'woocommerce',
+			'MerchReceipt' => false,
+			'CustReceiptName' => '',
+			'CustReceiptEmail' => '',
+			'CustReceipt' => '2',
+			'Command' => 'sale',
+		);
+
+		try {
+
+			$transactionResult = $client->runCustomerTransaction(
+				array(
+					'securityToken' => $securityToken,
+					'custNum' => $customer_profile_id,
+					'paymentMethodID' => $payment_profile_id,
+					'tran' => $customerTransactionRequest
+				)
+			);
+	
+			$transaction = $transactionResult->runCustomerTransactionResult;
+	
+			if ( $transaction->Result != 'Approved' ) {
+				
+				$return_data = array(
+					'status' => false,
+					'error' => $transaction->Error
+				);
+
+			} else {
+
+				$return_data = array(
+					'status' => true,
+					'trans_id' => $transaction->RefNum
+				);
+
+			}
+
+
+		} catch (SoapFault $e) {
+
+			$return_data = array(
+				'status' => false,
+				'error' => 'Payment failed, no response.'
+			);
+
+		}
+
+		return $return_data;
+
+	}
+
+	/**
+	 * Authorize.net Charge Payment Profl
+	 */
+	function anetChargeCustomerProfile( $profileid, $paymentprofileid, $amount ) {
 
 		$merchantAuthentication = new AnetAPI\MerchantAuthenticationType();
 		$merchantAuthentication->setName("6jH6f6Wr");
